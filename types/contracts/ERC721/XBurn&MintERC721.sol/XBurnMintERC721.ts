@@ -60,6 +60,7 @@ export interface XBurnMintERC721Interface extends utils.Interface {
     "ERC721Contract(uint256)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
+    "baseUri()": FunctionFragment;
     "bridgeIn(bytes)": FunctionFragment;
     "bridgeOut(uint256,uint16,address,uint32)": FunctionFragment;
     "burn(uint256)": FunctionFragment;
@@ -81,6 +82,7 @@ export interface XBurnMintERC721Interface extends utils.Interface {
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
+    "setBaseURI(string)": FunctionFragment;
     "setERC721Contract(uint256[],address[])": FunctionFragment;
     "setFinality(uint8)": FunctionFragment;
     "setWormholeBridge(uint256[],address[])": FunctionFragment;
@@ -106,6 +108,7 @@ export interface XBurnMintERC721Interface extends utils.Interface {
       | "ERC721Contract"
       | "approve"
       | "balanceOf"
+      | "baseUri"
       | "bridgeIn"
       | "bridgeOut"
       | "burn"
@@ -127,6 +130,7 @@ export interface XBurnMintERC721Interface extends utils.Interface {
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
+      | "setBaseURI"
       | "setERC721Contract"
       | "setFinality"
       | "setWormholeBridge"
@@ -159,6 +163,7 @@ export interface XBurnMintERC721Interface extends utils.Interface {
     functionFragment: "balanceOf",
     values: [PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(functionFragment: "baseUri", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "bridgeIn",
     values: [PromiseOrValue<BytesLike>]
@@ -243,6 +248,10 @@ export interface XBurnMintERC721Interface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setBaseURI",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setERC721Contract",
     values: [PromiseOrValue<BigNumberish>[], PromiseOrValue<string>[]]
   ): string;
@@ -316,6 +325,7 @@ export interface XBurnMintERC721Interface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "baseUri", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bridgeIn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bridgeOut", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
@@ -367,6 +377,7 @@ export interface XBurnMintERC721Interface extends utils.Interface {
     functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setBaseURI", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setERC721Contract",
     data: BytesLike
@@ -622,6 +633,8 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    baseUri(overrides?: CallOverrides): Promise<[string]>;
+
     bridgeIn(
       encodedVM: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -629,7 +642,7 @@ export interface XBurnMintERC721 extends BaseContract {
 
     bridgeOut(
       tokenId: PromiseOrValue<BigNumberish>,
-      chainId: PromiseOrValue<BigNumberish>,
+      _wormholeChainId: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<string>,
       nonce: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -722,6 +735,11 @@ export interface XBurnMintERC721 extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setBaseURI(
+      newUri: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -829,6 +847,8 @@ export interface XBurnMintERC721 extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  baseUri(overrides?: CallOverrides): Promise<string>;
+
   bridgeIn(
     encodedVM: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -836,7 +856,7 @@ export interface XBurnMintERC721 extends BaseContract {
 
   bridgeOut(
     tokenId: PromiseOrValue<BigNumberish>,
-    chainId: PromiseOrValue<BigNumberish>,
+    _wormholeChainId: PromiseOrValue<BigNumberish>,
     recipient: PromiseOrValue<string>,
     nonce: PromiseOrValue<BigNumberish>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -925,6 +945,11 @@ export interface XBurnMintERC721 extends BaseContract {
   setApprovalForAll(
     operator: PromiseOrValue<string>,
     approved: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setBaseURI(
+    newUri: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1032,6 +1057,8 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    baseUri(overrides?: CallOverrides): Promise<string>;
+
     bridgeIn(
       encodedVM: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -1039,7 +1066,7 @@ export interface XBurnMintERC721 extends BaseContract {
 
     bridgeOut(
       tokenId: PromiseOrValue<BigNumberish>,
-      chainId: PromiseOrValue<BigNumberish>,
+      _wormholeChainId: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<string>,
       nonce: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1123,6 +1150,11 @@ export interface XBurnMintERC721 extends BaseContract {
       approved: PromiseOrValue<boolean>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setBaseURI(
+      newUri: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     setERC721Contract(
       wormholeChains: PromiseOrValue<BigNumberish>[],
@@ -1333,6 +1365,8 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    baseUri(overrides?: CallOverrides): Promise<BigNumber>;
+
     bridgeIn(
       encodedVM: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1340,7 +1374,7 @@ export interface XBurnMintERC721 extends BaseContract {
 
     bridgeOut(
       tokenId: PromiseOrValue<BigNumberish>,
-      chainId: PromiseOrValue<BigNumberish>,
+      _wormholeChainId: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<string>,
       nonce: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -1429,6 +1463,11 @@ export interface XBurnMintERC721 extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setBaseURI(
+      newUri: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1537,6 +1576,8 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    baseUri(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     bridgeIn(
       encodedVM: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1544,7 +1585,7 @@ export interface XBurnMintERC721 extends BaseContract {
 
     bridgeOut(
       tokenId: PromiseOrValue<BigNumberish>,
-      chainId: PromiseOrValue<BigNumberish>,
+      _wormholeChainId: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<string>,
       nonce: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
@@ -1633,6 +1674,11 @@ export interface XBurnMintERC721 extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setBaseURI(
+      newUri: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

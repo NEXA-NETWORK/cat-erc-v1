@@ -4,7 +4,9 @@
   "description": "Cross Chain Burn and Mint for ERC721 and ERC20 tokens",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy-ERC721": "npx hardhat run ./scripts/deployERC721.ts --network",
+    "upgrade-ERC721": "npx hardhat run ./scripts/upgradeERC721.ts --network"
   },
   "repository": {
     "type": "git",
@@ -18,17 +20,17 @@
   "homepage": "https://github.com/codora-io/XBurnAndMint#readme",
   "dependencies": {
     "@certusone/wormhole-sdk": "^0.9.11",
+    "@improbable-eng/grpc-web-node-http-transport": "^0.15.0",
     "@nomicfoundation/hardhat-toolbox": "^2.0.1",
     "@openzeppelin/contracts-upgradeable": "^4.8.1",
     "@openzeppelin/hardhat-upgrades": "^1.22.1",
     "dotenv": "^16.0.3",
     "hardhat": "^2.11.2",
-    "typechain": "^8.1.1",
-    "typescript": "^4.9.5",
-    "solidity-coverage": "^0.8.2",
-    "prettier-plugin-solidity": "^1.0.0-beta.24",
-    "hardhat-gas-reporter": "^1.0.9",
     "hardhat-deploy": "^0.11.18",
-    "@improbable-eng/grpc-web-node-http-transport": "^0.15.0"
+    "hardhat-gas-reporter": "^1.0.9",
+    "prettier-plugin-solidity": "^1.0.0-beta.24",
+    "solidity-coverage": "^0.8.2",
+    "typechain": "^8.1.1",
+    "typescript": "^4.9.5"
   }
 }

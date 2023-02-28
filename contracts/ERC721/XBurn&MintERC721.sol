@@ -30,8 +30,8 @@ contract XBurnMintERC721 is
     using StringsUpgradeable for uint256;
 
     string public baseUri;
-
     CountersUpgradeable.Counter private _tokenIdCounter;
+
     // normal chain => wormhole mapped chains
     mapping(uint256 => uint256) public wormholeChainId;
     // wormhole mapped chains => bridge addresses
@@ -45,8 +45,20 @@ contract XBurnMintERC721 is
 
     uint8 public finality;
 
-    event bridgeInEvent(uint256 tokenId, uint256 fromChain, uint256 toChain, address indexed fromAddress, address indexed toAddress);
-    event bridgeOutEvent(uint256 tokenId, uint256 fromChain, uint256 toChain, address indexed fromAddress, address indexed toAddress);
+    event bridgeInEvent(
+        uint256 tokenId,
+        uint256 fromChain,
+        uint256 toChain,
+        address indexed fromAddress,
+        address indexed toAddress
+    );
+    event bridgeOutEvent(
+        uint256 tokenId,
+        uint256 fromChain,
+        uint256 toChain,
+        address indexed fromAddress,
+        address indexed toAddress
+    );
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -69,18 +81,27 @@ contract XBurnMintERC721 is
             block.chainid == 5 ||
             block.chainid == 97 ||
             block.chainid == 80001 ||
-            block.chainid == 43113
+            block.chainid == 43113 ||
+            block.chainid == 4002 ||
+            block.chainid == 421613 ||
+            block.chainid == 10
         ) {
             // chain id of evm to wormhole id mapped
             wormholeChainId[5] = 2;
             wormholeChainId[97] = 4;
             wormholeChainId[80001] = 5;
             wormholeChainId[43113] = 6;
+            wormholeChainId[4002] = 10;
+            wormholeChainId[421613] = 23;
+            wormholeChainId[10] = 24;
             // addresses of wormhole core protocol
             wormholeBridge[2] = 0x706abc4E45D419950511e474C7B9Ed348A4a716c;
             wormholeBridge[4] = 0x68605AD7b15c732a30b1BbC62BE8F2A509D74b4D;
             wormholeBridge[5] = 0x0CBE91CF822c73C2315FB05100C2F714765d5c20;
             wormholeBridge[6] = 0x7bbcE28e64B3F8b84d876Ab298393c38ad7aac4C;
+            wormholeBridge[10] = 0x1BB3B4119b7BA9dfad76B0545fb3F531383c3bB7;
+            wormholeBridge[23] = 0xC7A204bDBFe983FCD8d8E61D02b475D4073fF97e;
+            wormholeBridge[24] = 0x6b9C8671cdDC8dEab9c719bB87cBd3e782bA6a35;
         }
         if (
             block.chainid == 1 ||
@@ -89,7 +110,8 @@ contract XBurnMintERC721 is
             block.chainid == 43114 ||
             block.chainid == 4262 ||
             block.chainid == 250 ||
-            block.chainid == 42161
+            block.chainid == 42161 ||
+            block.chainid == 10
         ) {
             // chain id of evm to wormhole id mapped
             wormholeChainId[1] = 2;
@@ -99,6 +121,7 @@ contract XBurnMintERC721 is
             wormholeChainId[4262] = 7;
             wormholeChainId[250] = 10;
             wormholeChainId[42161] = 23;
+            wormholeChainId[10] = 24;
             // addresses of wormhole core protocol
             wormholeBridge[2] = 0x98f3c9e6E3fAce36bAAd05FE09d375Ef1464288B;
             wormholeBridge[4] = 0x98f3c9e6E3fAce36bAAd05FE09d375Ef1464288B;
@@ -107,6 +130,7 @@ contract XBurnMintERC721 is
             wormholeBridge[7] = 0xfE8cD454b4A1CA468B57D79c0cc77Ef5B6f64585;
             wormholeBridge[10] = 0x126783A6Cb203a3E35344528B26ca3a0489a1485;
             wormholeBridge[23] = 0xa5f208e072434bC67592E4C49C1B991BA79BCA46;
+            wormholeBridge[24] = 0xEe91C335eab126dF5fDB3797EA9d6aD93aeC9722;
         }
         // contract mapping
         ERC721Contract[wormholeChainId[block.chainid]] = address(this);
@@ -166,9 +190,7 @@ contract XBurnMintERC721 is
             "Invalid Input"
         );
         for (uint256 i = 0; i < wormholeChains.length; i++) {
-            ERC721Contract[
-                wormholeChains[i]
-            ] = ERC721ContractAddresses[i];
+            ERC721Contract[wormholeChains[i]] = ERC721ContractAddresses[i];
         }
     }
 
@@ -176,18 +198,13 @@ contract XBurnMintERC721 is
         finality = _finality;
     }
 
-    function setBaseURI(string memory newUri) public onlyOwner returns (string memory) {
+    function setBaseURI(string memory newUri)
+        public
+        onlyOwner
+        returns (string memory)
+    {
         baseUri = newUri;
         return baseUri;
-    }
-
-    function mint(address to) public {
-        require(block.chainid == 43113 || block.chainid == 43114, "Only Minting Allowed on Fuji or AVAX");
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
-        _safeMint(to, tokenId);
-        string memory uriToSet = string(abi.encodePacked(baseUri, tokenId.toString()));
-        _setTokenURI(tokenId, uriToSet);
     }
 
     function _authorizeUpgrade(address newImplementation)
@@ -225,13 +242,17 @@ contract XBurnMintERC721 is
 
     function bridgeOut(
         uint256 tokenId,
-        uint16 chainId,
+        uint16 _wormholeChainId,
         address recipient,
         uint32 nonce
     ) public payable returns (uint64) {
         wormhole = IWormhole(wormholeBridge[wormholeChainId[block.chainid]]);
         uint256 fee = wormhole.messageFee();
         require(msg.value >= fee, "Not enough fee provided to publish message");
+        require(
+            wormholeBridge[_wormholeChainId] != address(0),
+            "Wormhole Bridge not configured for given chain id"
+        );
 
         require(
             _isApprovedOrOwner(_msgSender(), tokenId),
@@ -241,11 +262,7 @@ contract XBurnMintERC721 is
         uint16 tokenChain = uint16(wormholeChainId[block.chainid]);
         bytes32 tokenAddress = bytes32(
             uint256(
-                uint160(
-                    address(
-                        ERC721Contract[wormholeChainId[block.chainid]]
-                    )
-                )
+                uint160(address(ERC721Contract[wormholeChainId[block.chainid]]))
             )
         );
         bytes32 recipientAddress = bytes32(
@@ -260,7 +277,7 @@ contract XBurnMintERC721 is
                 tokenID: tokenId,
                 uri: uriString,
                 toAddress: recipientAddress,
-                toChain: chainId
+                toChain: _wormholeChainId
             });
 
         require(
@@ -286,19 +303,27 @@ contract XBurnMintERC721 is
         );
 
         burn(tokenId);
-        emit bridgeOutEvent(payload.tokenID, payload.tokenChain, payload.toChain, recipient, recipient);
+        emit bridgeOutEvent(
+            payload.tokenID,
+            payload.tokenChain,
+            payload.toChain,
+            recipient,
+            recipient
+        );
         return sequence;
     }
 
     function bridgeIn(bytes calldata encodedVM) public {
         wormhole = IWormhole(wormholeBridge[wormholeChainId[block.chainid]]);
-        (WormholeStructs.VM memory vm, bool valid, string memory reason) = wormhole
-            .parseAndVerifyVM(encodedVM);
+        (
+            WormholeStructs.VM memory vm,
+            bool valid,
+            string memory reason
+        ) = wormhole.parseAndVerifyVM(encodedVM);
         require(valid, reason);
         require(
-            bytes32(
-                uint256(uint160(ERC721Contract[vm.emitterChainId]))
-            ) == vm.emitterAddress,
+            bytes32(uint256(uint160(ERC721Contract[vm.emitterChainId]))) ==
+                vm.emitterAddress,
             "Invalid Emitter"
         );
         require(
@@ -315,10 +340,18 @@ contract XBurnMintERC721 is
             "invalid target chain"
         );
 
-        address transferRecipient = address(uint160(uint256(transfer.toAddress)));
+        address transferRecipient = address(
+            uint160(uint256(transfer.toAddress))
+        );
         _mint(transferRecipient, transfer.tokenID);
         _setTokenURI(transfer.tokenID, transfer.uri);
-        emit bridgeInEvent(transfer.tokenID, transfer.tokenChain, transfer.toChain, transferRecipient, transferRecipient);
+        emit bridgeInEvent(
+            transfer.tokenID,
+            transfer.tokenChain,
+            transfer.toChain,
+            transferRecipient,
+            transferRecipient
+        );
     }
 
     function parsePayload(bytes memory encoded)
@@ -356,6 +389,20 @@ contract XBurnMintERC721 is
 
         index -= 32;
         transfer.toAddress = encoded.toBytes32(index);
+    }
+
+    function mint(address to) public {
+        require(
+            block.chainid == 43113 || block.chainid == 43114,
+            "Only Minting Allowed on Fuji or AVAX"
+        );
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+        _safeMint(to, tokenId);
+        string memory uriToSet = string(
+            abi.encodePacked(baseUri, tokenId.toString())
+        );
+        _setTokenURI(tokenId, uriToSet);
     }
 
     function mintMultiple(address to, uint256 amount) public {

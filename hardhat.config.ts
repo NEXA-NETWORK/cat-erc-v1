@@ -24,7 +24,7 @@ const chainIds = {
   ropsten: 3,
   bscTestnet: 97,
   mumbai: 80001,
-  fuji: 43113
+  fuji: 43113,
 };
 
 // Ensure that we have all the environment variables we need.
@@ -32,10 +32,10 @@ const privateKey = process.env.PRIVATE_KEY ?? "NO_PRIVATE_KEY";
 const reportGas = process.env.REPORT_GAS ? true : false;
 const infuraKey = process.env.INFURA_KEY;
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY ?? "NO_API_KEY";
-const bscscanApiKey= process.env.BSCSCAN_API_KEY ?? "NO_API_KEY";
-const polygonscanApiKey= process.env.POLYGONSCAN_API_KEY ?? "NO_API_KEY"; 
-const snowscanApiKey= process.env.SNOWSCAN_API_KEY ?? "NO_API_KEY";
-const ftmscanApiKey= process.env.FTMSCAN_API_KEY ?? "NO_API_KEY";
+const bscscanApiKey = process.env.BSCSCAN_API_KEY ?? "NO_API_KEY";
+const polygonscanApiKey = process.env.POLYGONSCAN_API_KEY ?? "NO_API_KEY";
+const snowscanApiKey = process.env.SNOWSCAN_API_KEY ?? "NO_API_KEY";
+const ftmscanApiKey = process.env.FTMSCAN_API_KEY ?? "NO_API_KEY";
 const coinmarketcapApiKey = process.env.COINMARKETCAP_API_KEY;
 const gasPricePublicApi =
   "https://api.etherscan.io/api?module=proxy&action=eth_gasPrice";
@@ -131,7 +131,6 @@ const config: HardhatUserConfig = {
       url: "https://rpc.ankr.com/avalanche_fuji",
       gasPrice: "auto",
     },
-
   },
   paths: {
     artifacts: "./artifacts",
@@ -180,14 +179,14 @@ const config: HardhatUserConfig = {
       kovan: etherscanApiKey,
       rinkeby: etherscanApiKey,
       ropsten: etherscanApiKey,
-      bsc: bscscanApiKey, 
+      bsc: bscscanApiKey,
       bscTestnet: bscscanApiKey,
       polygon: polygonscanApiKey,
-      polygonMumbai: polygonscanApiKey, 
+      polygonMumbai: polygonscanApiKey,
       avalanche: snowscanApiKey,
       avalancheFujiTestnet: snowscanApiKey,
-      opera: ftmscanApiKey, 
-    }
+      opera: ftmscanApiKey,
+    },
   },
   mocha: {
     timeout: 1000000,
