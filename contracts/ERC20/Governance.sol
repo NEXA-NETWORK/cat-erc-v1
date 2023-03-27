@@ -13,7 +13,7 @@ import "./Structs.sol";
 
 import "../interfaces/IWormhole.sol";
 
-contract Governance is Getters, Setters {
+contract Governance is Getters, Setters, AccessControl {
     using BytesLib for bytes;
 
     // Execute a RegisterChain governance message

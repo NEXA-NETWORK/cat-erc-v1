@@ -36,12 +36,12 @@ abstract contract NexaERC20  is Context, ERC20, Governance {
         bytes32 recipient,
         uint32 nonce
         ) external payable returns (uint64 sequence) {
-            uint16   tokenChain = wormhole.chainId();
+            uint16   tokenChain = wormhole().chainId();
             bytes32 tokenAddress = bytes32(uint256(uint160(address(this))));
             uint256 normalizedAmount = deNormalizeAmount(normalizeAmount(amount, decimals()), decimals());
             _burn(_msgSender(), normalizedAmount);
 
-        Structs.Transfer memory transfer = BridgeTransfer({
+        Structs.Transfer memory transfer = Structs.Transfer({
             amount: normalizedAmount,
             tokenAddress: tokenAddress,
             tokenChain: tokenChain,
@@ -49,27 +49,27 @@ abstract contract NexaERC20  is Context, ERC20, Governance {
             toChain: recipientChain
         });
 
-        sequence = wormhole.publishMessage{value: msg.value}(
+        sequence = wormhole().publishMessage{value: msg.value}(
             nonce,
             encodeTransfer(transfer),
-            finality
+            finality()
         );
 
     } // end of function
 
 
     function bridgeIn(bytes memory encodedVm) external  returns (bytes memory) {
-        (IWormhole.VM memory vm, bool valid, string memory reason) = wormhole.parseAndVerifyVM(encodedVm);
+        (IWormhole.VM memory vm, bool valid, string memory reason) = wormhole().parseAndVerifyVM(encodedVm);
         require(valid, reason);
 
         Structs.Transfer memory transfer = decodeTransfer(vm.payload);
         address transferRecipient = _truncateAddress(transfer.to);
 
-        require(!completedTransfers[vm.hash], "transfer already completed");
-        completedTransfers[vm.hash] = true;
+        require(!isTransferCompleted(vm.hash), "transfer already completed");
+        setTransferCompleted(vm.hash);
 
 
-        require(transfer.toChain == wormhole.chainId(), "invalid target chain");
+        require(transfer.toChain == wormhole().chainId(), "invalid target chain");
 
         uint256 nativeAmount = deNormalizeAmount(normalizeAmount(transfer.amount, decimals()), decimals());
 
