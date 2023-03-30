@@ -57,103 +57,103 @@ export declare namespace XBurnMintERC721Structs {
 
 export interface XBurnMintERC721Interface extends utils.Interface {
   functions: {
-    "ERC721Contract(uint256)": FunctionFragment;
+    "DEFAULT_ADMIN_ROLE()": FunctionFragment;
+    "addressToBytes(address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "baseUri()": FunctionFragment;
     "bridgeIn(bytes)": FunctionFragment;
-    "bridgeOut(uint256,uint16,address,uint32)": FunctionFragment;
+    "bridgeOut(uint256,uint16,bytes32,uint32)": FunctionFragment;
     "burn(uint256)": FunctionFragment;
-    "completedTransfers(bytes32)": FunctionFragment;
+    "bytesToAddress(bytes32)": FunctionFragment;
+    "chainId()": FunctionFragment;
+    "decodeTransfer(bytes)": FunctionFragment;
+    "encodeTransfer((bytes32,uint16,uint256,string,bytes32,uint16))": FunctionFragment;
+    "evmChainId()": FunctionFragment;
     "finality()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
-    "initialize(uint8)": FunctionFragment;
+    "getRoleAdmin(bytes32)": FunctionFragment;
+    "grantRole(bytes32,address)": FunctionFragment;
+    "hasRole(bytes32,address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
+    "isTransferCompleted(bytes32)": FunctionFragment;
     "mint(address)": FunctionFragment;
     "mintMultiple(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
-    "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "parsePayload(bytes)": FunctionFragment;
-    "pause()": FunctionFragment;
-    "paused()": FunctionFragment;
-    "proxiableUUID()": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
+    "registerChain(uint16,bytes32)": FunctionFragment;
+    "registerChains(uint16[],bytes32[])": FunctionFragment;
+    "renounceRole(bytes32,address)": FunctionFragment;
+    "revokeRole(bytes32,address)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
-    "setBaseURI(string)": FunctionFragment;
-    "setERC721Contract(uint256[],address[])": FunctionFragment;
-    "setFinality(uint8)": FunctionFragment;
-    "setWormholeBridge(uint256[],address[])": FunctionFragment;
-    "setWormholeChainIds(uint256[],uint256[])": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenByIndex(uint256)": FunctionFragment;
+    "tokenContracts(uint16)": FunctionFragment;
     "tokenOfOwnerByIndex(address,uint256)": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
-    "unpause()": FunctionFragment;
-    "upgradeTo(address)": FunctionFragment;
-    "upgradeToAndCall(address,bytes)": FunctionFragment;
+    "updateBaseUri(string)": FunctionFragment;
+    "updateFinality(uint8)": FunctionFragment;
     "wormhole()": FunctionFragment;
-    "wormholeBridge(uint256)": FunctionFragment;
-    "wormholeChainId(uint256)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "ERC721Contract"
+      | "DEFAULT_ADMIN_ROLE"
+      | "addressToBytes"
       | "approve"
       | "balanceOf"
       | "baseUri"
       | "bridgeIn"
       | "bridgeOut"
       | "burn"
-      | "completedTransfers"
+      | "bytesToAddress"
+      | "chainId"
+      | "decodeTransfer"
+      | "encodeTransfer"
+      | "evmChainId"
       | "finality"
       | "getApproved"
-      | "initialize"
+      | "getRoleAdmin"
+      | "grantRole"
+      | "hasRole"
       | "isApprovedForAll"
+      | "isTransferCompleted"
       | "mint"
       | "mintMultiple"
       | "name"
-      | "owner"
       | "ownerOf"
-      | "parsePayload"
-      | "pause"
-      | "paused"
-      | "proxiableUUID"
-      | "renounceOwnership"
+      | "registerChain"
+      | "registerChains"
+      | "renounceRole"
+      | "revokeRole"
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
-      | "setBaseURI"
-      | "setERC721Contract"
-      | "setFinality"
-      | "setWormholeBridge"
-      | "setWormholeChainIds"
       | "supportsInterface"
       | "symbol"
       | "tokenByIndex"
+      | "tokenContracts"
       | "tokenOfOwnerByIndex"
       | "tokenURI"
       | "totalSupply"
       | "transferFrom"
-      | "transferOwnership"
-      | "unpause"
-      | "upgradeTo"
-      | "upgradeToAndCall"
+      | "updateBaseUri"
+      | "updateFinality"
       | "wormhole"
-      | "wormholeBridge"
-      | "wormholeChainId"
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "ERC721Contract",
-    values: [PromiseOrValue<BigNumberish>]
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addressToBytes",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "approve",
@@ -173,7 +173,7 @@ export interface XBurnMintERC721Interface extends utils.Interface {
     values: [
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>,
-      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>,
       PromiseOrValue<BigNumberish>
     ]
   ): string;
@@ -182,8 +182,21 @@ export interface XBurnMintERC721Interface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "completedTransfers",
+    functionFragment: "bytesToAddress",
     values: [PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(functionFragment: "chainId", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "decodeTransfer",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "encodeTransfer",
+    values: [XBurnMintERC721Structs.CrossChainPayloadStruct]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "evmChainId",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "finality", values?: undefined): string;
   encodeFunctionData(
@@ -191,12 +204,24 @@ export interface XBurnMintERC721Interface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "initialize",
-    values: [PromiseOrValue<BigNumberish>]
+    functionFragment: "getRoleAdmin",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "grantRole",
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "hasRole",
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isTransferCompleted",
+    values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
@@ -207,24 +232,25 @@ export interface XBurnMintERC721Interface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "parsePayload",
-    values: [PromiseOrValue<BytesLike>]
-  ): string;
-  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
-  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "proxiableUUID",
-    values?: undefined
+    functionFragment: "registerChain",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
-    values?: undefined
+    functionFragment: "registerChains",
+    values: [PromiseOrValue<BigNumberish>[], PromiseOrValue<BytesLike>[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "renounceRole",
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revokeRole",
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom(address,address,uint256)",
@@ -248,32 +274,16 @@ export interface XBurnMintERC721Interface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setBaseURI",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setERC721Contract",
-    values: [PromiseOrValue<BigNumberish>[], PromiseOrValue<string>[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setFinality",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setWormholeBridge",
-    values: [PromiseOrValue<BigNumberish>[], PromiseOrValue<string>[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setWormholeChainIds",
-    values: [PromiseOrValue<BigNumberish>[], PromiseOrValue<BigNumberish>[]]
-  ): string;
-  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "tokenByIndex",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "tokenContracts",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -297,30 +307,21 @@ export interface XBurnMintERC721Interface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "upgradeTo",
+    functionFragment: "updateBaseUri",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "upgradeToAndCall",
-    values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
+    functionFragment: "updateFinality",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "wormhole", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "wormholeBridge",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "wormholeChainId",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
 
   decodeFunctionResult(
-    functionFragment: "ERC721Contract",
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "addressToBytes",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
@@ -330,17 +331,36 @@ export interface XBurnMintERC721Interface extends utils.Interface {
   decodeFunctionResult(functionFragment: "bridgeOut", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "completedTransfers",
+    functionFragment: "bytesToAddress",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "chainId", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "decodeTransfer",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "encodeTransfer",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "evmChainId", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "finality", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getRoleAdmin",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isTransferCompleted",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
@@ -349,22 +369,20 @@ export interface XBurnMintERC721Interface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "parsePayload",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "proxiableUUID",
+    functionFragment: "registerChain",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
+    functionFragment: "registerChains",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "renounceRole",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom(address,address,uint256)",
     data: BytesLike
@@ -377,23 +395,6 @@ export interface XBurnMintERC721Interface extends utils.Interface {
     functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setBaseURI", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setERC721Contract",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setFinality",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setWormholeBridge",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setWormholeChainIds",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
@@ -401,6 +402,10 @@ export interface XBurnMintERC721Interface extends utils.Interface {
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "tokenByIndex",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "tokenContracts",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -417,64 +422,35 @@ export interface XBurnMintERC721Interface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferOwnership",
+    functionFragment: "updateBaseUri",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "upgradeToAndCall",
+    functionFragment: "updateFinality",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "wormhole", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "wormholeBridge",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "wormholeChainId",
-    data: BytesLike
-  ): Result;
 
   events: {
-    "AdminChanged(address,address)": EventFragment;
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "BeaconUpgraded(address)": EventFragment;
-    "Initialized(uint8)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
-    "Paused(address)": EventFragment;
+    "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
+    "RoleGranted(bytes32,address,address)": EventFragment;
+    "RoleRevoked(bytes32,address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
-    "Unpaused(address)": EventFragment;
-    "Upgraded(address)": EventFragment;
-    "bridgeInEvent(uint256,uint256,uint256,address,address)": EventFragment;
-    "bridgeOutEvent(uint256,uint256,uint256,address,address)": EventFragment;
+    "bridgeInEvent(uint256,uint256,uint256,bytes32)": EventFragment;
+    "bridgeOutEvent(uint256,uint256,uint256,bytes32,bytes32)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "AdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "bridgeInEvent"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "bridgeOutEvent"): EventFragment;
 }
-
-export interface AdminChangedEventObject {
-  previousAdmin: string;
-  newAdmin: string;
-}
-export type AdminChangedEvent = TypedEvent<
-  [string, string],
-  AdminChangedEventObject
->;
-
-export type AdminChangedEventFilter = TypedEventFilter<AdminChangedEvent>;
 
 export interface ApprovalEventObject {
   owner: string;
@@ -500,41 +476,42 @@ export type ApprovalForAllEvent = TypedEvent<
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
-export interface BeaconUpgradedEventObject {
-  beacon: string;
+export interface RoleAdminChangedEventObject {
+  role: string;
+  previousAdminRole: string;
+  newAdminRole: string;
 }
-export type BeaconUpgradedEvent = TypedEvent<
-  [string],
-  BeaconUpgradedEventObject
+export type RoleAdminChangedEvent = TypedEvent<
+  [string, string, string],
+  RoleAdminChangedEventObject
 >;
 
-export type BeaconUpgradedEventFilter = TypedEventFilter<BeaconUpgradedEvent>;
+export type RoleAdminChangedEventFilter =
+  TypedEventFilter<RoleAdminChangedEvent>;
 
-export interface InitializedEventObject {
-  version: number;
-}
-export type InitializedEvent = TypedEvent<[number], InitializedEventObject>;
-
-export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
-
-export interface OwnershipTransferredEventObject {
-  previousOwner: string;
-  newOwner: string;
-}
-export type OwnershipTransferredEvent = TypedEvent<
-  [string, string],
-  OwnershipTransferredEventObject
->;
-
-export type OwnershipTransferredEventFilter =
-  TypedEventFilter<OwnershipTransferredEvent>;
-
-export interface PausedEventObject {
+export interface RoleGrantedEventObject {
+  role: string;
   account: string;
+  sender: string;
 }
-export type PausedEvent = TypedEvent<[string], PausedEventObject>;
+export type RoleGrantedEvent = TypedEvent<
+  [string, string, string],
+  RoleGrantedEventObject
+>;
 
-export type PausedEventFilter = TypedEventFilter<PausedEvent>;
+export type RoleGrantedEventFilter = TypedEventFilter<RoleGrantedEvent>;
+
+export interface RoleRevokedEventObject {
+  role: string;
+  account: string;
+  sender: string;
+}
+export type RoleRevokedEvent = TypedEvent<
+  [string, string, string],
+  RoleRevokedEventObject
+>;
+
+export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
 
 export interface TransferEventObject {
   from: string;
@@ -548,29 +525,14 @@ export type TransferEvent = TypedEvent<
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
-export interface UnpausedEventObject {
-  account: string;
-}
-export type UnpausedEvent = TypedEvent<[string], UnpausedEventObject>;
-
-export type UnpausedEventFilter = TypedEventFilter<UnpausedEvent>;
-
-export interface UpgradedEventObject {
-  implementation: string;
-}
-export type UpgradedEvent = TypedEvent<[string], UpgradedEventObject>;
-
-export type UpgradedEventFilter = TypedEventFilter<UpgradedEvent>;
-
 export interface bridgeInEventEventObject {
   tokenId: BigNumber;
   fromChain: BigNumber;
   toChain: BigNumber;
-  fromAddress: string;
   toAddress: string;
 }
 export type bridgeInEventEvent = TypedEvent<
-  [BigNumber, BigNumber, BigNumber, string, string],
+  [BigNumber, BigNumber, BigNumber, string],
   bridgeInEventEventObject
 >;
 
@@ -617,8 +579,10 @@ export interface XBurnMintERC721 extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    ERC721Contract(
-      arg0: PromiseOrValue<BigNumberish>,
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
+    addressToBytes(
+      a: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
@@ -643,7 +607,7 @@ export interface XBurnMintERC721 extends BaseContract {
     bridgeOut(
       tokenId: PromiseOrValue<BigNumberish>,
       _wormholeChainId: PromiseOrValue<BigNumberish>,
-      recipient: PromiseOrValue<string>,
+      recipient: PromiseOrValue<BytesLike>,
       nonce: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -653,10 +617,28 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    completedTransfers(
-      arg0: PromiseOrValue<BytesLike>,
+    bytesToAddress(
+      b: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    ): Promise<[string]>;
+
+    chainId(overrides?: CallOverrides): Promise<[number]>;
+
+    decodeTransfer(
+      encoded: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<
+      [XBurnMintERC721Structs.CrossChainPayloadStructOutput] & {
+        transfer: XBurnMintERC721Structs.CrossChainPayloadStructOutput;
+      }
+    >;
+
+    encodeTransfer(
+      transfer: XBurnMintERC721Structs.CrossChainPayloadStruct,
+      overrides?: CallOverrides
+    ): Promise<[string] & { encoded: string }>;
+
+    evmChainId(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     finality(overrides?: CallOverrides): Promise<[number]>;
 
@@ -665,14 +647,31 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    initialize(
-      _finality: PromiseOrValue<BigNumberish>,
+    getRoleAdmin(
+      role: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    grantRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    hasRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    isTransferCompleted(
+      hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
@@ -689,31 +688,32 @@ export interface XBurnMintERC721 extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
-    owner(overrides?: CallOverrides): Promise<[string]>;
-
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    parsePayload(
-      encoded: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<
-      [XBurnMintERC721Structs.CrossChainPayloadStructOutput] & {
-        transfer: XBurnMintERC721Structs.CrossChainPayloadStructOutput;
-      }
-    >;
-
-    pause(
+    registerChain(
+      chainId: PromiseOrValue<BigNumberish>,
+      tokenContract: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    paused(overrides?: CallOverrides): Promise<[boolean]>;
+    registerChains(
+      chainId: PromiseOrValue<BigNumberish>[],
+      tokenContract: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
-    proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
+    renounceRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
-    renounceOwnership(
+    revokeRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -738,34 +738,6 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setBaseURI(
-      newUri: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setERC721Contract(
-      wormholeChains: PromiseOrValue<BigNumberish>[],
-      ERC721ContractAddresses: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setFinality(
-      _finality: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setWormholeBridge(
-      wormholeChains: PromiseOrValue<BigNumberish>[],
-      bridgesAddress: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setWormholeChainIds(
-      chains: PromiseOrValue<BigNumberish>[],
-      wormholeChains: PromiseOrValue<BigNumberish>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -777,6 +749,11 @@ export interface XBurnMintERC721 extends BaseContract {
       index: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    tokenContracts(
+      chainId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     tokenOfOwnerByIndex(
       owner: PromiseOrValue<string>,
@@ -798,41 +775,23 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    transferOwnership(
-      newOwner: PromiseOrValue<string>,
+    updateBaseUri(
+      uri: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    unpause(
+    updateFinality(
+      finality: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    upgradeTo(
-      newImplementation: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    upgradeToAndCall(
-      newImplementation: PromiseOrValue<string>,
-      data: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     wormhole(overrides?: CallOverrides): Promise<[string]>;
-
-    wormholeBridge(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    wormholeChainId(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
   };
 
-  ERC721Contract(
-    arg0: PromiseOrValue<BigNumberish>,
+  DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  addressToBytes(
+    a: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<string>;
 
@@ -857,7 +816,7 @@ export interface XBurnMintERC721 extends BaseContract {
   bridgeOut(
     tokenId: PromiseOrValue<BigNumberish>,
     _wormholeChainId: PromiseOrValue<BigNumberish>,
-    recipient: PromiseOrValue<string>,
+    recipient: PromiseOrValue<BytesLike>,
     nonce: PromiseOrValue<BigNumberish>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -867,10 +826,24 @@ export interface XBurnMintERC721 extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  completedTransfers(
-    arg0: PromiseOrValue<BytesLike>,
+  bytesToAddress(
+    b: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
-  ): Promise<boolean>;
+  ): Promise<string>;
+
+  chainId(overrides?: CallOverrides): Promise<number>;
+
+  decodeTransfer(
+    encoded: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<XBurnMintERC721Structs.CrossChainPayloadStructOutput>;
+
+  encodeTransfer(
+    transfer: XBurnMintERC721Structs.CrossChainPayloadStruct,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  evmChainId(overrides?: CallOverrides): Promise<BigNumber>;
 
   finality(overrides?: CallOverrides): Promise<number>;
 
@@ -879,14 +852,31 @@ export interface XBurnMintERC721 extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  initialize(
-    _finality: PromiseOrValue<BigNumberish>,
+  getRoleAdmin(
+    role: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  grantRole(
+    role: PromiseOrValue<BytesLike>,
+    account: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  hasRole(
+    role: PromiseOrValue<BytesLike>,
+    account: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   isApprovedForAll(
     owner: PromiseOrValue<string>,
     operator: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  isTransferCompleted(
+    hash: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
@@ -903,27 +893,32 @@ export interface XBurnMintERC721 extends BaseContract {
 
   name(overrides?: CallOverrides): Promise<string>;
 
-  owner(overrides?: CallOverrides): Promise<string>;
-
   ownerOf(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
 
-  parsePayload(
-    encoded: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
-  ): Promise<XBurnMintERC721Structs.CrossChainPayloadStructOutput>;
-
-  pause(
+  registerChain(
+    chainId: PromiseOrValue<BigNumberish>,
+    tokenContract: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  paused(overrides?: CallOverrides): Promise<boolean>;
+  registerChains(
+    chainId: PromiseOrValue<BigNumberish>[],
+    tokenContract: PromiseOrValue<BytesLike>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
-  proxiableUUID(overrides?: CallOverrides): Promise<string>;
+  renounceRole(
+    role: PromiseOrValue<BytesLike>,
+    account: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
-  renounceOwnership(
+  revokeRole(
+    role: PromiseOrValue<BytesLike>,
+    account: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -948,34 +943,6 @@ export interface XBurnMintERC721 extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setBaseURI(
-    newUri: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setERC721Contract(
-    wormholeChains: PromiseOrValue<BigNumberish>[],
-    ERC721ContractAddresses: PromiseOrValue<string>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setFinality(
-    _finality: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setWormholeBridge(
-    wormholeChains: PromiseOrValue<BigNumberish>[],
-    bridgesAddress: PromiseOrValue<string>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setWormholeChainIds(
-    chains: PromiseOrValue<BigNumberish>[],
-    wormholeChains: PromiseOrValue<BigNumberish>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   supportsInterface(
     interfaceId: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
@@ -987,6 +954,11 @@ export interface XBurnMintERC721 extends BaseContract {
     index: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  tokenContracts(
+    chainId_: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   tokenOfOwnerByIndex(
     owner: PromiseOrValue<string>,
@@ -1008,41 +980,23 @@ export interface XBurnMintERC721 extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  transferOwnership(
-    newOwner: PromiseOrValue<string>,
+  updateBaseUri(
+    uri: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  unpause(
+  updateFinality(
+    finality: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  upgradeTo(
-    newImplementation: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  upgradeToAndCall(
-    newImplementation: PromiseOrValue<string>,
-    data: PromiseOrValue<BytesLike>,
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   wormhole(overrides?: CallOverrides): Promise<string>;
 
-  wormholeBridge(
-    arg0: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  wormholeChainId(
-    arg0: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   callStatic: {
-    ERC721Contract(
-      arg0: PromiseOrValue<BigNumberish>,
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    addressToBytes(
+      a: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<string>;
 
@@ -1067,7 +1021,7 @@ export interface XBurnMintERC721 extends BaseContract {
     bridgeOut(
       tokenId: PromiseOrValue<BigNumberish>,
       _wormholeChainId: PromiseOrValue<BigNumberish>,
-      recipient: PromiseOrValue<string>,
+      recipient: PromiseOrValue<BytesLike>,
       nonce: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1077,10 +1031,24 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    completedTransfers(
-      arg0: PromiseOrValue<BytesLike>,
+    bytesToAddress(
+      b: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<string>;
+
+    chainId(overrides?: CallOverrides): Promise<number>;
+
+    decodeTransfer(
+      encoded: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<XBurnMintERC721Structs.CrossChainPayloadStructOutput>;
+
+    encodeTransfer(
+      transfer: XBurnMintERC721Structs.CrossChainPayloadStruct,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    evmChainId(overrides?: CallOverrides): Promise<BigNumber>;
 
     finality(overrides?: CallOverrides): Promise<number>;
 
@@ -1089,14 +1057,31 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    initialize(
-      _finality: PromiseOrValue<BigNumberish>,
+    getRoleAdmin(
+      role: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    grantRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    hasRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    isTransferCompleted(
+      hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -1110,25 +1095,34 @@ export interface XBurnMintERC721 extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<string>;
 
-    owner(overrides?: CallOverrides): Promise<string>;
-
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
 
-    parsePayload(
-      encoded: PromiseOrValue<BytesLike>,
+    registerChain(
+      chainId: PromiseOrValue<BigNumberish>,
+      tokenContract: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<XBurnMintERC721Structs.CrossChainPayloadStructOutput>;
+    ): Promise<void>;
 
-    pause(overrides?: CallOverrides): Promise<void>;
+    registerChains(
+      chainId: PromiseOrValue<BigNumberish>[],
+      tokenContract: PromiseOrValue<BytesLike>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
 
-    paused(overrides?: CallOverrides): Promise<boolean>;
+    renounceRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
-    proxiableUUID(overrides?: CallOverrides): Promise<string>;
-
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+    revokeRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: PromiseOrValue<string>,
@@ -1151,34 +1145,6 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setBaseURI(
-      newUri: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    setERC721Contract(
-      wormholeChains: PromiseOrValue<BigNumberish>[],
-      ERC721ContractAddresses: PromiseOrValue<string>[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setFinality(
-      _finality: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setWormholeBridge(
-      wormholeChains: PromiseOrValue<BigNumberish>[],
-      bridgesAddress: PromiseOrValue<string>[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setWormholeChainIds(
-      chains: PromiseOrValue<BigNumberish>[],
-      wormholeChains: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -1190,6 +1156,11 @@ export interface XBurnMintERC721 extends BaseContract {
       index: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    tokenContracts(
+      chainId_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     tokenOfOwnerByIndex(
       owner: PromiseOrValue<string>,
@@ -1211,47 +1182,20 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    transferOwnership(
-      newOwner: PromiseOrValue<string>,
+    updateBaseUri(
+      uri: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    unpause(overrides?: CallOverrides): Promise<void>;
-
-    upgradeTo(
-      newImplementation: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    upgradeToAndCall(
-      newImplementation: PromiseOrValue<string>,
-      data: PromiseOrValue<BytesLike>,
+    updateFinality(
+      finality: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     wormhole(overrides?: CallOverrides): Promise<string>;
-
-    wormholeBridge(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    wormholeChainId(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
   };
 
   filters: {
-    "AdminChanged(address,address)"(
-      previousAdmin?: null,
-      newAdmin?: null
-    ): AdminChangedEventFilter;
-    AdminChanged(
-      previousAdmin?: null,
-      newAdmin?: null
-    ): AdminChangedEventFilter;
-
     "Approval(address,address,uint256)"(
       owner?: PromiseOrValue<string> | null,
       approved?: PromiseOrValue<string> | null,
@@ -1274,27 +1218,38 @@ export interface XBurnMintERC721 extends BaseContract {
       approved?: null
     ): ApprovalForAllEventFilter;
 
-    "BeaconUpgraded(address)"(
-      beacon?: PromiseOrValue<string> | null
-    ): BeaconUpgradedEventFilter;
-    BeaconUpgraded(
-      beacon?: PromiseOrValue<string> | null
-    ): BeaconUpgradedEventFilter;
+    "RoleAdminChanged(bytes32,bytes32,bytes32)"(
+      role?: PromiseOrValue<BytesLike> | null,
+      previousAdminRole?: PromiseOrValue<BytesLike> | null,
+      newAdminRole?: PromiseOrValue<BytesLike> | null
+    ): RoleAdminChangedEventFilter;
+    RoleAdminChanged(
+      role?: PromiseOrValue<BytesLike> | null,
+      previousAdminRole?: PromiseOrValue<BytesLike> | null,
+      newAdminRole?: PromiseOrValue<BytesLike> | null
+    ): RoleAdminChangedEventFilter;
 
-    "Initialized(uint8)"(version?: null): InitializedEventFilter;
-    Initialized(version?: null): InitializedEventFilter;
+    "RoleGranted(bytes32,address,address)"(
+      role?: PromiseOrValue<BytesLike> | null,
+      account?: PromiseOrValue<string> | null,
+      sender?: PromiseOrValue<string> | null
+    ): RoleGrantedEventFilter;
+    RoleGranted(
+      role?: PromiseOrValue<BytesLike> | null,
+      account?: PromiseOrValue<string> | null,
+      sender?: PromiseOrValue<string> | null
+    ): RoleGrantedEventFilter;
 
-    "OwnershipTransferred(address,address)"(
-      previousOwner?: PromiseOrValue<string> | null,
-      newOwner?: PromiseOrValue<string> | null
-    ): OwnershipTransferredEventFilter;
-    OwnershipTransferred(
-      previousOwner?: PromiseOrValue<string> | null,
-      newOwner?: PromiseOrValue<string> | null
-    ): OwnershipTransferredEventFilter;
-
-    "Paused(address)"(account?: null): PausedEventFilter;
-    Paused(account?: null): PausedEventFilter;
+    "RoleRevoked(bytes32,address,address)"(
+      role?: PromiseOrValue<BytesLike> | null,
+      account?: PromiseOrValue<string> | null,
+      sender?: PromiseOrValue<string> | null
+    ): RoleRevokedEventFilter;
+    RoleRevoked(
+      role?: PromiseOrValue<BytesLike> | null,
+      account?: PromiseOrValue<string> | null,
+      sender?: PromiseOrValue<string> | null
+    ): RoleRevokedEventFilter;
 
     "Transfer(address,address,uint256)"(
       from?: PromiseOrValue<string> | null,
@@ -1307,50 +1262,40 @@ export interface XBurnMintERC721 extends BaseContract {
       tokenId?: PromiseOrValue<BigNumberish> | null
     ): TransferEventFilter;
 
-    "Unpaused(address)"(account?: null): UnpausedEventFilter;
-    Unpaused(account?: null): UnpausedEventFilter;
-
-    "Upgraded(address)"(
-      implementation?: PromiseOrValue<string> | null
-    ): UpgradedEventFilter;
-    Upgraded(
-      implementation?: PromiseOrValue<string> | null
-    ): UpgradedEventFilter;
-
-    "bridgeInEvent(uint256,uint256,uint256,address,address)"(
+    "bridgeInEvent(uint256,uint256,uint256,bytes32)"(
       tokenId?: null,
       fromChain?: null,
       toChain?: null,
-      fromAddress?: PromiseOrValue<string> | null,
-      toAddress?: PromiseOrValue<string> | null
+      toAddress?: PromiseOrValue<BytesLike> | null
     ): bridgeInEventEventFilter;
     bridgeInEvent(
       tokenId?: null,
       fromChain?: null,
       toChain?: null,
-      fromAddress?: PromiseOrValue<string> | null,
-      toAddress?: PromiseOrValue<string> | null
+      toAddress?: PromiseOrValue<BytesLike> | null
     ): bridgeInEventEventFilter;
 
-    "bridgeOutEvent(uint256,uint256,uint256,address,address)"(
+    "bridgeOutEvent(uint256,uint256,uint256,bytes32,bytes32)"(
       tokenId?: null,
       fromChain?: null,
       toChain?: null,
-      fromAddress?: PromiseOrValue<string> | null,
-      toAddress?: PromiseOrValue<string> | null
+      fromAddress?: PromiseOrValue<BytesLike> | null,
+      toAddress?: PromiseOrValue<BytesLike> | null
     ): bridgeOutEventEventFilter;
     bridgeOutEvent(
       tokenId?: null,
       fromChain?: null,
       toChain?: null,
-      fromAddress?: PromiseOrValue<string> | null,
-      toAddress?: PromiseOrValue<string> | null
+      fromAddress?: PromiseOrValue<BytesLike> | null,
+      toAddress?: PromiseOrValue<BytesLike> | null
     ): bridgeOutEventEventFilter;
   };
 
   estimateGas: {
-    ERC721Contract(
-      arg0: PromiseOrValue<BigNumberish>,
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    addressToBytes(
+      a: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1375,7 +1320,7 @@ export interface XBurnMintERC721 extends BaseContract {
     bridgeOut(
       tokenId: PromiseOrValue<BigNumberish>,
       _wormholeChainId: PromiseOrValue<BigNumberish>,
-      recipient: PromiseOrValue<string>,
+      recipient: PromiseOrValue<BytesLike>,
       nonce: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -1385,10 +1330,24 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    completedTransfers(
-      arg0: PromiseOrValue<BytesLike>,
+    bytesToAddress(
+      b: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    chainId(overrides?: CallOverrides): Promise<BigNumber>;
+
+    decodeTransfer(
+      encoded: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    encodeTransfer(
+      transfer: XBurnMintERC721Structs.CrossChainPayloadStruct,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    evmChainId(overrides?: CallOverrides): Promise<BigNumber>;
 
     finality(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1397,14 +1356,31 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    initialize(
-      _finality: PromiseOrValue<BigNumberish>,
+    getRoleAdmin(
+      role: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    grantRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    hasRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    isTransferCompleted(
+      hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1421,27 +1397,32 @@ export interface XBurnMintERC721 extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
-
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    parsePayload(
-      encoded: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    pause(
+    registerChain(
+      chainId: PromiseOrValue<BigNumberish>,
+      tokenContract: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    paused(overrides?: CallOverrides): Promise<BigNumber>;
+    registerChains(
+      chainId: PromiseOrValue<BigNumberish>[],
+      tokenContract: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
-    proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
+    renounceRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
-    renounceOwnership(
+    revokeRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1466,34 +1447,6 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setBaseURI(
-      newUri: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setERC721Contract(
-      wormholeChains: PromiseOrValue<BigNumberish>[],
-      ERC721ContractAddresses: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setFinality(
-      _finality: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setWormholeBridge(
-      wormholeChains: PromiseOrValue<BigNumberish>[],
-      bridgesAddress: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setWormholeChainIds(
-      chains: PromiseOrValue<BigNumberish>[],
-      wormholeChains: PromiseOrValue<BigNumberish>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -1503,6 +1456,11 @@ export interface XBurnMintERC721 extends BaseContract {
 
     tokenByIndex(
       index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    tokenContracts(
+      chainId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1526,42 +1484,26 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    transferOwnership(
-      newOwner: PromiseOrValue<string>,
+    updateBaseUri(
+      uri: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    unpause(
+    updateFinality(
+      finality: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    upgradeTo(
-      newImplementation: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    upgradeToAndCall(
-      newImplementation: PromiseOrValue<string>,
-      data: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     wormhole(overrides?: CallOverrides): Promise<BigNumber>;
-
-    wormholeBridge(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    wormholeChainId(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    ERC721Contract(
-      arg0: PromiseOrValue<BigNumberish>,
+    DEFAULT_ADMIN_ROLE(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    addressToBytes(
+      a: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1586,7 +1528,7 @@ export interface XBurnMintERC721 extends BaseContract {
     bridgeOut(
       tokenId: PromiseOrValue<BigNumberish>,
       _wormholeChainId: PromiseOrValue<BigNumberish>,
-      recipient: PromiseOrValue<string>,
+      recipient: PromiseOrValue<BytesLike>,
       nonce: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
@@ -1596,10 +1538,24 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    completedTransfers(
-      arg0: PromiseOrValue<BytesLike>,
+    bytesToAddress(
+      b: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    chainId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    decodeTransfer(
+      encoded: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    encodeTransfer(
+      transfer: XBurnMintERC721Structs.CrossChainPayloadStruct,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    evmChainId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     finality(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1608,14 +1564,31 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    initialize(
-      _finality: PromiseOrValue<BigNumberish>,
+    getRoleAdmin(
+      role: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    grantRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    hasRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isTransferCompleted(
+      hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1632,27 +1605,32 @@ export interface XBurnMintERC721 extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    parsePayload(
-      encoded: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    pause(
+    registerChain(
+      chainId: PromiseOrValue<BigNumberish>,
+      tokenContract: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    registerChains(
+      chainId: PromiseOrValue<BigNumberish>[],
+      tokenContract: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
-    proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    renounceRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
-    renounceOwnership(
+    revokeRole(
+      role: PromiseOrValue<BytesLike>,
+      account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1677,34 +1655,6 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setBaseURI(
-      newUri: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setERC721Contract(
-      wormholeChains: PromiseOrValue<BigNumberish>[],
-      ERC721ContractAddresses: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setFinality(
-      _finality: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setWormholeBridge(
-      wormholeChains: PromiseOrValue<BigNumberish>[],
-      bridgesAddress: PromiseOrValue<string>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setWormholeChainIds(
-      chains: PromiseOrValue<BigNumberish>[],
-      wormholeChains: PromiseOrValue<BigNumberish>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -1714,6 +1664,11 @@ export interface XBurnMintERC721 extends BaseContract {
 
     tokenByIndex(
       index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    tokenContracts(
+      chainId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1737,36 +1692,16 @@ export interface XBurnMintERC721 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    transferOwnership(
-      newOwner: PromiseOrValue<string>,
+    updateBaseUri(
+      uri: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    unpause(
+    updateFinality(
+      finality: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    upgradeTo(
-      newImplementation: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    upgradeToAndCall(
-      newImplementation: PromiseOrValue<string>,
-      data: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     wormhole(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    wormholeBridge(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    wormholeChainId(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
   };
 }
