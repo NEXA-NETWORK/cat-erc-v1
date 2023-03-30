@@ -9,7 +9,7 @@ import "../interfaces/IWormhole.sol";
 import "./Governance.sol";
 import "./Structs.sol";
 
-abstract contract NexaERC20  is Context, ERC20, Governance {
+abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance {
     using BytesLib for bytes;
 
     constructor (uint16 chainId,
@@ -25,6 +25,9 @@ abstract contract NexaERC20  is Context, ERC20, Governance {
         setFinality(finality);
 
         setEvmChainId(evmChainId);
+        
+        _setupRole(DEFAULT_ADMIN_ROLE,_msgSender());
+
     }
 
     /**
@@ -47,7 +50,7 @@ abstract contract NexaERC20  is Context, ERC20, Governance {
             uint256 normalizedAmount = deNormalizeAmount(normalizeAmount(amount, decimals()), decimals());
             _burn(_msgSender(), normalizedAmount);
 
-        Structs.Transfer memory transfer = Structs.Transfer({
+        XBurnMintERC20Structs.CrossChainPayload memory transfer = XBurnMintERC20Structs.CrossChainPayload({
             amount: normalizedAmount,
             tokenAddress: tokenAddress,
             tokenChain: tokenChain,
@@ -72,8 +75,8 @@ abstract contract NexaERC20  is Context, ERC20, Governance {
             "Invalid Emitter"
         );
 
-        Structs.Transfer memory transfer = decodeTransfer(vm.payload);
-        address transferRecipient = _truncateAddress(transfer.to);
+        XBurnMintERC20Structs.CrossChainPayload memory transfer = decodeTransfer(vm.payload);
+        address transferRecipient = bytesToAddress(transfer.to);
 
         require(!isTransferCompleted(vm.hash), "transfer already completed");
         setTransferCompleted(vm.hash);

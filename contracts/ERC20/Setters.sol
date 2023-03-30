@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 
 import "./State.sol";
 
-contract Setters is TokenState {
+contract XBurnMintERC20Setters is XBurnMintERC20State {
 
     function setTransferCompleted(bytes32 hash) internal {
         _state.completedTransfers[hash] = true;

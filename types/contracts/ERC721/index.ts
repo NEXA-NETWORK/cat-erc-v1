@@ -11,7 +11,3 @@ import type * as setupSol from "./Setup.sol";
 export type { setupSol };
 import type * as stateSol from "./State.sol";
 export type { stateSol };
-import type * as xBurnMintErc721Sol from "./XBurn&MintERC721.sol";
-export type { xBurnMintErc721Sol };
-import type * as legacy from "./legacy";
-export type { legacy };

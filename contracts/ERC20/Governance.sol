@@ -13,7 +13,7 @@ import "./Structs.sol";
 
 import "../interfaces/IWormhole.sol";
 
-contract Governance is Getters, Setters, AccessControl {
+contract XBurnMintERC20Governance is XBurnMintERC20Getters, XBurnMintERC20Setters, AccessControl {
     using BytesLib for bytes;
 
     // Execute a RegisterChain governance message

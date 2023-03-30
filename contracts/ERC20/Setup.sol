@@ -6,7 +6,7 @@ pragma experimental ABIEncoderV2;
 
 import "./Setters.sol";
 
-contract Setup is Setters {
+contract XBurnMintERC20Setup is XBurnMintERC20Setters {
     function setup(
         uint16 chainId,
         address wormhole,

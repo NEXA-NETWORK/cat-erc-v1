@@ -8,7 +8,7 @@ import "../interfaces/IWormhole.sol";
 import "./State.sol";
 import "../libraries/BytesLib.sol";
 
-contract Getters is TokenState {
+contract XBurnMintERC20Getters is XBurnMintERC20State {
 
     using BytesLib for bytes;
 
@@ -56,12 +56,16 @@ contract Getters is TokenState {
      *
      * @param bytes32 bytes The 32 byte array to be converted.
      */
-    function _truncateAddress(bytes32 b) internal pure returns (address) {
+    function bytesToAddress(bytes32 b) public pure returns (address) {
         require(bytes12(b) == 0, "invalid EVM address");
         return address(uint160(uint256(b)));
     }
 
-    function encodeTransfer(Structs.Transfer memory transfer) public pure returns (bytes memory encoded) {
+    function addressToBytes(address a) public pure returns (bytes32) {
+        return bytes32(uint256(uint160(a)));
+    }
+
+    function encodeTransfer(XBurnMintERC20Structs.CrossChainPayload memory transfer) public pure returns (bytes memory encoded) {
         encoded = abi.encodePacked(
             transfer.amount,
             transfer.tokenAddress,
@@ -71,7 +75,7 @@ contract Getters is TokenState {
         );
     }
 
-    function decodeTransfer(bytes memory encoded) public pure returns (Structs.Transfer memory transfer) {
+    function decodeTransfer(bytes memory encoded) public pure returns (XBurnMintERC20Structs.CrossChainPayload memory transfer) {
         uint index = 0;
 
         transfer.amount = encoded.toUint256(index);

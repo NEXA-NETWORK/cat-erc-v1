@@ -49,9 +49,9 @@ async function getVAA(
 
 // getVAA(
 //   "https://data-seed-prebsc-1-s1.binance.org:8545/",
-//   "0x0abfa04dbd6803aad6ac40066e83928122505724bcb9ceed7d0805fac262d21b",
+//   "0xeb463b94e8508840e1f3343a668f79b63e459ccb3fb41b6b889fb5e4cf1afe5d",
 //   "0x68605AD7b15c732a30b1BbC62BE8F2A509D74b4D",
-//   "0xE09767B554803D59101a4FE9753d18E75Fb5cc62",
+//   "0xEe9Cb17707AE223022bdF2110BD15f307D7d0E81",
 //   "https://wormhole-v2-testnet-api.certus.one",
 //   4
 // );

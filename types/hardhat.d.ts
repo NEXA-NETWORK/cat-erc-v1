@@ -157,21 +157,21 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
     getContractFactory(
-      name: "Getters",
+      name: "XBurnMintERC20Getters",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Getters__factory>;
+    ): Promise<Contracts.XBurnMintERC20Getters__factory>;
     getContractFactory(
-      name: "Governance",
+      name: "XBurnMintERC20Governance",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Governance__factory>;
+    ): Promise<Contracts.XBurnMintERC20Governance__factory>;
     getContractFactory(
-      name: "Setup",
+      name: "XBurnMintERC20Setup",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Setup__factory>;
+    ): Promise<Contracts.XBurnMintERC20Setup__factory>;
     getContractFactory(
-      name: "NexaERC20",
+      name: "XBurnMintERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.NexaERC20__factory>;
+    ): Promise<Contracts.XBurnMintERC20__factory>;
     getContractFactory(
       name: "XBurnMintERC721",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -185,10 +185,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.XBurnMintERC721Governance__factory>;
     getContractFactory(
-      name: "XBurnMintERC721",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.XBurnMintERC721__factory>;
-    getContractFactory(
       name: "XBurnMintERC721Setup",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.XBurnMintERC721Setup__factory>;
@@ -196,10 +192,6 @@ declare module "hardhat/types/runtime" {
       name: "XBurnMintERC721Events",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.XBurnMintERC721Events__factory>;
-    getContractFactory(
-      name: "XBurnMintERC721",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.XBurnMintERC721__factory>;
     getContractFactory(
       name: "IWormhole",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -386,25 +378,25 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
     getContractAt(
-      name: "Getters",
+      name: "XBurnMintERC20Getters",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.Getters>;
+    ): Promise<Contracts.XBurnMintERC20Getters>;
     getContractAt(
-      name: "Governance",
+      name: "XBurnMintERC20Governance",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.Governance>;
+    ): Promise<Contracts.XBurnMintERC20Governance>;
     getContractAt(
-      name: "Setup",
+      name: "XBurnMintERC20Setup",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.Setup>;
+    ): Promise<Contracts.XBurnMintERC20Setup>;
     getContractAt(
-      name: "NexaERC20",
+      name: "XBurnMintERC20",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.NexaERC20>;
+    ): Promise<Contracts.XBurnMintERC20>;
     getContractAt(
       name: "XBurnMintERC721",
       address: string,
@@ -421,11 +413,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.XBurnMintERC721Governance>;
     getContractAt(
-      name: "XBurnMintERC721",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.XBurnMintERC721>;
-    getContractAt(
       name: "XBurnMintERC721Setup",
       address: string,
       signer?: ethers.Signer
@@ -435,11 +422,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.XBurnMintERC721Events>;
-    getContractAt(
-      name: "XBurnMintERC721",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.XBurnMintERC721>;
     getContractAt(
       name: "IWormhole",
       address: string,

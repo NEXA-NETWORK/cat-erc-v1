@@ -3,9 +3,9 @@
 
 pragma solidity ^0.8.0;
 
-contract Structs {
+contract XBurnMintERC20Structs {
 
-    struct Transfer {
+    struct CrossChainPayload {
         // Amount being transferred (big-endian uint256)
         uint256 amount;
         // Address of the token. Left-zero-padded if shorter than 32 bytes

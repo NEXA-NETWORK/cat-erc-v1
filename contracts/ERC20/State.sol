@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 
 import "./Structs.sol";
 
-contract Storage {
+contract XBurnMintERC20Storage {
 
     struct Provider {
         uint16 chainId;
@@ -30,6 +30,6 @@ contract Storage {
     }
 }
 
-contract TokenState {
-    Storage.State _state;
+contract XBurnMintERC20State {
+    XBurnMintERC20Storage.State _state;
 }
