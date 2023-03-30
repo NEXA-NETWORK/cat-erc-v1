@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "compile": "npx hardhat compile",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "solhint": "npx solhint -f table contracts/**/*.sol",
+    "prettier:solidity": "npx prettier --write contracts/**/*.sol",
     "deploy-ERC721": "npx hardhat run ./scripts/deployERC721.ts --network",
-    "upgrade-ERC721": "npx hardhat run ./scripts/upgradeERC721.ts --network"
+    "upgrade-ERC721": "npx hardhat run ./scripts/upgradeERC721.ts --network",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -35,7 +37,6 @@
     "hardhat": "^2.11.2",
     "hardhat-deploy": "^0.11.18",
     "hardhat-gas-reporter": "^1.0.9",
-    "prettier-plugin-solidity": "^1.0.0-beta.24",
     "solidity-coverage": "^0.8.2",
     "typechain": "^8.1.1",
     "typescript": "^4.9.5"
@@ -45,6 +46,11 @@
     "@typechain/ethers-v5": "^10.2.0",
     "@typechain/hardhat": "^6.1.5",
     "@types/mocha": "^10.0.1",
+    "husky": "^8.0.0",
+    "prettier": "^2.8.7",
+    "prettier-plugin-solidity": "^1.1.3",
+    "solhint": "^3.4.1",
+    "solhint-plugin-prettier": "^0.0.5",
     "ts-node": "^10.9.1"
   }
 }

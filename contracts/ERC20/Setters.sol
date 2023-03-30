@@ -3,10 +3,9 @@
 
 pragma solidity ^0.8.0;
 
-import "./State.sol";
+import './State.sol';
 
 contract XBurnMintERC20Setters is XBurnMintERC20State {
-
     function setTransferCompleted(bytes32 hash) internal {
         _state.completedTransfers[hash] = true;
     }
@@ -28,7 +27,7 @@ contract XBurnMintERC20Setters is XBurnMintERC20State {
     }
 
     function setEvmChainId(uint256 evmChainId) internal {
-        require(evmChainId == block.chainid, "invalid evmChainId");
+        require(evmChainId == block.chainid, 'invalid evmChainId');
         _state.evmChainId = evmChainId;
     }
 }

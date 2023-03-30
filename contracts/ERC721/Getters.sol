@@ -3,13 +3,12 @@
 
 pragma solidity ^0.8.0;
 
-import "../interfaces/IWormhole.sol";
+import '../interfaces/IWormhole.sol';
 
-import "./State.sol";
-import "../libraries/BytesLib.sol";
+import './State.sol';
+import '../libraries/BytesLib.sol';
 
 contract XBurnMintERC721Getters is XBurnMintERC721State {
-
     using BytesLib for bytes;
 
     function isTransferCompleted(bytes32 hash) public view returns (bool) {
@@ -20,7 +19,7 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
         return IWormhole(_state.wormhole);
     }
 
-    function chainId() public view returns (uint16){
+    function chainId() public view returns (uint16) {
         return _state.provider.chainId;
     }
 
@@ -28,7 +27,7 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
         return _state.evmChainId;
     }
 
-    function tokenContracts(uint16 chainId_) public view returns (bytes32){
+    function tokenContracts(uint16 chainId_) public view returns (bytes32) {
         return _state.tokenImplementations[chainId_];
     }
 
@@ -36,7 +35,7 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
         return _state.provider.finality;
     }
 
-    function baseUri() public view returns (string memory){
+    function baseUri() public view returns (string memory) {
         return _state.baseUri;
     }
 
@@ -47,7 +46,7 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
      * @param bytes32 bytes The 32 byte array to be converted.
      */
     function bytesToAddress(bytes32 b) public pure returns (address) {
-        require(bytes12(b) == 0, "invalid EVM address");
+        require(bytes12(b) == 0, 'invalid EVM address');
         return address(uint160(uint256(b)));
     }
 
@@ -55,8 +54,10 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
         return bytes32(uint256(uint160(a)));
     }
 
-    function encodeTransfer(XBurnMintERC721Structs.CrossChainPayload memory transfer) public pure returns (bytes memory encoded) {
-            encoded = abi.encodePacked(
+    function encodeTransfer(
+        XBurnMintERC721Structs.CrossChainPayload memory transfer
+    ) public pure returns (bytes memory encoded) {
+        encoded = abi.encodePacked(
             uint8(1),
             transfer.tokenAddress,
             transfer.tokenChain,
@@ -68,13 +69,15 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
         );
     }
 
-    function decodeTransfer(bytes memory encoded) public pure returns (XBurnMintERC721Structs.CrossChainPayload memory transfer) {
+    function decodeTransfer(
+        bytes memory encoded
+    ) public pure returns (XBurnMintERC721Structs.CrossChainPayload memory transfer) {
         uint256 index = 0;
 
         uint8 payloadID = encoded.toUint8(index);
         index += 1;
 
-        require(payloadID == 1, "invalid Transfer");
+        require(payloadID == 1, 'invalid Transfer');
 
         transfer.tokenAddress = encoded.toBytes32(index);
         index += 32;
@@ -87,9 +90,7 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
 
         // Ignore length due to malformatted payload
         index += 1;
-        transfer.uri = string(
-            encoded.slice(index, encoded.length - index - 34)
-        );
+        transfer.uri = string(encoded.slice(index, encoded.length - index - 34));
 
         // From here we read backwards due malformatted package
         index = encoded.length;

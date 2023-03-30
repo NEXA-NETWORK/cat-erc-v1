@@ -3,10 +3,9 @@
 
 pragma solidity ^0.8.0;
 
-import "./Structs.sol";
+import './Structs.sol';
 
 contract XBurnMintERC20Storage {
-
     struct Provider {
         uint16 chainId;
         // Required number of block confirmations to assume finality
@@ -14,17 +13,12 @@ contract XBurnMintERC20Storage {
     }
 
     struct State {
-
         Provider provider;
-
         address payable wormhole;
-
         // Mapping of consumed token transfers
         mapping(bytes32 => bool) completedTransfers;
-
         // Mapping of token contracts on other chains
         mapping(uint16 => bytes32) tokenImplementations;
-
         // EIP-155 Chain ID
         uint256 evmChainId;
     }

@@ -3,13 +3,12 @@
 
 pragma solidity ^0.8.0;
 
-import "../interfaces/IWormhole.sol";
+import '../interfaces/IWormhole.sol';
 
-import "./State.sol";
-import "../libraries/BytesLib.sol";
+import './State.sol';
+import '../libraries/BytesLib.sol';
 
 contract XBurnMintERC20Getters is XBurnMintERC20State {
-
     using BytesLib for bytes;
 
     function isTransferCompleted(bytes32 hash) public view returns (bool) {
@@ -20,7 +19,7 @@ contract XBurnMintERC20Getters is XBurnMintERC20State {
         return IWormhole(_state.wormhole);
     }
 
-    function chainId() public view returns (uint16){
+    function chainId() public view returns (uint16) {
         return _state.provider.chainId;
     }
 
@@ -28,7 +27,7 @@ contract XBurnMintERC20Getters is XBurnMintERC20State {
         return _state.evmChainId;
     }
 
-    function tokenContracts(uint16 chainId_) public view returns (bytes32){
+    function tokenContracts(uint16 chainId_) public view returns (bytes32) {
         return _state.tokenImplementations[chainId_];
     }
 
@@ -36,14 +35,14 @@ contract XBurnMintERC20Getters is XBurnMintERC20State {
         return _state.provider.finality;
     }
 
-    function normalizeAmount(uint256 amount, uint8 decimals) internal pure returns(uint256){
+    function normalizeAmount(uint256 amount, uint8 decimals) internal pure returns (uint256) {
         if (decimals > 8) {
             amount /= 10 ** (decimals - 8);
         }
         return amount;
     }
 
-    function deNormalizeAmount(uint256 amount, uint8 decimals) internal pure returns(uint256){
+    function deNormalizeAmount(uint256 amount, uint8 decimals) internal pure returns (uint256) {
         if (decimals > 8) {
             amount *= 10 ** (decimals - 8);
         }
@@ -57,7 +56,7 @@ contract XBurnMintERC20Getters is XBurnMintERC20State {
      * @param bytes32 bytes The 32 byte array to be converted.
      */
     function bytesToAddress(bytes32 b) public pure returns (address) {
-        require(bytes12(b) == 0, "invalid EVM address");
+        require(bytes12(b) == 0, 'invalid EVM address');
         return address(uint160(uint256(b)));
     }
 
@@ -65,7 +64,9 @@ contract XBurnMintERC20Getters is XBurnMintERC20State {
         return bytes32(uint256(uint160(a)));
     }
 
-    function encodeTransfer(XBurnMintERC20Structs.CrossChainPayload memory transfer) public pure returns (bytes memory encoded) {
+    function encodeTransfer(
+        XBurnMintERC20Structs.CrossChainPayload memory transfer
+    ) public pure returns (bytes memory encoded) {
         encoded = abi.encodePacked(
             transfer.amount,
             transfer.tokenAddress,
@@ -75,7 +76,9 @@ contract XBurnMintERC20Getters is XBurnMintERC20State {
         );
     }
 
-    function decodeTransfer(bytes memory encoded) public pure returns (XBurnMintERC20Structs.CrossChainPayload memory transfer) {
+    function decodeTransfer(
+        bytes memory encoded
+    ) public pure returns (XBurnMintERC20Structs.CrossChainPayload memory transfer) {
         uint index = 0;
 
         transfer.amount = encoded.toUint256(index);
@@ -93,6 +96,6 @@ contract XBurnMintERC20Getters is XBurnMintERC20State {
         transfer.toChain = encoded.toUint16(index);
         index += 2;
 
-        require(encoded.length == index, "invalid Transfer");
+        require(encoded.length == index, 'invalid Transfer');
     }
 }
