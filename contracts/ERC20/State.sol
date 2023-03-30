@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.0;
 
-import './Structs.sol';
+import "./Structs.sol";
 
 contract XBurnMintERC20Storage {
     struct Provider {

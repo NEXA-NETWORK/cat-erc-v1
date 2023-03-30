@@ -3,10 +3,10 @@
 
 pragma solidity ^0.8.0;
 
-import '../interfaces/IWormhole.sol';
+import "../interfaces/IWormhole.sol";
 
-import './State.sol';
-import '../libraries/BytesLib.sol';
+import "./State.sol";
+import "../libraries/BytesLib.sol";
 
 contract XBurnMintERC721Getters is XBurnMintERC721State {
     using BytesLib for bytes;
@@ -46,7 +46,7 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
      * @param bytes32 bytes The 32 byte array to be converted.
      */
     function bytesToAddress(bytes32 b) public pure returns (address) {
-        require(bytes12(b) == 0, 'invalid EVM address');
+        require(bytes12(b) == 0, "invalid EVM address");
         return address(uint160(uint256(b)));
     }
 
@@ -77,7 +77,7 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
         uint8 payloadID = encoded.toUint8(index);
         index += 1;
 
-        require(payloadID == 1, 'invalid Transfer');
+        require(payloadID == 1, "invalid Transfer");
 
         transfer.tokenAddress = encoded.toBytes32(index);
         index += 32;

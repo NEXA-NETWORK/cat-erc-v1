@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.0;
 
-import '../shared/WormholeStructs.sol';
+import "../shared/WormholeStructs.sol";
 
 interface IWormhole is WormholeStructs {
     event LogMessagePublished(
