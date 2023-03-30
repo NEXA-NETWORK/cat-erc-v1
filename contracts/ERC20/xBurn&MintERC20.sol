@@ -36,7 +36,13 @@ abstract contract NexaERC20  is Context, ERC20, Governance {
         bytes32 recipient,
         uint32 nonce
         ) external payable returns (uint64 sequence) {
-            uint16   tokenChain = wormhole().chainId();
+            uint256 fee = wormhole().messageFee();
+            require(msg.value >= fee, "Not enough fee provided to publish message");
+            require(
+                tokenContracts(recipientChain) != bytes32(0),
+                "Recipient Bridge Contract not configured for given chain id"
+            );
+            uint16 tokenChain = wormhole().chainId();
             bytes32 tokenAddress = bytes32(uint256(uint160(address(this))));
             uint256 normalizedAmount = deNormalizeAmount(normalizeAmount(amount, decimals()), decimals());
             _burn(_msgSender(), normalizedAmount);
@@ -61,13 +67,16 @@ abstract contract NexaERC20  is Context, ERC20, Governance {
     function bridgeIn(bytes memory encodedVm) external  returns (bytes memory) {
         (IWormhole.VM memory vm, bool valid, string memory reason) = wormhole().parseAndVerifyVM(encodedVm);
         require(valid, reason);
+        require(
+            tokenContracts(vm.emitterChainId) == vm.emitterAddress,
+            "Invalid Emitter"
+        );
 
         Structs.Transfer memory transfer = decodeTransfer(vm.payload);
         address transferRecipient = _truncateAddress(transfer.to);
 
         require(!isTransferCompleted(vm.hash), "transfer already completed");
         setTransferCompleted(vm.hash);
-
 
         require(transfer.toChain == wormhole().chainId(), "invalid target chain");
 
