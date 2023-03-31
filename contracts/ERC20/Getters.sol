@@ -71,7 +71,7 @@ contract XBurnMintERC20Getters is XBurnMintERC20State {
             transfer.amount,
             transfer.tokenAddress,
             transfer.tokenChain,
-            transfer.to,
+            transfer.toAddress,
             transfer.toChain
         );
     }
@@ -90,7 +90,7 @@ contract XBurnMintERC20Getters is XBurnMintERC20State {
         transfer.tokenChain = encoded.toUint16(index);
         index += 2;
 
-        transfer.to = encoded.toBytes32(index);
+        transfer.toAddress = encoded.toBytes32(index);
         index += 32;
 
         transfer.toChain = encoded.toUint16(index);

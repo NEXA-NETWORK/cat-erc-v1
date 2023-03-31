@@ -39,6 +39,14 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
         return _state.baseUri;
     }
 
+    function parentChainIdEVM() public view returns (uint256) {
+        return _state.parentChainIdEVM;
+    }
+
+    function counter() public view returns (uint256) {
+        return _state.counter;
+    }
+
     /*
      * @dev Truncate a 32 byte array to a 20 byte address.
      *      Reverts if the array contains non-0 bytes in the first 12 bytes.
@@ -58,7 +66,6 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
         XBurnMintERC721Structs.CrossChainPayload memory transfer
     ) public pure returns (bytes memory encoded) {
         encoded = abi.encodePacked(
-            uint8(1),
             transfer.tokenAddress,
             transfer.tokenChain,
             transfer.tokenID,
@@ -73,11 +80,6 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
         bytes memory encoded
     ) public pure returns (XBurnMintERC721Structs.CrossChainPayload memory transfer) {
         uint256 index = 0;
-
-        uint8 payloadID = encoded.toUint8(index);
-        index += 1;
-
-        require(payloadID == 1, "invalid Transfer");
 
         transfer.tokenAddress = encoded.toBytes32(index);
         index += 32;

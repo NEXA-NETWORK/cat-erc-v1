@@ -12,7 +12,7 @@ contract XBurnMintERC20Structs {
         // Chain ID of the token
         uint16 tokenChain;
         // Address of the recipient. Left-zero-padded if shorter than 32 bytes
-        bytes32 to;
+        bytes32 toAddress;
         // Chain ID of the recipient
         uint16 toChain;
     }

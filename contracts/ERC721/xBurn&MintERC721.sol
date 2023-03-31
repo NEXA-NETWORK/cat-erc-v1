@@ -15,7 +15,7 @@ import "../interfaces/IWormhole.sol";
 import "./Structs.sol";
 import "./Governance.sol";
 
-contract XBurnMintERC721 is
+abstract contract XBurnMintERC721 is
     Context,
     ERC721,
     ERC721Burnable,
@@ -24,24 +24,23 @@ contract XBurnMintERC721 is
     XBurnMintERC721Governance,
     XBurnMintERC721Events
 {
-    using Counters for Counters.Counter;
     using BytesLib for bytes;
     using Strings for uint256;
-    Counters.Counter private _tokenIdCounter;
 
     constructor(
         string memory name,
         string memory symbol,
         string memory baseUri,
+        uint256 parentChainIdEVM,
         uint16 chainId,
         address wormhole
-    ) ERC721(name, symbol) {
+    ) ERC721(name, symbol) Ownable() {
         setChainId(chainId);
         setWormhole(wormhole);
         setFinality(1);
         setEvmChainId(block.chainid);
         setBaseUri(baseUri);
-        _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        setParentChainEVM(parentChainIdEVM);
     }
 
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
@@ -56,7 +55,7 @@ contract XBurnMintERC721 is
 
     function supportsInterface(
         bytes4 interfaceId
-    ) public view override(ERC721, ERC721Enumerable, AccessControl) returns (bool) {
+    ) public view override(ERC721, ERC721Enumerable) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 
@@ -74,7 +73,7 @@ contract XBurnMintERC721 is
         uint16 _wormholeChainId,
         bytes32 recipient,
         uint32 nonce
-    ) public payable returns (uint64) {
+    ) external payable returns (uint64) {
         uint256 fee = wormhole().messageFee();
         require(msg.value >= fee, "Not enough fee provided to publish message");
         require(
@@ -119,7 +118,7 @@ contract XBurnMintERC721 is
         return sequence;
     }
 
-    function bridgeIn(bytes calldata encodedVM) public {
+    function bridgeIn(bytes calldata encodedVM) external returns (bytes memory) {
         (WormholeStructs.VM memory vm, bool valid, string memory reason) = wormhole()
             .parseAndVerifyVM(encodedVM);
         require(valid, reason);
@@ -142,24 +141,16 @@ contract XBurnMintERC721 is
             transfer.toChain,
             transfer.toAddress
         );
+
+        return vm.payload;
     }
 
-    function mint(address to) public {
-        require(
-            block.chainid == 43113 || block.chainid == 43114,
-            "Only Minting Allowed on Fuji or AVAX"
-        );
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
+    function mint(address to) public onlyOwner {
+        require(block.chainid == parentChainIdEVM(), "Only Minting Allowed on Parent Chain");
+        uint256 tokenId = counter();
+        incrementCounter();
         _safeMint(to, tokenId);
         string memory uriToSet = string(abi.encodePacked(baseUri(), tokenId.toString()));
         _setTokenURI(tokenId, uriToSet);
-    }
-
-    function mintMultiple(address to, uint256 amount) public {
-        require(amount <= 10, "Can only mint 10 at a time max");
-        for (uint256 i = 0; i < amount; i++) {
-            mint(to);
-        }
     }
 }

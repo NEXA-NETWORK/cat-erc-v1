@@ -97,6 +97,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.XBurnMintERC20Setup__factory>;
     getContractFactory(
+      name: "XBurnMintERC20Events",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.XBurnMintERC20Events__factory>;
+    getContractFactory(
       name: "XBurnMintERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.XBurnMintERC20__factory>;
@@ -230,6 +234,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.XBurnMintERC20Setup>;
+    getContractAt(
+      name: "XBurnMintERC20Events",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.XBurnMintERC20Events>;
     getContractAt(
       name: "XBurnMintERC20",
       address: string,

@@ -9,19 +9,20 @@ import "../interfaces/IWormhole.sol";
 import "./Governance.sol";
 import "./Structs.sol";
 
-abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance {
+abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance, XBurnMintERC20Events {
     using BytesLib for bytes;
 
-    constructor(uint16 chainId, address wormhole, uint8 finality, uint256 evmChainId) {
+    constructor(
+        string memory name,
+        string memory symbol,
+        uint16 chainId,
+        address wormhole,
+        uint8 finality
+    ) ERC20(name, symbol) Ownable() {
         setChainId(chainId);
-
         setWormhole(wormhole);
-
         setFinality(finality);
-
-        setEvmChainId(evmChainId);
-
-        _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        setEvmChainId(block.chainid);
     }
 
     /**
@@ -52,7 +53,7 @@ abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance {
                 amount: normalizedAmount,
                 tokenAddress: tokenAddress,
                 tokenChain: tokenChain,
-                to: recipient,
+                toAddress: recipient,
                 toChain: recipientChain
             });
 
@@ -60,6 +61,14 @@ abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance {
             nonce,
             encodeTransfer(transfer),
             finality()
+        );
+
+        emit bridgeOutEvent(
+            amount,
+            tokenChain,
+            recipientChain,
+            addressToBytes(_msgSender()),
+            recipient
         );
     } // end of function
 
@@ -71,7 +80,7 @@ abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance {
         require(tokenContracts(vm.emitterChainId) == vm.emitterAddress, "Invalid Emitter");
 
         XBurnMintERC20Structs.CrossChainPayload memory transfer = decodeTransfer(vm.payload);
-        address transferRecipient = bytesToAddress(transfer.to);
+        address transferRecipient = bytesToAddress(transfer.toAddress);
 
         require(!isTransferCompleted(vm.hash), "transfer already completed");
         setTransferCompleted(vm.hash);
@@ -84,6 +93,9 @@ abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance {
         );
 
         _mint(transferRecipient, nativeAmount);
+
+        emit bridgeInEvent(nativeAmount, transfer.tokenChain, transfer.toChain, transfer.toAddress);
+
         return vm.payload;
     }
 }

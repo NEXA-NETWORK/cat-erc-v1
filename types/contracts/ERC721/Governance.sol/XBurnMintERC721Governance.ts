@@ -56,25 +56,23 @@ export declare namespace XBurnMintERC721Structs {
 
 export interface XBurnMintERC721GovernanceInterface extends utils.Interface {
   functions: {
-    "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "addressToBytes(address)": FunctionFragment;
     "baseUri()": FunctionFragment;
     "bytesToAddress(bytes32)": FunctionFragment;
     "chainId()": FunctionFragment;
+    "counter()": FunctionFragment;
     "decodeTransfer(bytes)": FunctionFragment;
     "encodeTransfer((bytes32,uint16,uint256,string,bytes32,uint16))": FunctionFragment;
     "evmChainId()": FunctionFragment;
     "finality()": FunctionFragment;
-    "getRoleAdmin(bytes32)": FunctionFragment;
-    "grantRole(bytes32,address)": FunctionFragment;
-    "hasRole(bytes32,address)": FunctionFragment;
     "isTransferCompleted(bytes32)": FunctionFragment;
+    "owner()": FunctionFragment;
+    "parentChainIdEVM()": FunctionFragment;
     "registerChain(uint16,bytes32)": FunctionFragment;
     "registerChains(uint16[],bytes32[])": FunctionFragment;
-    "renounceRole(bytes32,address)": FunctionFragment;
-    "revokeRole(bytes32,address)": FunctionFragment;
-    "supportsInterface(bytes4)": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
     "tokenContracts(uint16)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
     "updateBaseUri(string)": FunctionFragment;
     "updateFinality(uint8)": FunctionFragment;
     "wormhole()": FunctionFragment;
@@ -82,34 +80,28 @@ export interface XBurnMintERC721GovernanceInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "DEFAULT_ADMIN_ROLE"
       | "addressToBytes"
       | "baseUri"
       | "bytesToAddress"
       | "chainId"
+      | "counter"
       | "decodeTransfer"
       | "encodeTransfer"
       | "evmChainId"
       | "finality"
-      | "getRoleAdmin"
-      | "grantRole"
-      | "hasRole"
       | "isTransferCompleted"
+      | "owner"
+      | "parentChainIdEVM"
       | "registerChain"
       | "registerChains"
-      | "renounceRole"
-      | "revokeRole"
-      | "supportsInterface"
+      | "renounceOwnership"
       | "tokenContracts"
+      | "transferOwnership"
       | "updateBaseUri"
       | "updateFinality"
       | "wormhole"
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "addressToBytes",
     values: [PromiseOrValue<string>]
@@ -120,6 +112,7 @@ export interface XBurnMintERC721GovernanceInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "chainId", values?: undefined): string;
+  encodeFunctionData(functionFragment: "counter", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "decodeTransfer",
     values: [PromiseOrValue<BytesLike>]
@@ -134,20 +127,13 @@ export interface XBurnMintERC721GovernanceInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "finality", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "getRoleAdmin",
-    values: [PromiseOrValue<BytesLike>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "grantRole",
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasRole",
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "isTransferCompleted",
     values: [PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "parentChainIdEVM",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "registerChain",
@@ -158,20 +144,16 @@ export interface XBurnMintERC721GovernanceInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>[], PromiseOrValue<BytesLike>[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "renounceRole",
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revokeRole",
-    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "supportsInterface",
-    values: [PromiseOrValue<BytesLike>]
+    functionFragment: "renounceOwnership",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "tokenContracts",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "transferOwnership",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "updateBaseUri",
@@ -184,10 +166,6 @@ export interface XBurnMintERC721GovernanceInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "wormhole", values?: undefined): string;
 
   decodeFunctionResult(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "addressToBytes",
     data: BytesLike
   ): Result;
@@ -197,6 +175,7 @@ export interface XBurnMintERC721GovernanceInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "chainId", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "counter", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "decodeTransfer",
     data: BytesLike
@@ -208,13 +187,12 @@ export interface XBurnMintERC721GovernanceInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "evmChainId", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "finality", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "getRoleAdmin",
+    functionFragment: "isTransferCompleted",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "isTransferCompleted",
+    functionFragment: "parentChainIdEVM",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -226,16 +204,15 @@ export interface XBurnMintERC721GovernanceInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "renounceRole",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "supportsInterface",
+    functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "tokenContracts",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -249,52 +226,23 @@ export interface XBurnMintERC721GovernanceInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "wormhole", data: BytesLike): Result;
 
   events: {
-    "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
-    "RoleGranted(bytes32,address,address)": EventFragment;
-    "RoleRevoked(bytes32,address,address)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
 
-export interface RoleAdminChangedEventObject {
-  role: string;
-  previousAdminRole: string;
-  newAdminRole: string;
+export interface OwnershipTransferredEventObject {
+  previousOwner: string;
+  newOwner: string;
 }
-export type RoleAdminChangedEvent = TypedEvent<
-  [string, string, string],
-  RoleAdminChangedEventObject
+export type OwnershipTransferredEvent = TypedEvent<
+  [string, string],
+  OwnershipTransferredEventObject
 >;
 
-export type RoleAdminChangedEventFilter =
-  TypedEventFilter<RoleAdminChangedEvent>;
-
-export interface RoleGrantedEventObject {
-  role: string;
-  account: string;
-  sender: string;
-}
-export type RoleGrantedEvent = TypedEvent<
-  [string, string, string],
-  RoleGrantedEventObject
->;
-
-export type RoleGrantedEventFilter = TypedEventFilter<RoleGrantedEvent>;
-
-export interface RoleRevokedEventObject {
-  role: string;
-  account: string;
-  sender: string;
-}
-export type RoleRevokedEvent = TypedEvent<
-  [string, string, string],
-  RoleRevokedEventObject
->;
-
-export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
+export type OwnershipTransferredEventFilter =
+  TypedEventFilter<OwnershipTransferredEvent>;
 
 export interface XBurnMintERC721Governance extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -323,8 +271,6 @@ export interface XBurnMintERC721Governance extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
     addressToBytes(
       a: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -338,6 +284,8 @@ export interface XBurnMintERC721Governance extends BaseContract {
     ): Promise<[string]>;
 
     chainId(overrides?: CallOverrides): Promise<[number]>;
+
+    counter(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     decodeTransfer(
       encoded: PromiseOrValue<BytesLike>,
@@ -357,27 +305,14 @@ export interface XBurnMintERC721Governance extends BaseContract {
 
     finality(overrides?: CallOverrides): Promise<[number]>;
 
-    getRoleAdmin(
-      role: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    grantRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    hasRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
     isTransferCompleted(
       hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    owner(overrides?: CallOverrides): Promise<[string]>;
+
+    parentChainIdEVM(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     registerChain(
       chainId: PromiseOrValue<BigNumberish>,
@@ -391,27 +326,19 @@ export interface XBurnMintERC721Governance extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    renounceRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
-
-    revokeRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    supportsInterface(
-      interfaceId: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
 
     tokenContracts(
       chainId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    transferOwnership(
+      newOwner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     updateBaseUri(
       uri: PromiseOrValue<string>,
@@ -425,8 +352,6 @@ export interface XBurnMintERC721Governance extends BaseContract {
 
     wormhole(overrides?: CallOverrides): Promise<[string]>;
   };
-
-  DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
   addressToBytes(
     a: PromiseOrValue<string>,
@@ -442,6 +367,8 @@ export interface XBurnMintERC721Governance extends BaseContract {
 
   chainId(overrides?: CallOverrides): Promise<number>;
 
+  counter(overrides?: CallOverrides): Promise<BigNumber>;
+
   decodeTransfer(
     encoded: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
@@ -456,27 +383,14 @@ export interface XBurnMintERC721Governance extends BaseContract {
 
   finality(overrides?: CallOverrides): Promise<number>;
 
-  getRoleAdmin(
-    role: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  grantRole(
-    role: PromiseOrValue<BytesLike>,
-    account: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  hasRole(
-    role: PromiseOrValue<BytesLike>,
-    account: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
   isTransferCompleted(
     hash: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<boolean>;
+
+  owner(overrides?: CallOverrides): Promise<string>;
+
+  parentChainIdEVM(overrides?: CallOverrides): Promise<BigNumber>;
 
   registerChain(
     chainId: PromiseOrValue<BigNumberish>,
@@ -490,27 +404,19 @@ export interface XBurnMintERC721Governance extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  renounceRole(
-    role: PromiseOrValue<BytesLike>,
-    account: PromiseOrValue<string>,
+  renounceOwnership(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
-
-  revokeRole(
-    role: PromiseOrValue<BytesLike>,
-    account: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  supportsInterface(
-    interfaceId: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
 
   tokenContracts(
     chainId_: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  transferOwnership(
+    newOwner: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   updateBaseUri(
     uri: PromiseOrValue<string>,
@@ -525,8 +431,6 @@ export interface XBurnMintERC721Governance extends BaseContract {
   wormhole(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
-
     addressToBytes(
       a: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -540,6 +444,8 @@ export interface XBurnMintERC721Governance extends BaseContract {
     ): Promise<string>;
 
     chainId(overrides?: CallOverrides): Promise<number>;
+
+    counter(overrides?: CallOverrides): Promise<BigNumber>;
 
     decodeTransfer(
       encoded: PromiseOrValue<BytesLike>,
@@ -555,27 +461,14 @@ export interface XBurnMintERC721Governance extends BaseContract {
 
     finality(overrides?: CallOverrides): Promise<number>;
 
-    getRoleAdmin(
-      role: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    grantRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    hasRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
     isTransferCompleted(
       hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    owner(overrides?: CallOverrides): Promise<string>;
+
+    parentChainIdEVM(overrides?: CallOverrides): Promise<BigNumber>;
 
     registerChain(
       chainId: PromiseOrValue<BigNumberish>,
@@ -589,27 +482,17 @@ export interface XBurnMintERC721Governance extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    renounceRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    revokeRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    supportsInterface(
-      interfaceId: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     tokenContracts(
       chainId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    transferOwnership(
+      newOwner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     updateBaseUri(
       uri: PromiseOrValue<string>,
@@ -625,43 +508,17 @@ export interface XBurnMintERC721Governance extends BaseContract {
   };
 
   filters: {
-    "RoleAdminChanged(bytes32,bytes32,bytes32)"(
-      role?: PromiseOrValue<BytesLike> | null,
-      previousAdminRole?: PromiseOrValue<BytesLike> | null,
-      newAdminRole?: PromiseOrValue<BytesLike> | null
-    ): RoleAdminChangedEventFilter;
-    RoleAdminChanged(
-      role?: PromiseOrValue<BytesLike> | null,
-      previousAdminRole?: PromiseOrValue<BytesLike> | null,
-      newAdminRole?: PromiseOrValue<BytesLike> | null
-    ): RoleAdminChangedEventFilter;
-
-    "RoleGranted(bytes32,address,address)"(
-      role?: PromiseOrValue<BytesLike> | null,
-      account?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null
-    ): RoleGrantedEventFilter;
-    RoleGranted(
-      role?: PromiseOrValue<BytesLike> | null,
-      account?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null
-    ): RoleGrantedEventFilter;
-
-    "RoleRevoked(bytes32,address,address)"(
-      role?: PromiseOrValue<BytesLike> | null,
-      account?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null
-    ): RoleRevokedEventFilter;
-    RoleRevoked(
-      role?: PromiseOrValue<BytesLike> | null,
-      account?: PromiseOrValue<string> | null,
-      sender?: PromiseOrValue<string> | null
-    ): RoleRevokedEventFilter;
+    "OwnershipTransferred(address,address)"(
+      previousOwner?: PromiseOrValue<string> | null,
+      newOwner?: PromiseOrValue<string> | null
+    ): OwnershipTransferredEventFilter;
+    OwnershipTransferred(
+      previousOwner?: PromiseOrValue<string> | null,
+      newOwner?: PromiseOrValue<string> | null
+    ): OwnershipTransferredEventFilter;
   };
 
   estimateGas: {
-    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
-
     addressToBytes(
       a: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -675,6 +532,8 @@ export interface XBurnMintERC721Governance extends BaseContract {
     ): Promise<BigNumber>;
 
     chainId(overrides?: CallOverrides): Promise<BigNumber>;
+
+    counter(overrides?: CallOverrides): Promise<BigNumber>;
 
     decodeTransfer(
       encoded: PromiseOrValue<BytesLike>,
@@ -690,27 +549,14 @@ export interface XBurnMintERC721Governance extends BaseContract {
 
     finality(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getRoleAdmin(
-      role: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    grantRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    hasRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     isTransferCompleted(
       hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    parentChainIdEVM(overrides?: CallOverrides): Promise<BigNumber>;
 
     registerChain(
       chainId: PromiseOrValue<BigNumberish>,
@@ -724,26 +570,18 @@ export interface XBurnMintERC721Governance extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    renounceRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    revokeRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    supportsInterface(
-      interfaceId: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     tokenContracts(
       chainId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    transferOwnership(
+      newOwner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     updateBaseUri(
@@ -760,10 +598,6 @@ export interface XBurnMintERC721Governance extends BaseContract {
   };
 
   populateTransaction: {
-    DEFAULT_ADMIN_ROLE(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     addressToBytes(
       a: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -777,6 +611,8 @@ export interface XBurnMintERC721Governance extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     chainId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    counter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     decodeTransfer(
       encoded: PromiseOrValue<BytesLike>,
@@ -792,27 +628,14 @@ export interface XBurnMintERC721Governance extends BaseContract {
 
     finality(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getRoleAdmin(
-      role: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    grantRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    hasRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     isTransferCompleted(
       hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    parentChainIdEVM(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     registerChain(
       chainId: PromiseOrValue<BigNumberish>,
@@ -826,26 +649,18 @@ export interface XBurnMintERC721Governance extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    renounceRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
+    renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    revokeRole(
-      role: PromiseOrValue<BytesLike>,
-      account: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    supportsInterface(
-      interfaceId: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     tokenContracts(
       chainId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    transferOwnership(
+      newOwner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     updateBaseUri(

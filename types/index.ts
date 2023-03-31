@@ -48,6 +48,8 @@ export type { XBurnMintERC20Governance } from "./contracts/ERC20/Governance.sol/
 export { XBurnMintERC20Governance__factory } from "./factories/contracts/ERC20/Governance.sol/XBurnMintERC20Governance__factory";
 export type { XBurnMintERC20Setup } from "./contracts/ERC20/Setup.sol/XBurnMintERC20Setup";
 export { XBurnMintERC20Setup__factory } from "./factories/contracts/ERC20/Setup.sol/XBurnMintERC20Setup__factory";
+export type { XBurnMintERC20Events } from "./contracts/ERC20/State.sol/XBurnMintERC20Events";
+export { XBurnMintERC20Events__factory } from "./factories/contracts/ERC20/State.sol/XBurnMintERC20Events__factory";
 export type { XBurnMintERC20 } from "./contracts/ERC20/xBurn&MintERC20.sol/XBurnMintERC20";
 export { XBurnMintERC20__factory } from "./factories/contracts/ERC20/xBurn&MintERC20.sol/XBurnMintERC20__factory";
 export type { XBurnMintERC721Getters } from "./contracts/ERC721/Getters.sol/XBurnMintERC721Getters";

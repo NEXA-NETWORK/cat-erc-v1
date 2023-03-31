@@ -54,11 +54,13 @@ export interface XBurnMintERC721GettersInterface extends utils.Interface {
     "baseUri()": FunctionFragment;
     "bytesToAddress(bytes32)": FunctionFragment;
     "chainId()": FunctionFragment;
+    "counter()": FunctionFragment;
     "decodeTransfer(bytes)": FunctionFragment;
     "encodeTransfer((bytes32,uint16,uint256,string,bytes32,uint16))": FunctionFragment;
     "evmChainId()": FunctionFragment;
     "finality()": FunctionFragment;
     "isTransferCompleted(bytes32)": FunctionFragment;
+    "parentChainIdEVM()": FunctionFragment;
     "tokenContracts(uint16)": FunctionFragment;
     "wormhole()": FunctionFragment;
   };
@@ -69,11 +71,13 @@ export interface XBurnMintERC721GettersInterface extends utils.Interface {
       | "baseUri"
       | "bytesToAddress"
       | "chainId"
+      | "counter"
       | "decodeTransfer"
       | "encodeTransfer"
       | "evmChainId"
       | "finality"
       | "isTransferCompleted"
+      | "parentChainIdEVM"
       | "tokenContracts"
       | "wormhole"
   ): FunctionFragment;
@@ -88,6 +92,7 @@ export interface XBurnMintERC721GettersInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "chainId", values?: undefined): string;
+  encodeFunctionData(functionFragment: "counter", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "decodeTransfer",
     values: [PromiseOrValue<BytesLike>]
@@ -106,6 +111,10 @@ export interface XBurnMintERC721GettersInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
+    functionFragment: "parentChainIdEVM",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "tokenContracts",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -121,6 +130,7 @@ export interface XBurnMintERC721GettersInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "chainId", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "counter", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "decodeTransfer",
     data: BytesLike
@@ -133,6 +143,10 @@ export interface XBurnMintERC721GettersInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "finality", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isTransferCompleted",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "parentChainIdEVM",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -185,6 +199,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
 
     chainId(overrides?: CallOverrides): Promise<[number]>;
 
+    counter(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     decodeTransfer(
       encoded: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -208,6 +224,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    parentChainIdEVM(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     tokenContracts(
       chainId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -230,6 +248,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
 
   chainId(overrides?: CallOverrides): Promise<number>;
 
+  counter(overrides?: CallOverrides): Promise<BigNumber>;
+
   decodeTransfer(
     encoded: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
@@ -248,6 +268,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
     hash: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<boolean>;
+
+  parentChainIdEVM(overrides?: CallOverrides): Promise<BigNumber>;
 
   tokenContracts(
     chainId_: PromiseOrValue<BigNumberish>,
@@ -271,6 +293,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
 
     chainId(overrides?: CallOverrides): Promise<number>;
 
+    counter(overrides?: CallOverrides): Promise<BigNumber>;
+
     decodeTransfer(
       encoded: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -289,6 +313,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
       hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    parentChainIdEVM(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenContracts(
       chainId_: PromiseOrValue<BigNumberish>,
@@ -315,6 +341,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
 
     chainId(overrides?: CallOverrides): Promise<BigNumber>;
 
+    counter(overrides?: CallOverrides): Promise<BigNumber>;
+
     decodeTransfer(
       encoded: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -333,6 +361,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
       hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    parentChainIdEVM(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenContracts(
       chainId_: PromiseOrValue<BigNumberish>,
@@ -357,6 +387,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
 
     chainId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    counter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     decodeTransfer(
       encoded: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -375,6 +407,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
       hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    parentChainIdEVM(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     tokenContracts(
       chainId_: PromiseOrValue<BigNumberish>,

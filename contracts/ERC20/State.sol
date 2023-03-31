@@ -5,6 +5,23 @@ pragma solidity ^0.8.0;
 
 import "./Structs.sol";
 
+contract XBurnMintERC20Events {
+    event bridgeInEvent(
+        uint256 tokenAmount,
+        uint256 fromChain,
+        uint256 toChain,
+        bytes32 indexed toAddress
+    );
+
+    event bridgeOutEvent(
+        uint256 tokenAmount,
+        uint256 fromChain,
+        uint256 toChain,
+        bytes32 indexed fromAddress,
+        bytes32 indexed toAddress
+    );
+}
+
 contract XBurnMintERC20Storage {
     struct Provider {
         uint16 chainId;

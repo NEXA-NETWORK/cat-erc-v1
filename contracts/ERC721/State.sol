@@ -38,7 +38,9 @@ contract XBurnMintERC721Storage {
         mapping(uint16 => bytes32) tokenImplementations;
         // EIP-155 Chain ID
         uint256 evmChainId;
+        uint256 parentChainIdEVM;
         string baseUri;
+        uint256 counter;
     }
 }
 
