@@ -76,6 +76,7 @@ export interface XBurnMintERC20Interface extends utils.Interface {
     "isTransferCompleted(bytes32)": FunctionFragment;
     "name()": FunctionFragment;
     "registerChain(uint16,bytes32)": FunctionFragment;
+    "registerChains(uint16[],bytes32[])": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -112,6 +113,7 @@ export interface XBurnMintERC20Interface extends utils.Interface {
       | "isTransferCompleted"
       | "name"
       | "registerChain"
+      | "registerChains"
       | "renounceRole"
       | "revokeRole"
       | "supportsInterface"
@@ -206,6 +208,10 @@ export interface XBurnMintERC20Interface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
+    functionFragment: "registerChains",
+    values: [PromiseOrValue<BigNumberish>[], PromiseOrValue<BytesLike>[]]
+  ): string;
+  encodeFunctionData(
     functionFragment: "renounceRole",
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
@@ -294,6 +300,10 @@ export interface XBurnMintERC20Interface extends utils.Interface {
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "registerChain",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "registerChains",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -534,6 +544,12 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    registerChains(
+      chainId: PromiseOrValue<BigNumberish>[],
+      tokenContract: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     renounceRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -683,6 +699,12 @@ export interface XBurnMintERC20 extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  registerChains(
+    chainId: PromiseOrValue<BigNumberish>[],
+    tokenContract: PromiseOrValue<BytesLike>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   renounceRole(
     role: PromiseOrValue<BytesLike>,
     account: PromiseOrValue<string>,
@@ -829,6 +851,12 @@ export interface XBurnMintERC20 extends BaseContract {
     registerChain(
       chainId: PromiseOrValue<BigNumberish>,
       tokenContract: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    registerChains(
+      chainId: PromiseOrValue<BigNumberish>[],
+      tokenContract: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1039,6 +1067,12 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    registerChains(
+      chainId: PromiseOrValue<BigNumberish>[],
+      tokenContract: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     renounceRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -1188,6 +1222,12 @@ export interface XBurnMintERC20 extends BaseContract {
     registerChain(
       chainId: PromiseOrValue<BigNumberish>,
       tokenContract: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    registerChains(
+      chainId: PromiseOrValue<BigNumberish>[],
+      tokenContract: PromiseOrValue<BytesLike>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

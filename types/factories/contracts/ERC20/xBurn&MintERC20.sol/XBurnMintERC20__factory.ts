@@ -612,6 +612,24 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint16[]",
+        name: "chainId",
+        type: "uint16[]",
+      },
+      {
+        internalType: "bytes32[]",
+        name: "tokenContract",
+        type: "bytes32[]",
+      },
+    ],
+    name: "registerChains",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "bytes32",
         name: "role",
         type: "bytes32",
