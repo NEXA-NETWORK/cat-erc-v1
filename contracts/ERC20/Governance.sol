@@ -22,6 +22,14 @@ contract XBurnMintERC20Governance is XBurnMintERC20Getters, XBurnMintERC20Setter
         setTokenImplementation(chainId, tokenContract);
     }
 
+    function registerChains(uint16[] memory chainId, bytes32[] memory tokenContract) public {
+        require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "Caller is not a admin");
+        require(chainId.length == tokenContract.length, "Invalid Input");
+        for (uint256 i = 0; i < tokenContract.length; i++) {
+            setTokenImplementation(chainId[i], tokenContract[i]);
+        }
+    }
+
     // Execute a RegisterChain governance message
     function updateFinality(uint8 finality) public {
         require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "Caller is not a admin");
