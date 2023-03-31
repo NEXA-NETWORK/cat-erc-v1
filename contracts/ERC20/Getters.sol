@@ -35,6 +35,14 @@ contract XBurnMintERC20Getters is XBurnMintERC20State {
         return _state.provider.finality;
     }
 
+    function nativeAsset() public view returns (address) {
+        return _state.nativeAsset;
+    }
+
+    function parentChainIdEVM() public view returns (uint256) {
+        return _state.parentChainIdEVM;
+    }
+
     function normalizeAmount(uint256 amount, uint8 decimals) internal pure returns (uint256) {
         if (decimals > 8) {
             amount /= 10 ** (decimals - 8);

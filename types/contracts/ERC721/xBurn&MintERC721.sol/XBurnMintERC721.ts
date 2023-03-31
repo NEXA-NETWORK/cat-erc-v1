@@ -28,113 +28,124 @@ import type {
   PromiseOrValue,
 } from "../../../common";
 
-export declare namespace XBurnMintERC20Structs {
+export declare namespace XBurnMintERC721Structs {
   export type CrossChainPayloadStruct = {
-    amount: PromiseOrValue<BigNumberish>;
     tokenAddress: PromiseOrValue<BytesLike>;
     tokenChain: PromiseOrValue<BigNumberish>;
+    tokenID: PromiseOrValue<BigNumberish>;
+    uri: PromiseOrValue<string>;
     toAddress: PromiseOrValue<BytesLike>;
     toChain: PromiseOrValue<BigNumberish>;
   };
 
   export type CrossChainPayloadStructOutput = [
-    BigNumber,
     string,
     number,
+    BigNumber,
+    string,
     string,
     number
   ] & {
-    amount: BigNumber;
     tokenAddress: string;
     tokenChain: number;
+    tokenID: BigNumber;
+    uri: string;
     toAddress: string;
     toChain: number;
   };
 }
 
-export interface XBurnMintERC20Interface extends utils.Interface {
+export interface XBurnMintERC721Interface extends utils.Interface {
   functions: {
     "addressToBytes(address)": FunctionFragment;
-    "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
+    "baseUri()": FunctionFragment;
     "bridgeIn(bytes)": FunctionFragment;
     "bridgeOut(uint256,uint16,bytes32,uint32)": FunctionFragment;
+    "burn(uint256)": FunctionFragment;
     "bytesToAddress(bytes32)": FunctionFragment;
     "chainId()": FunctionFragment;
-    "decimals()": FunctionFragment;
+    "counter()": FunctionFragment;
     "decodeTransfer(bytes)": FunctionFragment;
-    "decreaseAllowance(address,uint256)": FunctionFragment;
-    "encodeTransfer((uint256,bytes32,uint16,bytes32,uint16))": FunctionFragment;
+    "encodeTransfer((bytes32,uint16,uint256,string,bytes32,uint16))": FunctionFragment;
     "evmChainId()": FunctionFragment;
     "finality()": FunctionFragment;
-    "increaseAllowance(address,uint256)": FunctionFragment;
+    "getApproved(uint256)": FunctionFragment;
+    "isApprovedForAll(address,address)": FunctionFragment;
     "isTransferCompleted(bytes32)": FunctionFragment;
+    "mint(address)": FunctionFragment;
     "name()": FunctionFragment;
-    "nativeAsset()": FunctionFragment;
     "owner()": FunctionFragment;
+    "ownerOf(uint256)": FunctionFragment;
     "parentChainIdEVM()": FunctionFragment;
     "registerChain(uint16,bytes32)": FunctionFragment;
     "registerChains(uint16[],bytes32[])": FunctionFragment;
-    "registerNativeToken(address)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "safeTransferFrom(address,address,uint256)": FunctionFragment;
+    "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
+    "setApprovalForAll(address,bool)": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
+    "tokenByIndex(uint256)": FunctionFragment;
     "tokenContracts(uint16)": FunctionFragment;
+    "tokenOfOwnerByIndex(address,uint256)": FunctionFragment;
+    "tokenURI(uint256)": FunctionFragment;
     "totalSupply()": FunctionFragment;
-    "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "unwrap(uint256,address)": FunctionFragment;
+    "updateBaseUri(string)": FunctionFragment;
     "updateFinality(uint8)": FunctionFragment;
     "wormhole()": FunctionFragment;
-    "wrap(uint256,address)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
       | "addressToBytes"
-      | "allowance"
       | "approve"
       | "balanceOf"
+      | "baseUri"
       | "bridgeIn"
       | "bridgeOut"
+      | "burn"
       | "bytesToAddress"
       | "chainId"
-      | "decimals"
+      | "counter"
       | "decodeTransfer"
-      | "decreaseAllowance"
       | "encodeTransfer"
       | "evmChainId"
       | "finality"
-      | "increaseAllowance"
+      | "getApproved"
+      | "isApprovedForAll"
       | "isTransferCompleted"
+      | "mint"
       | "name"
-      | "nativeAsset"
       | "owner"
+      | "ownerOf"
       | "parentChainIdEVM"
       | "registerChain"
       | "registerChains"
-      | "registerNativeToken"
       | "renounceOwnership"
+      | "safeTransferFrom(address,address,uint256)"
+      | "safeTransferFrom(address,address,uint256,bytes)"
+      | "setApprovalForAll"
+      | "supportsInterface"
       | "symbol"
+      | "tokenByIndex"
       | "tokenContracts"
+      | "tokenOfOwnerByIndex"
+      | "tokenURI"
       | "totalSupply"
-      | "transfer"
       | "transferFrom"
       | "transferOwnership"
-      | "unwrap"
+      | "updateBaseUri"
       | "updateFinality"
       | "wormhole"
-      | "wrap"
   ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "addressToBytes",
     values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "allowance",
-    values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "approve",
@@ -144,6 +155,7 @@ export interface XBurnMintERC20Interface extends utils.Interface {
     functionFragment: "balanceOf",
     values: [PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(functionFragment: "baseUri", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "bridgeIn",
     values: [PromiseOrValue<BytesLike>]
@@ -158,22 +170,22 @@ export interface XBurnMintERC20Interface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "burn",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "bytesToAddress",
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "chainId", values?: undefined): string;
-  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
+  encodeFunctionData(functionFragment: "counter", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "decodeTransfer",
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "decreaseAllowance",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "encodeTransfer",
-    values: [XBurnMintERC20Structs.CrossChainPayloadStruct]
+    values: [XBurnMintERC721Structs.CrossChainPayloadStruct]
   ): string;
   encodeFunctionData(
     functionFragment: "evmChainId",
@@ -181,19 +193,27 @@ export interface XBurnMintERC20Interface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "finality", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "increaseAllowance",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    functionFragment: "getApproved",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isApprovedForAll",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "isTransferCompleted",
     values: [PromiseOrValue<BytesLike>]
   ): string;
-  encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "nativeAsset",
-    values?: undefined
+    functionFragment: "mint",
+    values: [PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "ownerOf",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(
     functionFragment: "parentChainIdEVM",
     values?: undefined
@@ -207,25 +227,54 @@ export interface XBurnMintERC20Interface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>[], PromiseOrValue<BytesLike>[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "registerNativeToken",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "safeTransferFrom(address,address,uint256)",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BytesLike>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setApprovalForAll",
+    values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "supportsInterface",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "tokenByIndex",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(
     functionFragment: "tokenContracts",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "totalSupply",
-    values?: undefined
+    functionFragment: "tokenOfOwnerByIndex",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "transfer",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    functionFragment: "tokenURI",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "totalSupply",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "transferFrom",
@@ -240,40 +289,33 @@ export interface XBurnMintERC20Interface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "unwrap",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
+    functionFragment: "updateBaseUri",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "updateFinality",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "wormhole", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "wrap",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
-  ): string;
 
   decodeFunctionResult(
     functionFragment: "addressToBytes",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "baseUri", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bridgeIn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bridgeOut", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "bytesToAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "chainId", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "counter", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "decodeTransfer",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "decreaseAllowance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -283,19 +325,21 @@ export interface XBurnMintERC20Interface extends utils.Interface {
   decodeFunctionResult(functionFragment: "evmChainId", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "finality", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "increaseAllowance",
+    functionFragment: "getApproved",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "isTransferCompleted",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "nativeAsset",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "parentChainIdEVM",
     data: BytesLike
@@ -309,23 +353,43 @@ export interface XBurnMintERC20Interface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "registerNativeToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "safeTransferFrom(address,address,uint256)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setApprovalForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "supportsInterface",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "tokenByIndex",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "tokenContracts",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "tokenOfOwnerByIndex",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
+  decodeFunctionResult(
     functionFragment: "totalSupply",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
     data: BytesLike
@@ -334,16 +398,19 @@ export interface XBurnMintERC20Interface extends utils.Interface {
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "unwrap", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "updateBaseUri",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "updateFinality",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "wormhole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "wrap", data: BytesLike): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
+    "ApprovalForAll(address,address,bool)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
     "bridgeInEvent(uint256,uint256,uint256,bytes32)": EventFragment;
@@ -351,6 +418,7 @@ export interface XBurnMintERC20Interface extends utils.Interface {
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "bridgeInEvent"): EventFragment;
@@ -359,8 +427,8 @@ export interface XBurnMintERC20Interface extends utils.Interface {
 
 export interface ApprovalEventObject {
   owner: string;
-  spender: string;
-  value: BigNumber;
+  approved: string;
+  tokenId: BigNumber;
 }
 export type ApprovalEvent = TypedEvent<
   [string, string, BigNumber],
@@ -368,6 +436,18 @@ export type ApprovalEvent = TypedEvent<
 >;
 
 export type ApprovalEventFilter = TypedEventFilter<ApprovalEvent>;
+
+export interface ApprovalForAllEventObject {
+  owner: string;
+  operator: string;
+  approved: boolean;
+}
+export type ApprovalForAllEvent = TypedEvent<
+  [string, string, boolean],
+  ApprovalForAllEventObject
+>;
+
+export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
 export interface OwnershipTransferredEventObject {
   previousOwner: string;
@@ -384,7 +464,7 @@ export type OwnershipTransferredEventFilter =
 export interface TransferEventObject {
   from: string;
   to: string;
-  value: BigNumber;
+  tokenId: BigNumber;
 }
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber],
@@ -394,7 +474,7 @@ export type TransferEvent = TypedEvent<
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
 export interface bridgeInEventEventObject {
-  tokenAmount: BigNumber;
+  tokenId: BigNumber;
   fromChain: BigNumber;
   toChain: BigNumber;
   toAddress: string;
@@ -407,7 +487,7 @@ export type bridgeInEventEvent = TypedEvent<
 export type bridgeInEventEventFilter = TypedEventFilter<bridgeInEventEvent>;
 
 export interface bridgeOutEventEventObject {
-  tokenAmount: BigNumber;
+  tokenId: BigNumber;
   fromChain: BigNumber;
   toChain: BigNumber;
   fromAddress: string;
@@ -420,12 +500,12 @@ export type bridgeOutEventEvent = TypedEvent<
 
 export type bridgeOutEventEventFilter = TypedEventFilter<bridgeOutEventEvent>;
 
-export interface XBurnMintERC20 extends BaseContract {
+export interface XBurnMintERC721 extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: XBurnMintERC20Interface;
+  interface: XBurnMintERC721Interface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -452,34 +532,35 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    allowance(
-      owner: PromiseOrValue<string>,
-      spender: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     approve(
-      spender: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     balanceOf(
-      account: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    baseUri(overrides?: CallOverrides): Promise<[string]>;
+
     bridgeIn(
-      encodedVm: PromiseOrValue<BytesLike>,
+      encodedVM: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     bridgeOut(
-      amount: PromiseOrValue<BigNumberish>,
-      recipientChain: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      _wormholeChainId: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<BytesLike>,
       nonce: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    burn(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     bytesToAddress(
@@ -489,25 +570,19 @@ export interface XBurnMintERC20 extends BaseContract {
 
     chainId(overrides?: CallOverrides): Promise<[number]>;
 
-    decimals(overrides?: CallOverrides): Promise<[number]>;
+    counter(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     decodeTransfer(
       encoded: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<
-      [XBurnMintERC20Structs.CrossChainPayloadStructOutput] & {
-        transfer: XBurnMintERC20Structs.CrossChainPayloadStructOutput;
+      [XBurnMintERC721Structs.CrossChainPayloadStructOutput] & {
+        transfer: XBurnMintERC721Structs.CrossChainPayloadStructOutput;
       }
     >;
 
-    decreaseAllowance(
-      spender: PromiseOrValue<string>,
-      subtractedValue: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     encodeTransfer(
-      transfer: XBurnMintERC20Structs.CrossChainPayloadStruct,
+      transfer: XBurnMintERC721Structs.CrossChainPayloadStruct,
       overrides?: CallOverrides
     ): Promise<[string] & { encoded: string }>;
 
@@ -515,22 +590,35 @@ export interface XBurnMintERC20 extends BaseContract {
 
     finality(overrides?: CallOverrides): Promise<[number]>;
 
-    increaseAllowance(
-      spender: PromiseOrValue<string>,
-      addedValue: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    getApproved(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    isApprovedForAll(
+      owner: PromiseOrValue<string>,
+      operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     isTransferCompleted(
       hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    mint(
+      to: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     name(overrides?: CallOverrides): Promise<[string]>;
 
-    nativeAsset(overrides?: CallOverrides): Promise<[string]>;
-
     owner(overrides?: CallOverrides): Promise<[string]>;
+
+    ownerOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     parentChainIdEVM(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -546,34 +634,65 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    registerNativeToken(
-      _token: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    "safeTransferFrom(address,address,uint256)"(
+      from: PromiseOrValue<string>,
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    "safeTransferFrom(address,address,uint256,bytes)"(
+      from: PromiseOrValue<string>,
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      data: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setApprovalForAll(
+      operator: PromiseOrValue<string>,
+      approved: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    supportsInterface(
+      interfaceId: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     symbol(overrides?: CallOverrides): Promise<[string]>;
+
+    tokenByIndex(
+      index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     tokenContracts(
       chainId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
+    tokenOfOwnerByIndex(
+      owner: PromiseOrValue<string>,
+      index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
-    transfer(
-      to: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+    tokenURI(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     transferFrom(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -582,9 +701,8 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    unwrap(
-      _amount: PromiseOrValue<BigNumberish>,
-      _recipient: PromiseOrValue<string>,
+    updateBaseUri(
+      uri: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -594,12 +712,6 @@ export interface XBurnMintERC20 extends BaseContract {
     ): Promise<ContractTransaction>;
 
     wormhole(overrides?: CallOverrides): Promise<[string]>;
-
-    wrap(
-      _amount: PromiseOrValue<BigNumberish>,
-      _recipient: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
   };
 
   addressToBytes(
@@ -607,34 +719,35 @@ export interface XBurnMintERC20 extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  allowance(
-    owner: PromiseOrValue<string>,
-    spender: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   approve(
-    spender: PromiseOrValue<string>,
-    amount: PromiseOrValue<BigNumberish>,
+    to: PromiseOrValue<string>,
+    tokenId: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   balanceOf(
-    account: PromiseOrValue<string>,
+    owner: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  baseUri(overrides?: CallOverrides): Promise<string>;
+
   bridgeIn(
-    encodedVm: PromiseOrValue<BytesLike>,
+    encodedVM: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   bridgeOut(
-    amount: PromiseOrValue<BigNumberish>,
-    recipientChain: PromiseOrValue<BigNumberish>,
+    tokenId: PromiseOrValue<BigNumberish>,
+    _wormholeChainId: PromiseOrValue<BigNumberish>,
     recipient: PromiseOrValue<BytesLike>,
     nonce: PromiseOrValue<BigNumberish>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  burn(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   bytesToAddress(
@@ -644,21 +757,15 @@ export interface XBurnMintERC20 extends BaseContract {
 
   chainId(overrides?: CallOverrides): Promise<number>;
 
-  decimals(overrides?: CallOverrides): Promise<number>;
+  counter(overrides?: CallOverrides): Promise<BigNumber>;
 
   decodeTransfer(
     encoded: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
-  ): Promise<XBurnMintERC20Structs.CrossChainPayloadStructOutput>;
-
-  decreaseAllowance(
-    spender: PromiseOrValue<string>,
-    subtractedValue: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<XBurnMintERC721Structs.CrossChainPayloadStructOutput>;
 
   encodeTransfer(
-    transfer: XBurnMintERC20Structs.CrossChainPayloadStruct,
+    transfer: XBurnMintERC721Structs.CrossChainPayloadStruct,
     overrides?: CallOverrides
   ): Promise<string>;
 
@@ -666,22 +773,35 @@ export interface XBurnMintERC20 extends BaseContract {
 
   finality(overrides?: CallOverrides): Promise<number>;
 
-  increaseAllowance(
-    spender: PromiseOrValue<string>,
-    addedValue: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  getApproved(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  isApprovedForAll(
+    owner: PromiseOrValue<string>,
+    operator: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   isTransferCompleted(
     hash: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  mint(
+    to: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   name(overrides?: CallOverrides): Promise<string>;
 
-  nativeAsset(overrides?: CallOverrides): Promise<string>;
-
   owner(overrides?: CallOverrides): Promise<string>;
+
+  ownerOf(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   parentChainIdEVM(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -697,34 +817,65 @@ export interface XBurnMintERC20 extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  registerNativeToken(
-    _token: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   renounceOwnership(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  "safeTransferFrom(address,address,uint256)"(
+    from: PromiseOrValue<string>,
+    to: PromiseOrValue<string>,
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  "safeTransferFrom(address,address,uint256,bytes)"(
+    from: PromiseOrValue<string>,
+    to: PromiseOrValue<string>,
+    tokenId: PromiseOrValue<BigNumberish>,
+    data: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setApprovalForAll(
+    operator: PromiseOrValue<string>,
+    approved: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  supportsInterface(
+    interfaceId: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   symbol(overrides?: CallOverrides): Promise<string>;
+
+  tokenByIndex(
+    index: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   tokenContracts(
     chainId_: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
 
-  totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+  tokenOfOwnerByIndex(
+    owner: PromiseOrValue<string>,
+    index: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
-  transfer(
-    to: PromiseOrValue<string>,
-    amount: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  tokenURI(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
   transferFrom(
     from: PromiseOrValue<string>,
     to: PromiseOrValue<string>,
-    amount: PromiseOrValue<BigNumberish>,
+    tokenId: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -733,9 +884,8 @@ export interface XBurnMintERC20 extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  unwrap(
-    _amount: PromiseOrValue<BigNumberish>,
-    _recipient: PromiseOrValue<string>,
+  updateBaseUri(
+    uri: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -746,47 +896,42 @@ export interface XBurnMintERC20 extends BaseContract {
 
   wormhole(overrides?: CallOverrides): Promise<string>;
 
-  wrap(
-    _amount: PromiseOrValue<BigNumberish>,
-    _recipient: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   callStatic: {
     addressToBytes(
       a: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<string>;
 
-    allowance(
-      owner: PromiseOrValue<string>,
-      spender: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     approve(
-      spender: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<void>;
 
     balanceOf(
-      account: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    baseUri(overrides?: CallOverrides): Promise<string>;
+
     bridgeIn(
-      encodedVm: PromiseOrValue<BytesLike>,
+      encodedVM: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<string>;
 
     bridgeOut(
-      amount: PromiseOrValue<BigNumberish>,
-      recipientChain: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      _wormholeChainId: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<BytesLike>,
       nonce: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    burn(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     bytesToAddress(
       b: PromiseOrValue<BytesLike>,
@@ -795,21 +940,15 @@ export interface XBurnMintERC20 extends BaseContract {
 
     chainId(overrides?: CallOverrides): Promise<number>;
 
-    decimals(overrides?: CallOverrides): Promise<number>;
+    counter(overrides?: CallOverrides): Promise<BigNumber>;
 
     decodeTransfer(
       encoded: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<XBurnMintERC20Structs.CrossChainPayloadStructOutput>;
-
-    decreaseAllowance(
-      spender: PromiseOrValue<string>,
-      subtractedValue: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<XBurnMintERC721Structs.CrossChainPayloadStructOutput>;
 
     encodeTransfer(
-      transfer: XBurnMintERC20Structs.CrossChainPayloadStruct,
+      transfer: XBurnMintERC721Structs.CrossChainPayloadStruct,
       overrides?: CallOverrides
     ): Promise<string>;
 
@@ -817,9 +956,14 @@ export interface XBurnMintERC20 extends BaseContract {
 
     finality(overrides?: CallOverrides): Promise<number>;
 
-    increaseAllowance(
-      spender: PromiseOrValue<string>,
-      addedValue: PromiseOrValue<BigNumberish>,
+    getApproved(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    isApprovedForAll(
+      owner: PromiseOrValue<string>,
+      operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -828,11 +972,16 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    mint(to: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>;
+
     name(overrides?: CallOverrides): Promise<string>;
 
-    nativeAsset(overrides?: CallOverrides): Promise<string>;
-
     owner(overrides?: CallOverrides): Promise<string>;
+
+    ownerOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     parentChainIdEVM(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -848,43 +997,73 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    registerNativeToken(
-      _token: PromiseOrValue<string>,
+    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+
+    "safeTransferFrom(address,address,uint256)"(
+      from: PromiseOrValue<string>,
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+    "safeTransferFrom(address,address,uint256,bytes)"(
+      from: PromiseOrValue<string>,
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      data: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setApprovalForAll(
+      operator: PromiseOrValue<string>,
+      approved: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    supportsInterface(
+      interfaceId: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     symbol(overrides?: CallOverrides): Promise<string>;
+
+    tokenByIndex(
+      index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     tokenContracts(
       chainId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
 
-    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
-
-    transfer(
-      to: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+    tokenOfOwnerByIndex(
+      owner: PromiseOrValue<string>,
+      index: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<BigNumber>;
+
+    tokenURI(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferFrom(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<void>;
 
     transferOwnership(
       newOwner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    unwrap(
-      _amount: PromiseOrValue<BigNumberish>,
-      _recipient: PromiseOrValue<string>,
+    updateBaseUri(
+      uri: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -894,25 +1073,30 @@ export interface XBurnMintERC20 extends BaseContract {
     ): Promise<void>;
 
     wormhole(overrides?: CallOverrides): Promise<string>;
-
-    wrap(
-      _amount: PromiseOrValue<BigNumberish>,
-      _recipient: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
   };
 
   filters: {
     "Approval(address,address,uint256)"(
       owner?: PromiseOrValue<string> | null,
-      spender?: PromiseOrValue<string> | null,
-      value?: null
+      approved?: PromiseOrValue<string> | null,
+      tokenId?: PromiseOrValue<BigNumberish> | null
     ): ApprovalEventFilter;
     Approval(
       owner?: PromiseOrValue<string> | null,
-      spender?: PromiseOrValue<string> | null,
-      value?: null
+      approved?: PromiseOrValue<string> | null,
+      tokenId?: PromiseOrValue<BigNumberish> | null
     ): ApprovalEventFilter;
+
+    "ApprovalForAll(address,address,bool)"(
+      owner?: PromiseOrValue<string> | null,
+      operator?: PromiseOrValue<string> | null,
+      approved?: null
+    ): ApprovalForAllEventFilter;
+    ApprovalForAll(
+      owner?: PromiseOrValue<string> | null,
+      operator?: PromiseOrValue<string> | null,
+      approved?: null
+    ): ApprovalForAllEventFilter;
 
     "OwnershipTransferred(address,address)"(
       previousOwner?: PromiseOrValue<string> | null,
@@ -926,36 +1110,36 @@ export interface XBurnMintERC20 extends BaseContract {
     "Transfer(address,address,uint256)"(
       from?: PromiseOrValue<string> | null,
       to?: PromiseOrValue<string> | null,
-      value?: null
+      tokenId?: PromiseOrValue<BigNumberish> | null
     ): TransferEventFilter;
     Transfer(
       from?: PromiseOrValue<string> | null,
       to?: PromiseOrValue<string> | null,
-      value?: null
+      tokenId?: PromiseOrValue<BigNumberish> | null
     ): TransferEventFilter;
 
     "bridgeInEvent(uint256,uint256,uint256,bytes32)"(
-      tokenAmount?: null,
+      tokenId?: null,
       fromChain?: null,
       toChain?: null,
       toAddress?: PromiseOrValue<BytesLike> | null
     ): bridgeInEventEventFilter;
     bridgeInEvent(
-      tokenAmount?: null,
+      tokenId?: null,
       fromChain?: null,
       toChain?: null,
       toAddress?: PromiseOrValue<BytesLike> | null
     ): bridgeInEventEventFilter;
 
     "bridgeOutEvent(uint256,uint256,uint256,bytes32,bytes32)"(
-      tokenAmount?: null,
+      tokenId?: null,
       fromChain?: null,
       toChain?: null,
       fromAddress?: PromiseOrValue<BytesLike> | null,
       toAddress?: PromiseOrValue<BytesLike> | null
     ): bridgeOutEventEventFilter;
     bridgeOutEvent(
-      tokenAmount?: null,
+      tokenId?: null,
       fromChain?: null,
       toChain?: null,
       fromAddress?: PromiseOrValue<BytesLike> | null,
@@ -969,34 +1153,35 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    allowance(
-      owner: PromiseOrValue<string>,
-      spender: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     approve(
-      spender: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     balanceOf(
-      account: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    baseUri(overrides?: CallOverrides): Promise<BigNumber>;
+
     bridgeIn(
-      encodedVm: PromiseOrValue<BytesLike>,
+      encodedVM: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     bridgeOut(
-      amount: PromiseOrValue<BigNumberish>,
-      recipientChain: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      _wormholeChainId: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<BytesLike>,
       nonce: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    burn(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     bytesToAddress(
@@ -1006,21 +1191,15 @@ export interface XBurnMintERC20 extends BaseContract {
 
     chainId(overrides?: CallOverrides): Promise<BigNumber>;
 
-    decimals(overrides?: CallOverrides): Promise<BigNumber>;
+    counter(overrides?: CallOverrides): Promise<BigNumber>;
 
     decodeTransfer(
       encoded: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    decreaseAllowance(
-      spender: PromiseOrValue<string>,
-      subtractedValue: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     encodeTransfer(
-      transfer: XBurnMintERC20Structs.CrossChainPayloadStruct,
+      transfer: XBurnMintERC721Structs.CrossChainPayloadStruct,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1028,10 +1207,15 @@ export interface XBurnMintERC20 extends BaseContract {
 
     finality(overrides?: CallOverrides): Promise<BigNumber>;
 
-    increaseAllowance(
-      spender: PromiseOrValue<string>,
-      addedValue: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    getApproved(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    isApprovedForAll(
+      owner: PromiseOrValue<string>,
+      operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     isTransferCompleted(
@@ -1039,11 +1223,19 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    mint(
+      to: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    nativeAsset(overrides?: CallOverrides): Promise<BigNumber>;
-
     owner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    ownerOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     parentChainIdEVM(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1059,34 +1251,65 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    registerNativeToken(
-      _token: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    "safeTransferFrom(address,address,uint256)"(
+      from: PromiseOrValue<string>,
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    "safeTransferFrom(address,address,uint256,bytes)"(
+      from: PromiseOrValue<string>,
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      data: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setApprovalForAll(
+      operator: PromiseOrValue<string>,
+      approved: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    supportsInterface(
+      interfaceId: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
+
+    tokenByIndex(
+      index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     tokenContracts(
       chainId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
-
-    transfer(
-      to: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    tokenOfOwnerByIndex(
+      owner: PromiseOrValue<string>,
+      index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    tokenURI(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferFrom(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1095,9 +1318,8 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    unwrap(
-      _amount: PromiseOrValue<BigNumberish>,
-      _recipient: PromiseOrValue<string>,
+    updateBaseUri(
+      uri: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1107,12 +1329,6 @@ export interface XBurnMintERC20 extends BaseContract {
     ): Promise<BigNumber>;
 
     wormhole(overrides?: CallOverrides): Promise<BigNumber>;
-
-    wrap(
-      _amount: PromiseOrValue<BigNumberish>,
-      _recipient: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -1121,34 +1337,35 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    allowance(
-      owner: PromiseOrValue<string>,
-      spender: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     approve(
-      spender: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     balanceOf(
-      account: PromiseOrValue<string>,
+      owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    baseUri(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     bridgeIn(
-      encodedVm: PromiseOrValue<BytesLike>,
+      encodedVM: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     bridgeOut(
-      amount: PromiseOrValue<BigNumberish>,
-      recipientChain: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      _wormholeChainId: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<BytesLike>,
       nonce: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    burn(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     bytesToAddress(
@@ -1158,21 +1375,15 @@ export interface XBurnMintERC20 extends BaseContract {
 
     chainId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    counter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     decodeTransfer(
       encoded: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    decreaseAllowance(
-      spender: PromiseOrValue<string>,
-      subtractedValue: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     encodeTransfer(
-      transfer: XBurnMintERC20Structs.CrossChainPayloadStruct,
+      transfer: XBurnMintERC721Structs.CrossChainPayloadStruct,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1180,10 +1391,15 @@ export interface XBurnMintERC20 extends BaseContract {
 
     finality(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    increaseAllowance(
-      spender: PromiseOrValue<string>,
-      addedValue: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    getApproved(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isApprovedForAll(
+      owner: PromiseOrValue<string>,
+      operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     isTransferCompleted(
@@ -1191,11 +1407,19 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    mint(
+      to: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    nativeAsset(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    ownerOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     parentChainIdEVM(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1211,34 +1435,65 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    registerNativeToken(
-      _token: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    "safeTransferFrom(address,address,uint256)"(
+      from: PromiseOrValue<string>,
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "safeTransferFrom(address,address,uint256,bytes)"(
+      from: PromiseOrValue<string>,
+      to: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      data: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setApprovalForAll(
+      operator: PromiseOrValue<string>,
+      approved: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    supportsInterface(
+      interfaceId: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    tokenByIndex(
+      index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     tokenContracts(
       chainId_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    transfer(
-      to: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    tokenOfOwnerByIndex(
+      owner: PromiseOrValue<string>,
+      index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    tokenURI(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferFrom(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1247,9 +1502,8 @@ export interface XBurnMintERC20 extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    unwrap(
-      _amount: PromiseOrValue<BigNumberish>,
-      _recipient: PromiseOrValue<string>,
+    updateBaseUri(
+      uri: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1259,11 +1513,5 @@ export interface XBurnMintERC20 extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     wormhole(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    wrap(
-      _amount: PromiseOrValue<BigNumberish>,
-      _recipient: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
   };
 }

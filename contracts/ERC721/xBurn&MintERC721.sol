@@ -40,7 +40,7 @@ abstract contract XBurnMintERC721 is
         setFinality(1);
         setEvmChainId(block.chainid);
         setBaseUri(baseUri);
-        setParentChainEVM(parentChainIdEVM);
+        setParentChainIdEVM(parentChainIdEVM);
     }
 
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {

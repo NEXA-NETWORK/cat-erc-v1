@@ -38,6 +38,8 @@ contract XBurnMintERC20Storage {
         mapping(uint16 => bytes32) tokenImplementations;
         // EIP-155 Chain ID
         uint256 evmChainId;
+        address nativeAsset;
+        uint256 parentChainIdEVM;
     }
 }
 

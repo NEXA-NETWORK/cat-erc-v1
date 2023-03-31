@@ -35,4 +35,8 @@ contract XBurnMintERC20Governance is XBurnMintERC20Getters, XBurnMintERC20Setter
     function updateFinality(uint8 finality) public onlyOwner {
         setFinality(finality);
     }
+
+    function registerNativeToken(address _token) public onlyOwner {
+        setNativeAsset(_token);
+    }
 }

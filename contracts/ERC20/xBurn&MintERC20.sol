@@ -3,6 +3,7 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import "../shared/WormholeStructs.sol";
 import "../interfaces/IWormhole.sol";
@@ -15,6 +16,8 @@ abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance, XB
     constructor(
         string memory name,
         string memory symbol,
+        uint256 parentChainIdEVM,
+        address nativeToken,
         uint16 chainId,
         address wormhole,
         uint8 finality
@@ -23,6 +26,8 @@ abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance, XB
         setWormhole(wormhole);
         setFinality(finality);
         setEvmChainId(block.chainid);
+        setParentChainIdEVM(parentChainIdEVM);
+        setNativeAsset(nativeToken);
     }
 
     /**
@@ -97,5 +102,24 @@ abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance, XB
         emit bridgeInEvent(nativeAmount, transfer.tokenChain, transfer.toChain, transfer.toAddress);
 
         return vm.payload;
+    }
+
+    function wrap(uint256 _amount, address _recipient) public {
+        require(nativeAsset() != address(0), "native token not set");
+        require(block.chainid == parentChainIdEVM(), "only parent chain wrapping allowed");
+        IERC20 token = IERC20(nativeAsset());
+
+        require(token.allowance(msg.sender, address(this)) >= _amount, "not enough allowance");
+        require(token.balanceOf(msg.sender) >= _amount, "low balance");
+
+        token.transferFrom(msg.sender, address(this), _amount);
+        _mint(_recipient, _amount);
+    }
+
+    function unwrap(uint256 _amount, address _recipient) public {
+        IERC20 token = IERC20(nativeAsset());
+
+        _burn(msg.sender, _amount);
+        token.transfer(_recipient, _amount);
     }
 }

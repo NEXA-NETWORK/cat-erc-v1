@@ -35,7 +35,7 @@ contract XBurnMintERC721Setters is XBurnMintERC721State {
         _state.baseUri = uri;
     }
 
-    function setParentChainEVM(uint256 chain) internal {
+    function setParentChainIdEVM(uint256 chain) internal {
         _state.parentChainIdEVM = chain;
     }
 

@@ -30,4 +30,12 @@ contract XBurnMintERC20Setters is XBurnMintERC20State {
         require(evmChainId == block.chainid, "invalid evmChainId");
         _state.evmChainId = evmChainId;
     }
+
+    function setNativeAsset(address nativeAsset) internal {
+        _state.nativeAsset = nativeAsset;
+    }
+
+    function setParentChainIdEVM(uint256 chain) internal {
+        _state.parentChainIdEVM = chain;
+    }
 }
