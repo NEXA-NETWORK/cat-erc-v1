@@ -39,6 +39,10 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
         return _state.baseUri;
     }
 
+    function nativeAsset() public view returns (address) {
+        return _state.nativeAsset;
+    }
+
     function parentChainIdEVM() public view returns (uint256) {
         return _state.parentChainIdEVM;
     }

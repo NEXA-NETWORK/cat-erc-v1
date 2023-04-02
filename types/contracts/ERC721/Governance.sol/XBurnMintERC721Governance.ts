@@ -66,6 +66,7 @@ export interface XBurnMintERC721GovernanceInterface extends utils.Interface {
     "evmChainId()": FunctionFragment;
     "finality()": FunctionFragment;
     "isTransferCompleted(bytes32)": FunctionFragment;
+    "nativeAsset()": FunctionFragment;
     "owner()": FunctionFragment;
     "parentChainIdEVM()": FunctionFragment;
     "registerChain(uint16,bytes32)": FunctionFragment;
@@ -90,6 +91,7 @@ export interface XBurnMintERC721GovernanceInterface extends utils.Interface {
       | "evmChainId"
       | "finality"
       | "isTransferCompleted"
+      | "nativeAsset"
       | "owner"
       | "parentChainIdEVM"
       | "registerChain"
@@ -129,6 +131,10 @@ export interface XBurnMintERC721GovernanceInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "isTransferCompleted",
     values: [PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "nativeAsset",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -188,6 +194,10 @@ export interface XBurnMintERC721GovernanceInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "finality", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isTransferCompleted",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "nativeAsset",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
@@ -310,6 +320,8 @@ export interface XBurnMintERC721Governance extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    nativeAsset(overrides?: CallOverrides): Promise<[string]>;
+
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     parentChainIdEVM(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -388,6 +400,8 @@ export interface XBurnMintERC721Governance extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  nativeAsset(overrides?: CallOverrides): Promise<string>;
+
   owner(overrides?: CallOverrides): Promise<string>;
 
   parentChainIdEVM(overrides?: CallOverrides): Promise<BigNumber>;
@@ -465,6 +479,8 @@ export interface XBurnMintERC721Governance extends BaseContract {
       hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    nativeAsset(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -554,6 +570,8 @@ export interface XBurnMintERC721Governance extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    nativeAsset(overrides?: CallOverrides): Promise<BigNumber>;
+
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     parentChainIdEVM(overrides?: CallOverrides): Promise<BigNumber>;
@@ -632,6 +650,8 @@ export interface XBurnMintERC721Governance extends BaseContract {
       hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    nativeAsset(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

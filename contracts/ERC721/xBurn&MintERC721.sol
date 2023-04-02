@@ -2,6 +2,7 @@
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
@@ -12,12 +13,14 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "../libraries/BytesLib.sol";
 import "../shared/WormholeStructs.sol";
 import "../interfaces/IWormhole.sol";
+import "../interfaces/IERC721Extended.sol";
 import "./Structs.sol";
 import "./Governance.sol";
 
 abstract contract XBurnMintERC721 is
     Context,
     ERC721,
+    IERC721Receiver,
     ERC721Burnable,
     ERC721URIStorage,
     ERC721Enumerable,
@@ -32,6 +35,7 @@ abstract contract XBurnMintERC721 is
         string memory symbol,
         string memory baseUri,
         uint256 parentChainIdEVM,
+        address nativeToken,
         uint16 chainId,
         address wormhole
     ) ERC721(name, symbol) Ownable() {
@@ -41,6 +45,7 @@ abstract contract XBurnMintERC721 is
         setEvmChainId(block.chainid);
         setBaseUri(baseUri);
         setParentChainIdEVM(parentChainIdEVM);
+        setNativeAsset(nativeToken);
     }
 
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
@@ -66,6 +71,15 @@ abstract contract XBurnMintERC721 is
         uint256 batchSize
     ) internal override(ERC721, ERC721Enumerable) {
         super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
+    }
+
+    function onERC721Received(
+        address operator,
+        address from,
+        uint256 tokenId,
+        bytes calldata data
+    ) public pure override returns (bytes4) {
+        return this.onERC721Received.selector;
     }
 
     function bridgeOut(
@@ -145,7 +159,26 @@ abstract contract XBurnMintERC721 is
         return vm.payload;
     }
 
+    function wrap(uint256 _tokenId, address _recipient) public {
+        require(nativeAsset() != address(0), "native token not set");
+        require(block.chainid == parentChainIdEVM(), "only parent chain wrapping allowed");
+
+        IERC721Extended token = IERC721Extended(nativeAsset());
+        string memory uri = token.tokenURI(_tokenId);
+
+        token.safeTransferFrom(msg.sender, address(this), _tokenId);
+        _mint(_recipient, _tokenId);
+        _setTokenURI(_tokenId, uri);
+    }
+
+    function unwrap(uint256 _tokenId, address _recipient) public {
+        IERC721Extended token = IERC721Extended(nativeAsset());
+        burn(_tokenId);
+        token.safeTransferFrom(address(this), _recipient, _tokenId);
+    }
+
     function mint(address to) public onlyOwner {
+        require(nativeAsset() == address(0), "Minting not allowed as Native token exists");
         require(block.chainid == parentChainIdEVM(), "Only Minting Allowed on Parent Chain");
         uint256 tokenId = counter();
         incrementCounter();

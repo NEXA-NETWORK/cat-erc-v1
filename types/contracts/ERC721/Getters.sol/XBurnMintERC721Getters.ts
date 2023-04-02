@@ -60,6 +60,7 @@ export interface XBurnMintERC721GettersInterface extends utils.Interface {
     "evmChainId()": FunctionFragment;
     "finality()": FunctionFragment;
     "isTransferCompleted(bytes32)": FunctionFragment;
+    "nativeAsset()": FunctionFragment;
     "parentChainIdEVM()": FunctionFragment;
     "tokenContracts(uint16)": FunctionFragment;
     "wormhole()": FunctionFragment;
@@ -77,6 +78,7 @@ export interface XBurnMintERC721GettersInterface extends utils.Interface {
       | "evmChainId"
       | "finality"
       | "isTransferCompleted"
+      | "nativeAsset"
       | "parentChainIdEVM"
       | "tokenContracts"
       | "wormhole"
@@ -111,6 +113,10 @@ export interface XBurnMintERC721GettersInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
+    functionFragment: "nativeAsset",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "parentChainIdEVM",
     values?: undefined
   ): string;
@@ -143,6 +149,10 @@ export interface XBurnMintERC721GettersInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "finality", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isTransferCompleted",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "nativeAsset",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -224,6 +234,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    nativeAsset(overrides?: CallOverrides): Promise<[string]>;
+
     parentChainIdEVM(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     tokenContracts(
@@ -269,6 +281,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  nativeAsset(overrides?: CallOverrides): Promise<string>;
+
   parentChainIdEVM(overrides?: CallOverrides): Promise<BigNumber>;
 
   tokenContracts(
@@ -313,6 +327,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
       hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    nativeAsset(overrides?: CallOverrides): Promise<string>;
 
     parentChainIdEVM(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -362,6 +378,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    nativeAsset(overrides?: CallOverrides): Promise<BigNumber>;
+
     parentChainIdEVM(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenContracts(
@@ -407,6 +425,8 @@ export interface XBurnMintERC721Getters extends BaseContract {
       hash: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    nativeAsset(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     parentChainIdEVM(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

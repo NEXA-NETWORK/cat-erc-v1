@@ -35,6 +35,10 @@ contract XBurnMintERC721Setters is XBurnMintERC721State {
         _state.baseUri = uri;
     }
 
+    function setNativeAsset(address nativeAsset) internal {
+        _state.nativeAsset = nativeAsset;
+    }
+
     function setParentChainIdEVM(uint256 chain) internal {
         _state.parentChainIdEVM = chain;
     }
