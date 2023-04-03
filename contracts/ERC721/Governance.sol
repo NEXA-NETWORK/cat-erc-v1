@@ -16,15 +16,79 @@ import "../interfaces/IWormhole.sol";
 contract XBurnMintERC721Governance is XBurnMintERC721Getters, XBurnMintERC721Setters, Ownable {
     using BytesLib for bytes;
 
+    /// builds a prefixed hash to mimic the behavior of eth_sign.
+    function prefixed(bytes32 _hash) internal pure returns (bytes32) {
+        return keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", _hash));
+    }
+
+    /// signature methods.
+    function splitSignature(
+        bytes memory sig
+    ) internal pure returns (uint8 v, bytes32 r, bytes32 s) {
+        require(sig.length == 65);
+
+        assembly {
+            // first 32 bytes, after the length prefix.
+            r := mload(add(sig, 32))
+            // second 32 bytes.
+            s := mload(add(sig, 64))
+            // final byte (first byte of the next 32 bytes).
+            v := byte(0, mload(add(sig, 96)))
+        }
+
+        return (v, r, s);
+    }
+
+    function verifySignature(
+        bytes32 message,
+        bytes memory signature,
+        address authority
+    ) internal pure returns (bool) {
+        (uint8 v, bytes32 r, bytes32 s) = splitSignature(signature);
+        address recovered = ecrecover(message, v, r, s);
+        if (recovered == authority) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /// @dev verify owner is caller or the caller has valid owner signature
+    modifier onlyOwnerOrOwnerSignature(
+        XBurnMintERC721Structs.SignatureVerification memory signatureArguments
+    ) {
+        if (msg.sender == owner()) {
+            _;
+        } else {
+            bytes32 encodedHashData = prefixed(
+                keccak256(
+                    abi.encodePacked(signatureArguments.custodian, signatureArguments.validTill)
+                )
+            );
+            require(signatureArguments.custodian == msg.sender, "custodian can call only");
+            require(signatureArguments.validTill > block.timestamp, "signed transaction expired");
+            require(
+                verifySignature(encodedHashData, signatureArguments.signature, owner()),
+                "unauthorized signature"
+            );
+            _;
+        }
+    }
+
     // Execute a RegisterChain governance message
-    function registerChain(uint16 chainId, bytes32 tokenContract) public onlyOwner {
+    function registerChain(
+        uint16 chainId,
+        bytes32 tokenContract,
+        XBurnMintERC721Structs.SignatureVerification memory signatureArguments
+    ) public onlyOwnerOrOwnerSignature(signatureArguments) {
         setTokenImplementation(chainId, tokenContract);
     }
 
     function registerChains(
         uint16[] memory chainId,
-        bytes32[] memory tokenContract
-    ) public onlyOwner {
+        bytes32[] memory tokenContract,
+        XBurnMintERC721Structs.SignatureVerification memory signatureArguments
+    ) public onlyOwnerOrOwnerSignature(signatureArguments) {
         require(chainId.length == tokenContract.length, "Invalid Input");
         for (uint256 i = 0; i < tokenContract.length; i++) {
             setTokenImplementation(chainId[i], tokenContract[i]);
@@ -32,11 +96,17 @@ contract XBurnMintERC721Governance is XBurnMintERC721Getters, XBurnMintERC721Set
     }
 
     // Execute a RegisterChain governance message
-    function updateFinality(uint8 finality) public onlyOwner {
+    function updateFinality(
+        uint8 finality,
+        XBurnMintERC721Structs.SignatureVerification memory signatureArguments
+    ) public onlyOwnerOrOwnerSignature(signatureArguments) {
         setFinality(finality);
     }
 
-    function updateBaseUri(string memory uri) public onlyOwner {
+    function updateBaseUri(
+        string memory uri,
+        XBurnMintERC721Structs.SignatureVerification memory signatureArguments
+    ) public onlyOwnerOrOwnerSignature(signatureArguments) {
         setBaseUri(uri);
     }
 }

@@ -16,4 +16,13 @@ interface XBurnMintERC721Structs {
         // Chain ID of the recipient
         uint16 toChain;
     }
+
+    struct SignatureVerification {
+        // Address of custodian the user has delegated to sign transaction on behalf of
+        address custodian;
+        // Timestamp the transaction will be valid till
+        uint256 validTill;
+        // Signed Signature
+        bytes signature;
+    }
 }
