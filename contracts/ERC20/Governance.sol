@@ -13,7 +13,7 @@ import "./Structs.sol";
 
 import "../interfaces/IWormhole.sol";
 
-contract XBurnMintERC20Governance is XBurnMintERC20Getters, XBurnMintERC20Setters, Ownable {
+contract CATERC20Governance is CATERC20Getters, CATERC20Setters, Ownable {
     using BytesLib for bytes;
 
     /// builds a prefixed hash to mimic the behavior of eth_sign.
@@ -55,7 +55,7 @@ contract XBurnMintERC20Governance is XBurnMintERC20Getters, XBurnMintERC20Setter
 
     /// @dev verify owner is caller or the caller has valid owner signature
     modifier onlyOwnerOrOwnerSignature(
-        XBurnMintERC20Structs.SignatureVerification memory signatureArguments
+        CATERC20Structs.SignatureVerification memory signatureArguments
     ) {
         if (msg.sender == owner()) {
             _;
@@ -79,7 +79,7 @@ contract XBurnMintERC20Governance is XBurnMintERC20Getters, XBurnMintERC20Setter
     function registerChain(
         uint16 chainId,
         bytes32 tokenContract,
-        XBurnMintERC20Structs.SignatureVerification memory signatureArguments
+        CATERC20Structs.SignatureVerification memory signatureArguments
     ) public onlyOwnerOrOwnerSignature(signatureArguments) {
         setTokenImplementation(chainId, tokenContract);
     }
@@ -87,7 +87,7 @@ contract XBurnMintERC20Governance is XBurnMintERC20Getters, XBurnMintERC20Setter
     function registerChains(
         uint16[] memory chainId,
         bytes32[] memory tokenContract,
-        XBurnMintERC20Structs.SignatureVerification memory signatureArguments
+        CATERC20Structs.SignatureVerification memory signatureArguments
     ) public onlyOwnerOrOwnerSignature(signatureArguments) {
         require(chainId.length == tokenContract.length, "Invalid Input");
         for (uint256 i = 0; i < tokenContract.length; i++) {
@@ -98,14 +98,14 @@ contract XBurnMintERC20Governance is XBurnMintERC20Getters, XBurnMintERC20Setter
     // Execute a RegisterChain governance message
     function updateFinality(
         uint8 finality,
-        XBurnMintERC20Structs.SignatureVerification memory signatureArguments
+        CATERC20Structs.SignatureVerification memory signatureArguments
     ) public onlyOwnerOrOwnerSignature(signatureArguments) {
         setFinality(finality);
     }
 
     function registerNativeToken(
         address _token,
-        XBurnMintERC20Structs.SignatureVerification memory signatureArguments
+        CATERC20Structs.SignatureVerification memory signatureArguments
     ) public onlyOwnerOrOwnerSignature(signatureArguments) {
         setNativeAsset(_token);
     }

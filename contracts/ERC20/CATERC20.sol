@@ -10,24 +10,29 @@ import "../interfaces/IWormhole.sol";
 import "./Governance.sol";
 import "./Structs.sol";
 
-abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance, XBurnMintERC20Events {
+contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events {
     using BytesLib for bytes;
 
-    constructor(
-        string memory name,
-        string memory symbol,
+    constructor(string memory name, string memory symbol) ERC20(name, symbol) {
+        setEvmChainId(block.chainid);
+    }
+
+    function initialize(
         uint256 parentChainIdEVM,
-        address nativeToken,
         uint16 chainId,
+        address nativeToken,
         address wormhole,
         uint8 finality
-    ) ERC20(name, symbol) Ownable() {
+    ) public onlyOwner {
+        require(isInitialized() == false, "Already Initialized");
+
         setChainId(chainId);
         setWormhole(wormhole);
         setFinality(finality);
-        setEvmChainId(block.chainid);
         setParentChainIdEVM(parentChainIdEVM);
         setNativeAsset(nativeToken);
+
+        setIsInitialized();
     }
 
     /**
@@ -39,6 +44,8 @@ abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance, XB
         bytes32 recipient,
         uint32 nonce
     ) external payable returns (uint64 sequence) {
+        require(isInitialized() == true, "Not Initialized");
+
         uint256 fee = wormhole().messageFee();
         require(msg.value >= fee, "Not enough fee provided to publish message");
         require(
@@ -53,14 +60,13 @@ abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance, XB
         );
         _burn(_msgSender(), normalizedAmount);
 
-        XBurnMintERC20Structs.CrossChainPayload memory transfer = XBurnMintERC20Structs
-            .CrossChainPayload({
-                amount: normalizedAmount,
-                tokenAddress: tokenAddress,
-                tokenChain: tokenChain,
-                toAddress: recipient,
-                toChain: recipientChain
-            });
+        CATERC20Structs.CrossChainPayload memory transfer = CATERC20Structs.CrossChainPayload({
+            amount: normalizedAmount,
+            tokenAddress: tokenAddress,
+            tokenChain: tokenChain,
+            toAddress: recipient,
+            toChain: recipientChain
+        });
 
         sequence = wormhole().publishMessage{value: msg.value}(
             nonce,
@@ -78,13 +84,15 @@ abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance, XB
     } // end of function
 
     function bridgeIn(bytes memory encodedVm) external returns (bytes memory) {
+        require(isInitialized() == true, "Not Initialized");
+
         (IWormhole.VM memory vm, bool valid, string memory reason) = wormhole().parseAndVerifyVM(
             encodedVm
         );
         require(valid, reason);
         require(tokenContracts(vm.emitterChainId) == vm.emitterAddress, "Invalid Emitter");
 
-        XBurnMintERC20Structs.CrossChainPayload memory transfer = decodeTransfer(vm.payload);
+        CATERC20Structs.CrossChainPayload memory transfer = decodeTransfer(vm.payload);
         address transferRecipient = bytesToAddress(transfer.toAddress);
 
         require(!isTransferCompleted(vm.hash), "transfer already completed");
@@ -105,6 +113,8 @@ abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance, XB
     }
 
     function wrap(uint256 _amount, address _recipient) public {
+        require(isInitialized() == true, "Not Initialized");
+
         require(nativeAsset() != address(0), "native token not set");
         require(block.chainid == parentChainIdEVM(), "only parent chain wrapping allowed");
         IERC20 token = IERC20(nativeAsset());
@@ -117,6 +127,8 @@ abstract contract XBurnMintERC20 is Context, ERC20, XBurnMintERC20Governance, XB
     }
 
     function unwrap(uint256 _amount, address _recipient) public {
+        require(isInitialized() == true, "Not Initialized");
+
         IERC20 token = IERC20(nativeAsset());
 
         _burn(msg.sender, _amount);

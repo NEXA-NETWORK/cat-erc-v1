@@ -1,5 +1,5 @@
 {
-  "name": "xburnandmint",
+  "name": "catercstandards",
   "version": "1.0.0",
   "description": "Cross Chain Burn and Mint for ERC721 and ERC20 tokens",
   "main": "index.js",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codora-io/XBurnAndMint.git"
+    "url": "git+https://github.com/codora-io/CAT_ERC_Standards.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/codora-io/XBurnAndMint/issues"
+    "url": "https://github.com/codora-io/CAT_ERC_Standards/issues"
   },
-  "homepage": "https://github.com/codora-io/XBurnAndMint#readme",
+  "homepage": "https://github.com/codora-io/CAT_ERC_Standards#readme",
   "dependencies": {
     "@certusone/wormhole-sdk": "^0.9.11",
     "@improbable-eng/grpc-web-node-http-transport": "^0.15.0",

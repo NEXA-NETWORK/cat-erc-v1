@@ -17,35 +17,41 @@ import "../interfaces/IERC721Extended.sol";
 import "./Structs.sol";
 import "./Governance.sol";
 
-abstract contract XBurnMintERC721 is
+contract CATERC721 is
     Context,
     ERC721,
     IERC721Receiver,
     ERC721Burnable,
     ERC721URIStorage,
     ERC721Enumerable,
-    XBurnMintERC721Governance,
-    XBurnMintERC721Events
+    CATERC721Governance,
+    CATERC721Events
 {
     using BytesLib for bytes;
     using Strings for uint256;
 
-    constructor(
-        string memory name,
-        string memory symbol,
+    constructor(string memory name, string memory symbol) ERC721(name, symbol) {
+        setEvmChainId(block.chainid);
+    }
+
+    function initialize(
         string memory baseUri,
         uint256 parentChainIdEVM,
-        address nativeToken,
         uint16 chainId,
-        address wormhole
-    ) ERC721(name, symbol) Ownable() {
-        setChainId(chainId);
-        setWormhole(wormhole);
-        setFinality(1);
-        setEvmChainId(block.chainid);
+        address nativeToken,
+        address wormhole,
+        uint8 finality
+    ) public onlyOwner {
+        require(isInitialized() == false, "Already Initialized");
+
         setBaseUri(baseUri);
         setParentChainIdEVM(parentChainIdEVM);
+        setChainId(chainId);
         setNativeAsset(nativeToken);
+        setWormhole(wormhole);
+        setFinality(finality);
+
+        setIsInitialized();
     }
 
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
@@ -88,6 +94,8 @@ abstract contract XBurnMintERC721 is
         bytes32 recipient,
         uint32 nonce
     ) external payable returns (uint64) {
+        require(isInitialized() == true, "Not Initialized");
+
         uint256 fee = wormhole().messageFee();
         require(msg.value >= fee, "Not enough fee provided to publish message");
         require(
@@ -104,15 +112,14 @@ abstract contract XBurnMintERC721 is
         bytes32 tokenAddress = addressToBytes(address(this));
         string memory uriString = tokenURI(tokenId);
 
-        XBurnMintERC721Structs.CrossChainPayload memory payload = XBurnMintERC721Structs
-            .CrossChainPayload({
-                tokenAddress: tokenAddress,
-                tokenChain: tokenChain,
-                tokenID: tokenId,
-                uri: uriString,
-                toAddress: recipient,
-                toChain: _wormholeChainId
-            });
+        CATERC721Structs.CrossChainPayload memory payload = CATERC721Structs.CrossChainPayload({
+            tokenAddress: tokenAddress,
+            tokenChain: tokenChain,
+            tokenID: tokenId,
+            uri: uriString,
+            toAddress: recipient,
+            toChain: _wormholeChainId
+        });
 
         require(bytes(payload.uri).length <= 200, "tokenURI must not exceed 200 bytes");
 
@@ -133,6 +140,8 @@ abstract contract XBurnMintERC721 is
     }
 
     function bridgeIn(bytes calldata encodedVM) external returns (bytes memory) {
+        require(isInitialized() == true, "Not Initialized");
+
         (WormholeStructs.VM memory vm, bool valid, string memory reason) = wormhole()
             .parseAndVerifyVM(encodedVM);
         require(valid, reason);
@@ -141,7 +150,7 @@ abstract contract XBurnMintERC721 is
         require(isTransferCompleted(vm.hash) == false, "Already Completed The Transfer");
         setTransferCompleted(vm.hash);
 
-        XBurnMintERC721Structs.CrossChainPayload memory transfer = decodeTransfer(vm.payload);
+        CATERC721Structs.CrossChainPayload memory transfer = decodeTransfer(vm.payload);
         require(transfer.toChain == chainId(), "invalid target chain");
 
         address transferRecipient = bytesToAddress(transfer.toAddress);
@@ -160,6 +169,8 @@ abstract contract XBurnMintERC721 is
     }
 
     function wrap(uint256 _tokenId, address _recipient) public {
+        require(isInitialized() == true, "Not Initialized");
+
         require(nativeAsset() != address(0), "native token not set");
         require(block.chainid == parentChainIdEVM(), "only parent chain wrapping allowed");
 
@@ -172,12 +183,16 @@ abstract contract XBurnMintERC721 is
     }
 
     function unwrap(uint256 _tokenId, address _recipient) public {
+        require(isInitialized() == true, "Not Initialized");
+
         IERC721Extended token = IERC721Extended(nativeAsset());
         burn(_tokenId);
         token.safeTransferFrom(address(this), _recipient, _tokenId);
     }
 
     function mint(address to) public onlyOwner {
+        require(isInitialized() == true, "Not Initialized");
+
         require(nativeAsset() == address(0), "Minting not allowed as Native token exists");
         require(block.chainid == parentChainIdEVM(), "Only Minting Allowed on Parent Chain");
         uint256 tokenId = counter();

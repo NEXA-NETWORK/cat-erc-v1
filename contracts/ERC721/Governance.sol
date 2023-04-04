@@ -13,7 +13,7 @@ import "./Structs.sol";
 
 import "../interfaces/IWormhole.sol";
 
-contract XBurnMintERC721Governance is XBurnMintERC721Getters, XBurnMintERC721Setters, Ownable {
+contract CATERC721Governance is CATERC721Getters, CATERC721Setters, Ownable {
     using BytesLib for bytes;
 
     /// builds a prefixed hash to mimic the behavior of eth_sign.
@@ -55,7 +55,7 @@ contract XBurnMintERC721Governance is XBurnMintERC721Getters, XBurnMintERC721Set
 
     /// @dev verify owner is caller or the caller has valid owner signature
     modifier onlyOwnerOrOwnerSignature(
-        XBurnMintERC721Structs.SignatureVerification memory signatureArguments
+        CATERC721Structs.SignatureVerification memory signatureArguments
     ) {
         if (msg.sender == owner()) {
             _;
@@ -79,7 +79,7 @@ contract XBurnMintERC721Governance is XBurnMintERC721Getters, XBurnMintERC721Set
     function registerChain(
         uint16 chainId,
         bytes32 tokenContract,
-        XBurnMintERC721Structs.SignatureVerification memory signatureArguments
+        CATERC721Structs.SignatureVerification memory signatureArguments
     ) public onlyOwnerOrOwnerSignature(signatureArguments) {
         setTokenImplementation(chainId, tokenContract);
     }
@@ -87,7 +87,7 @@ contract XBurnMintERC721Governance is XBurnMintERC721Getters, XBurnMintERC721Set
     function registerChains(
         uint16[] memory chainId,
         bytes32[] memory tokenContract,
-        XBurnMintERC721Structs.SignatureVerification memory signatureArguments
+        CATERC721Structs.SignatureVerification memory signatureArguments
     ) public onlyOwnerOrOwnerSignature(signatureArguments) {
         require(chainId.length == tokenContract.length, "Invalid Input");
         for (uint256 i = 0; i < tokenContract.length; i++) {
@@ -98,14 +98,14 @@ contract XBurnMintERC721Governance is XBurnMintERC721Getters, XBurnMintERC721Set
     // Execute a RegisterChain governance message
     function updateFinality(
         uint8 finality,
-        XBurnMintERC721Structs.SignatureVerification memory signatureArguments
+        CATERC721Structs.SignatureVerification memory signatureArguments
     ) public onlyOwnerOrOwnerSignature(signatureArguments) {
         setFinality(finality);
     }
 
     function updateBaseUri(
         string memory uri,
-        XBurnMintERC721Structs.SignatureVerification memory signatureArguments
+        CATERC721Structs.SignatureVerification memory signatureArguments
     ) public onlyOwnerOrOwnerSignature(signatureArguments) {
         setBaseUri(uri);
     }

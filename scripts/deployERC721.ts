@@ -7,35 +7,35 @@ const deploymentsPath = path.join(__dirname, "../deployments.json");
 const finality = 1;
 
 async function deploy() {
-  const XBurnMintERC721 = await ethers.getContractFactory("XBurnMintERC721");
+  const CATERC721 = await ethers.getContractFactory("CATERC721");
 
-  console.log("Deploying XBurnMintERC721 Contract...");
+  console.log("Deploying CATERC721 Contract...");
 
-  const xBurnMintERC721 = await upgrades.deployProxy(
-    XBurnMintERC721,
+  const catERC721 = await upgrades.deployProxy(
+    CATERC721,
     [finality],
     {
       initializer: "initialize",
     }
   );
-  await xBurnMintERC721.deployed();
+  await catERC721.deployed();
   console.log("waiting for block confirmations");
-  await xBurnMintERC721.deployTransaction.wait(1);
+  await catERC721.deployTransaction.wait(1);
 
   let implementationAddress = await upgrades.erc1967.getImplementationAddress(
-    xBurnMintERC721.address
+    catERC721.address
   );
 
-  console.log("XBurnMintERC721 Proxy deployed to:", xBurnMintERC721.address);
+  console.log("CATERC721 Proxy deployed to:", catERC721.address);
   console.log(
-    "XBurnMintERC721 Implementation deployed to:",
+    "CATERC721 Implementation deployed to:",
     implementationAddress
   );
 
   try {
     await hre.run("verify:verify", {
       address: implementationAddress,
-      contract: "contracts/ERC721/XBurn&MintERC721.sol:XBurnMintERC721",
+      contract: "contracts/ERC721/CATERC721.sol:CATERC721",
       constructorArguments: [],
     });
 
@@ -50,10 +50,10 @@ async function deploy() {
       : [];
 
     const contents = {
-      contractName: "XBurnMintERC721",
+      contractName: "CATERC721",
       chainId: hre.network.config.chainId,
       chainName: hre.network.name,
-      deployedProxyAddress: xBurnMintERC721.address,
+      deployedProxyAddress: catERC721.address,
       deployedImplementationAddress: implementationAddress,
     };
 

@@ -8,7 +8,7 @@ import "../interfaces/IWormhole.sol";
 import "./State.sol";
 import "../libraries/BytesLib.sol";
 
-contract XBurnMintERC721Getters is XBurnMintERC721State {
+contract CATERC721Getters is CATERC721State {
     using BytesLib for bytes;
 
     function isTransferCompleted(bytes32 hash) public view returns (bool) {
@@ -51,6 +51,10 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
         return _state.counter;
     }
 
+    function isInitialized() public view returns (bool) {
+        return _state.isInitialized;
+    }
+
     /*
      * @dev Truncate a 32 byte array to a 20 byte address.
      *      Reverts if the array contains non-0 bytes in the first 12 bytes.
@@ -67,7 +71,7 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
     }
 
     function encodeTransfer(
-        XBurnMintERC721Structs.CrossChainPayload memory transfer
+        CATERC721Structs.CrossChainPayload memory transfer
     ) public pure returns (bytes memory encoded) {
         encoded = abi.encodePacked(
             transfer.tokenAddress,
@@ -82,7 +86,7 @@ contract XBurnMintERC721Getters is XBurnMintERC721State {
 
     function decodeTransfer(
         bytes memory encoded
-    ) public pure returns (XBurnMintERC721Structs.CrossChainPayload memory transfer) {
+    ) public pure returns (CATERC721Structs.CrossChainPayload memory transfer) {
         uint256 index = 0;
 
         transfer.tokenAddress = encoded.toBytes32(index);

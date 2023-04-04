@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 
 import "./Structs.sol";
 
-contract XBurnMintERC721Events {
+contract CATERC721Events {
     event bridgeInEvent(
         uint256 tokenId,
         uint256 fromChain,
@@ -22,7 +22,7 @@ contract XBurnMintERC721Events {
     );
 }
 
-contract XBurnMintERC721Storage {
+contract CATERC721Storage {
     struct Provider {
         uint16 chainId;
         // Required number of block confirmations to assume finality
@@ -42,9 +42,10 @@ contract XBurnMintERC721Storage {
         uint256 parentChainIdEVM;
         string baseUri;
         uint256 counter;
+        bool isInitialized;
     }
 }
 
-contract XBurnMintERC721State {
-    XBurnMintERC721Storage.State _state;
+contract CATERC721State {
+    CATERC721Storage.State _state;
 }

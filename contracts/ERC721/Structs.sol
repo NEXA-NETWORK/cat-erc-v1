@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-interface XBurnMintERC721Structs {
+interface CATERC721Structs {
     struct CrossChainPayload {
         // Address of the token. Left-zero-padded if shorter than 32 bytes
         bytes32 tokenAddress;

@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.0;
 
-contract XBurnMintERC20Structs {
+contract CATERC20Structs {
     struct CrossChainPayload {
         // Amount being transferred (big-endian uint256)
         uint256 amount;

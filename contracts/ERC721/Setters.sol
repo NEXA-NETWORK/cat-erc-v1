@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 
 import "./State.sol";
 
-contract XBurnMintERC721Setters is XBurnMintERC721State {
+contract CATERC721Setters is CATERC721State {
     function setTransferCompleted(bytes32 hash) internal {
         _state.completedTransfers[hash] = true;
     }
@@ -45,5 +45,9 @@ contract XBurnMintERC721Setters is XBurnMintERC721State {
 
     function incrementCounter() internal {
         _state.counter = _state.counter + 1;
+    }
+
+    function setIsInitialized() internal {
+        _state.isInitialized = true;
     }
 }

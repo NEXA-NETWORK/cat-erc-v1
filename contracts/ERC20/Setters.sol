@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 
 import "./State.sol";
 
-contract XBurnMintERC20Setters is XBurnMintERC20State {
+contract CATERC20Setters is CATERC20State {
     function setTransferCompleted(bytes32 hash) internal {
         _state.completedTransfers[hash] = true;
     }
@@ -37,5 +37,9 @@ contract XBurnMintERC20Setters is XBurnMintERC20State {
 
     function setParentChainIdEVM(uint256 chain) internal {
         _state.parentChainIdEVM = chain;
+    }
+
+    function setIsInitialized() internal {
+        _state.isInitialized = true;
     }
 }

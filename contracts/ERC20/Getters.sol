@@ -8,7 +8,7 @@ import "../interfaces/IWormhole.sol";
 import "./State.sol";
 import "../libraries/BytesLib.sol";
 
-contract XBurnMintERC20Getters is XBurnMintERC20State {
+contract CATERC20Getters is CATERC20State {
     using BytesLib for bytes;
 
     function isTransferCompleted(bytes32 hash) public view returns (bool) {
@@ -43,6 +43,10 @@ contract XBurnMintERC20Getters is XBurnMintERC20State {
         return _state.parentChainIdEVM;
     }
 
+    function isInitialized() public view returns (bool) {
+        return _state.isInitialized;
+    }
+
     function normalizeAmount(uint256 amount, uint8 decimals) internal pure returns (uint256) {
         if (decimals > 8) {
             amount /= 10 ** (decimals - 8);
@@ -73,7 +77,7 @@ contract XBurnMintERC20Getters is XBurnMintERC20State {
     }
 
     function encodeTransfer(
-        XBurnMintERC20Structs.CrossChainPayload memory transfer
+        CATERC20Structs.CrossChainPayload memory transfer
     ) public pure returns (bytes memory encoded) {
         encoded = abi.encodePacked(
             transfer.amount,
@@ -86,7 +90,7 @@ contract XBurnMintERC20Getters is XBurnMintERC20State {
 
     function decodeTransfer(
         bytes memory encoded
-    ) public pure returns (XBurnMintERC20Structs.CrossChainPayload memory transfer) {
+    ) public pure returns (CATERC20Structs.CrossChainPayload memory transfer) {
         uint index = 0;
 
         transfer.amount = encoded.toUint256(index);
