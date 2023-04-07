@@ -1,13 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "../libraries/BytesLib.sol";
@@ -17,55 +13,28 @@ import "../interfaces/IERC721Extended.sol";
 import "./Structs.sol";
 import "./Governance.sol";
 
-contract CATERC721 is
-    Context,
-    ERC721,
-    IERC721Receiver,
-    ERC721Burnable,
-    ERC721URIStorage,
-    ERC721Enumerable,
-    CATERC721Governance,
-    CATERC721Events
-{
+contract CATERC721ParentChain is Context, IERC721Receiver, CATERC721Governance, CATERC721Events {
     using BytesLib for bytes;
     using Strings for uint256;
 
-    constructor(string memory name, string memory symbol) ERC721(name, symbol) {
+    constructor() {
         setEvmChainId(block.chainid);
     }
 
-    function initialize(uint16 chainId, address wormhole, uint8 finality) public onlyOwner {
+    function initialize(
+        uint16 chainId,
+        address nativeToken,
+        address wormhole,
+        uint8 finality
+    ) public onlyOwner {
         require(isInitialized() == false, "Already Initialized");
+
         setChainId(chainId);
+        setNativeAsset(nativeToken);
         setWormhole(wormhole);
         setFinality(finality);
 
         setIsInitialized();
-    }
-
-    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
-        super._burn(tokenId);
-    }
-
-    function tokenURI(
-        uint256 tokenId
-    ) public view override(ERC721, ERC721URIStorage) returns (string memory) {
-        return super.tokenURI(tokenId);
-    }
-
-    function supportsInterface(
-        bytes4 interfaceId
-    ) public view override(ERC721, ERC721Enumerable) returns (bool) {
-        return super.supportsInterface(interfaceId);
-    }
-
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 firstTokenId,
-        uint256 batchSize
-    ) internal override(ERC721, ERC721Enumerable) {
-        super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
 
     function onERC721Received(
@@ -92,9 +61,12 @@ contract CATERC721 is
             "Recipient Bridge Contract not configured for given chain id"
         );
 
+        // Transfer in contract and lock the nft in this contract
+        nativeAsset().safeTransferFrom(_msgSender(), address(this), tokenId);
+
         uint16 tokenChain = chainId();
         bytes32 tokenAddress = addressToBytes(address(this));
-        string memory uriString = tokenURI(tokenId);
+        string memory uriString = nativeAsset().tokenURI(tokenId);
 
         CATERC721Structs.CrossChainPayload memory payload = CATERC721Structs.CrossChainPayload({
             tokenAddress: tokenAddress,
@@ -115,11 +87,9 @@ contract CATERC721 is
             payload.tokenID,
             payload.tokenChain,
             payload.toChain,
-            addressToBytes(ownerOf(tokenId)),
+            addressToBytes(nativeAsset().ownerOf(tokenId)),
             recipient
         );
-
-        burn(tokenId);
 
         return sequence;
     }
@@ -140,8 +110,8 @@ contract CATERC721 is
 
         address transferRecipient = bytesToAddress(transfer.toAddress);
 
-        _mint(transferRecipient, transfer.tokenID);
-        _setTokenURI(transfer.tokenID, transfer.uri);
+        // Unlock the nft in this contract and Transfer out from contract to user
+        nativeAsset().safeTransferFrom(address(this), transferRecipient, transfer.tokenID);
 
         emit bridgeInEvent(
             transfer.tokenID,

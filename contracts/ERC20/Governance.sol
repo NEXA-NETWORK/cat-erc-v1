@@ -57,7 +57,7 @@ contract CATERC20Governance is CATERC20Getters, CATERC20Setters, Ownable {
     modifier onlyOwnerOrOwnerSignature(
         CATERC20Structs.SignatureVerification memory signatureArguments
     ) {
-        if (msg.sender == owner()) {
+        if (_msgSender() == owner()) {
             _;
         } else {
             bytes32 encodedHashData = prefixed(
@@ -65,7 +65,7 @@ contract CATERC20Governance is CATERC20Getters, CATERC20Setters, Ownable {
                     abi.encodePacked(signatureArguments.custodian, signatureArguments.validTill)
                 )
             );
-            require(signatureArguments.custodian == msg.sender, "custodian can call only");
+            require(signatureArguments.custodian == _msgSender(), "custodian can call only");
             require(signatureArguments.validTill > block.timestamp, "signed transaction expired");
             require(
                 verifySignature(encodedHashData, signatureArguments.signature, owner()),
@@ -101,12 +101,5 @@ contract CATERC20Governance is CATERC20Getters, CATERC20Setters, Ownable {
         CATERC20Structs.SignatureVerification memory signatureArguments
     ) public onlyOwnerOrOwnerSignature(signatureArguments) {
         setFinality(finality);
-    }
-
-    function registerNativeToken(
-        address _token,
-        CATERC20Structs.SignatureVerification memory signatureArguments
-    ) public onlyOwnerOrOwnerSignature(signatureArguments) {
-        setNativeAsset(_token);
     }
 }

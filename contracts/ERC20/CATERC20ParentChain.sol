@@ -1,28 +1,31 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-
 import "../shared/WormholeStructs.sol";
 import "../interfaces/IWormhole.sol";
+import "../interfaces/IERC20Extended.sol";
 import "./Governance.sol";
 import "./Structs.sol";
 
-contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events {
+contract CATERC20ParentChain is Context, CATERC20Governance, CATERC20Events {
     using BytesLib for bytes;
 
-    constructor(string memory name, string memory symbol) ERC20(name, symbol) {
+    constructor() {
         setEvmChainId(block.chainid);
     }
 
-    function initialize(uint16 chainId, address wormhole, uint8 finality) public onlyOwner {
+    function initialize(
+        uint16 chainId,
+        address nativeToken,
+        address wormhole,
+        uint8 finality
+    ) public onlyOwner {
         require(isInitialized() == false, "Already Initialized");
 
         setChainId(chainId);
         setWormhole(wormhole);
         setFinality(finality);
+        setNativeAsset(nativeToken);
 
         setIsInitialized();
     }
@@ -47,10 +50,12 @@ contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events {
         uint16 tokenChain = wormhole().chainId();
         bytes32 tokenAddress = bytes32(uint256(uint160(address(this))));
         uint256 normalizedAmount = deNormalizeAmount(
-            normalizeAmount(amount, decimals()),
-            decimals()
+            normalizeAmount(amount, nativeAsset().decimals()),
+            nativeAsset().decimals()
         );
-        _burn(_msgSender(), normalizedAmount);
+
+        // Transfer in contract and lock the tokens in this contract
+        nativeAsset().transferFrom(_msgSender(), address(this), normalizedAmount);
 
         CATERC20Structs.CrossChainPayload memory transfer = CATERC20Structs.CrossChainPayload({
             amount: normalizedAmount,
@@ -93,11 +98,12 @@ contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events {
         require(transfer.toChain == wormhole().chainId(), "invalid target chain");
 
         uint256 nativeAmount = deNormalizeAmount(
-            normalizeAmount(transfer.amount, decimals()),
-            decimals()
+            normalizeAmount(transfer.amount, nativeAsset().decimals()),
+            nativeAsset().decimals()
         );
 
-        _mint(transferRecipient, nativeAmount);
+        // Unlock the tokens in this contract and Transfer out from contract to user
+        nativeAsset().transferFrom(address(this), transferRecipient, nativeAmount);
 
         emit bridgeInEvent(nativeAmount, transfer.tokenChain, transfer.toChain, transfer.toAddress);
 

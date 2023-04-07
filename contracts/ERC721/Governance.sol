@@ -57,7 +57,7 @@ contract CATERC721Governance is CATERC721Getters, CATERC721Setters, Ownable {
     modifier onlyOwnerOrOwnerSignature(
         CATERC721Structs.SignatureVerification memory signatureArguments
     ) {
-        if (msg.sender == owner()) {
+        if (_msgSender() == owner()) {
             _;
         } else {
             bytes32 encodedHashData = prefixed(
@@ -65,7 +65,7 @@ contract CATERC721Governance is CATERC721Getters, CATERC721Setters, Ownable {
                     abi.encodePacked(signatureArguments.custodian, signatureArguments.validTill)
                 )
             );
-            require(signatureArguments.custodian == msg.sender, "custodian can call only");
+            require(signatureArguments.custodian == _msgSender(), "custodian can call only");
             require(signatureArguments.validTill > block.timestamp, "signed transaction expired");
             require(
                 verifySignature(encodedHashData, signatureArguments.signature, owner()),
@@ -101,12 +101,5 @@ contract CATERC721Governance is CATERC721Getters, CATERC721Setters, Ownable {
         CATERC721Structs.SignatureVerification memory signatureArguments
     ) public onlyOwnerOrOwnerSignature(signatureArguments) {
         setFinality(finality);
-    }
-
-    function updateBaseUri(
-        string memory uri,
-        CATERC721Structs.SignatureVerification memory signatureArguments
-    ) public onlyOwnerOrOwnerSignature(signatureArguments) {
-        setBaseUri(uri);
     }
 }

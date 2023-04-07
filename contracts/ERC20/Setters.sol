@@ -35,10 +35,6 @@ contract CATERC20Setters is CATERC20State {
         _state.nativeAsset = nativeAsset;
     }
 
-    function setParentChainIdEVM(uint256 chain) internal {
-        _state.parentChainIdEVM = chain;
-    }
-
     function setIsInitialized() internal {
         _state.isInitialized = true;
     }

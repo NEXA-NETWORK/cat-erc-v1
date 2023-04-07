@@ -4,6 +4,7 @@
 pragma solidity ^0.8.0;
 
 import "../interfaces/IWormhole.sol";
+import "../interfaces/IERC721Extended.sol";
 
 import "./State.sol";
 import "../libraries/BytesLib.sol";
@@ -35,20 +36,8 @@ contract CATERC721Getters is CATERC721State {
         return _state.provider.finality;
     }
 
-    function baseUri() public view returns (string memory) {
-        return _state.baseUri;
-    }
-
-    function nativeAsset() public view returns (address) {
-        return _state.nativeAsset;
-    }
-
-    function parentChainIdEVM() public view returns (uint256) {
-        return _state.parentChainIdEVM;
-    }
-
-    function counter() public view returns (uint256) {
-        return _state.counter;
+    function nativeAsset() public view returns (IERC721Extended) {
+        return IERC721Extended(_state.nativeAsset);
     }
 
     function isInitialized() public view returns (bool) {

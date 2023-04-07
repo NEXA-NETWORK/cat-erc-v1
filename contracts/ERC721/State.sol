@@ -39,9 +39,6 @@ contract CATERC721Storage {
         // EIP-155 Chain ID
         uint256 evmChainId;
         address nativeAsset;
-        uint256 parentChainIdEVM;
-        string baseUri;
-        uint256 counter;
         bool isInitialized;
     }
 }

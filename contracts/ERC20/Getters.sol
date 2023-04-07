@@ -3,6 +3,7 @@
 
 pragma solidity ^0.8.0;
 
+import "../interfaces/IERC20Extended.sol";
 import "../interfaces/IWormhole.sol";
 
 import "./State.sol";
@@ -35,12 +36,8 @@ contract CATERC20Getters is CATERC20State {
         return _state.provider.finality;
     }
 
-    function nativeAsset() public view returns (address) {
-        return _state.nativeAsset;
-    }
-
-    function parentChainIdEVM() public view returns (uint256) {
-        return _state.parentChainIdEVM;
+    function nativeAsset() public view returns (IERC20Extended) {
+        return IERC20Extended(_state.nativeAsset);
     }
 
     function isInitialized() public view returns (bool) {

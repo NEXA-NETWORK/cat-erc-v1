@@ -31,20 +31,8 @@ contract CATERC721Setters is CATERC721State {
         _state.evmChainId = evmChainId;
     }
 
-    function setBaseUri(string memory uri) internal {
-        _state.baseUri = uri;
-    }
-
     function setNativeAsset(address nativeAsset) internal {
         _state.nativeAsset = nativeAsset;
-    }
-
-    function setParentChainIdEVM(uint256 chain) internal {
-        _state.parentChainIdEVM = chain;
-    }
-
-    function incrementCounter() internal {
-        _state.counter = _state.counter + 1;
     }
 
     function setIsInitialized() internal {
