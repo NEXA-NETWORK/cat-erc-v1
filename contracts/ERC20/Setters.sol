@@ -31,6 +31,14 @@ contract CATERC20Setters is CATERC20State {
         _state.evmChainId = evmChainId;
     }
 
+    function setDecimals(uint8 decimals) internal {
+        _state.decimals = decimals;
+    }
+
+    function setMaxSupply(uint256 maxSupply) internal {
+        _state.maxSupply = maxSupply;
+    }
+
     function setNativeAsset(address nativeAsset) internal {
         _state.nativeAsset = nativeAsset;
     }

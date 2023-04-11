@@ -40,6 +40,8 @@ contract CATERC20Storage {
         uint256 evmChainId;
         address nativeAsset;
         bool isInitialized;
+        uint8 decimals;
+        uint256 maxSupply;
     }
 }
 

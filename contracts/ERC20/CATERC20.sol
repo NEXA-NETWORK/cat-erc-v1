@@ -13,8 +13,15 @@ import "./Structs.sol";
 contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events {
     using BytesLib for bytes;
 
-    constructor(string memory name, string memory symbol) ERC20(name, symbol) {
+    constructor(
+        string memory name,
+        string memory symbol,
+        uint8 decimal,
+        uint256 maxSupply
+    ) ERC20(name, symbol) {
         setEvmChainId(block.chainid);
+        setDecimals(decimal);
+        setMaxSupply(maxSupply);
     }
 
     function initialize(uint16 chainId, address wormhole, uint8 finality) public onlyOwner {
@@ -25,6 +32,10 @@ contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events {
         setFinality(finality);
 
         setIsInitialized();
+    }
+
+    function decimals() public view virtual override returns (uint8) {
+        return getDecimals();
     }
 
     /**
@@ -102,5 +113,10 @@ contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events {
         emit bridgeInEvent(nativeAmount, transfer.tokenChain, transfer.toChain, transfer.toAddress);
 
         return vm.payload;
+    }
+
+    function mint(address recipient, uint256 amount) public onlyOwner {
+        require(totalSupply() + amount <= maxSupply(), "MAX SUPPLY REACHED");
+        _mint(recipient, amount);
     }
 }
