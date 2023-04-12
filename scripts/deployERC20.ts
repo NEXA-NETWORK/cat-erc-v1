@@ -7,16 +7,18 @@ const deploymentsPath = path.join(__dirname, "../deployments.json");
 
 const name = "";
 const symbol = "";
+const decimals = 18;
+const maxSupply = 100;
 const wormholeChainId = "";
 const wormholeCoreContract = "";
 
 async function deploy() {
-  const CATERC721 = await ethers.getContractFactory("CATERC721");
+  const CATERC20 = await ethers.getContractFactory("CATERC20");
 
-  const catERC721 = await CATERC721.deploy(name, symbol);
-  await catERC721.deployed();
+  const catERC20 = await CATERC20.deploy(name, symbol, decimals, maxSupply);
+  await catERC20.deployed();
 
-  const initialize = await catERC721.initialize(
+  const initialize = await catERC20.initialize(
         wormholeChainId,
         wormholeCoreContract,
         1
@@ -24,9 +26,9 @@ async function deploy() {
   
   try {
     await hre.run("verify:verify", {
-      address: catERC721.address,
-      contract: "contracts/ERC721/CATERC721.sol:CATERC721",
-      constructorArguments: [name, symbol],
+      address: catERC20.address,
+      contract: "contracts/ERC20/CATERC20.sol:CATERC20",
+      constructorArguments: [name, symbol, decimals, maxSupply],
     });
 
     console.log("Verified Successfully");
@@ -40,11 +42,11 @@ async function deploy() {
       : [];
 
     const contents = {
-      contractName: "CATERC721",
+      contractName: "CATERC20",
       chainId: hre.network.config.chainId,
       wormholeChainId: wormholeChainId,
       chainName: hre.network.name,
-      deployedBridge: catERC721.address,
+      deployedBridge: catERC20.address,
     };
 
     file.push(contents);
