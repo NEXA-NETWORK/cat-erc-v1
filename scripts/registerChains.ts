@@ -1,22 +1,40 @@
 import { ethers } from "hardhat";
-import wormhole from "@certusone/wormhole-sdk";
+import wormhole, { sign } from "@certusone/wormhole-sdk";
 import hre from "hardhat";
 import fs from "fs";
 import path from "path";
 const deploymentsPath = path.join(__dirname, "../deployments.json");
 
+let nowTime = new Date().getTime() / 1000;
+nowTime = Math.floor(parseInt(nowTime.toString()));
+
+
 const ERC721Contract = "";
-let chains: string[] = [];
+const signature = "";
+let custodianAddress: string = ""
+let wormholeChains: string[] = [];
 let addresses: string[] = [];
+let validTillSeconds = 300
+
+
+let validTime = nowTime + validTillSeconds;
 let signatureArguments = {
-  custodian: "custodian",
-  validTill: "validTill",
-  signature: "signature",
+  custodian: custodianAddress,
+  validTill: validTime,
+  signature: signature,
 };
 
 async function register() {
   const CATERC721 = await ethers.getContractAt("CATERC721", ERC721Contract);
-  const registerChains = await CATERC721.registerChains(chains, addresses, signatureArguments);
+  const addressesBytes32: string[] = [];
+
+  for (let i = 0; i < wormholeChains.length; i++) {
+    addressesBytes32.push(
+      await CATERC721.addressToBytes(addresses[i])
+    );
+  }
+  const registerChains = await CATERC721.registerChains(wormholeChains, addressesBytes32, signatureArguments);
+  registerChains.wait();
 }
 
 register();
