@@ -43,10 +43,6 @@ contract CATERC20ParentChain is Context, CATERC20Governance, CATERC20Events {
 
         uint256 fee = wormhole().messageFee();
         require(msg.value >= fee, "Not enough fee provided to publish message");
-        require(
-            tokenContracts(recipientChain) != bytes32(0),
-            "Recipient Bridge Contract not configured for given chain id"
-        );
         uint16 tokenChain = wormhole().chainId();
         bytes32 tokenAddress = bytes32(uint256(uint160(address(this))));
         uint256 normalizedAmount = deNormalizeAmount(
@@ -87,7 +83,11 @@ contract CATERC20ParentChain is Context, CATERC20Governance, CATERC20Events {
             encodedVm
         );
         require(valid, reason);
-        require(tokenContracts(vm.emitterChainId) == vm.emitterAddress, "Invalid Emitter");
+        require(
+            bytesToAddress(vm.emitterAddress) == address(this) ||
+                tokenContracts(vm.emitterChainId) == vm.emitterAddress,
+            "Invalid Emitter"
+        );
 
         CATERC20Structs.CrossChainPayload memory transfer = decodeTransfer(vm.payload);
         address transferRecipient = bytesToAddress(transfer.toAddress);

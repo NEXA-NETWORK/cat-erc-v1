@@ -87,10 +87,6 @@ contract CATERC721 is
 
         uint256 fee = wormhole().messageFee();
         require(msg.value >= fee, "Not enough fee provided to publish message");
-        require(
-            tokenContracts(_wormholeChainId) != bytes32(0),
-            "Recipient Bridge Contract not configured for given chain id"
-        );
 
         uint16 tokenChain = chainId();
         bytes32 tokenAddress = addressToBytes(address(this));
@@ -130,7 +126,11 @@ contract CATERC721 is
         (WormholeStructs.VM memory vm, bool valid, string memory reason) = wormhole()
             .parseAndVerifyVM(encodedVM);
         require(valid, reason);
-        require(tokenContracts(vm.emitterChainId) == vm.emitterAddress, "Invalid Emitter");
+        require(
+            bytesToAddress(vm.emitterAddress) == address(this) ||
+                tokenContracts(vm.emitterChainId) == vm.emitterAddress,
+            "Invalid Emitter"
+        );
 
         require(isTransferCompleted(vm.hash) == false, "Already Completed The Transfer");
         setTransferCompleted(vm.hash);

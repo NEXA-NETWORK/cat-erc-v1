@@ -56,10 +56,6 @@ contract CATERC721ParentChain is Context, IERC721Receiver, CATERC721Governance, 
 
         uint256 fee = wormhole().messageFee();
         require(msg.value >= fee, "Not enough fee provided to publish message");
-        require(
-            tokenContracts(_wormholeChainId) != bytes32(0),
-            "Recipient Bridge Contract not configured for given chain id"
-        );
 
         // Transfer in contract and lock the nft in this contract
         nativeAsset().safeTransferFrom(_msgSender(), address(this), tokenId);
@@ -100,7 +96,11 @@ contract CATERC721ParentChain is Context, IERC721Receiver, CATERC721Governance, 
         (WormholeStructs.VM memory vm, bool valid, string memory reason) = wormhole()
             .parseAndVerifyVM(encodedVM);
         require(valid, reason);
-        require(tokenContracts(vm.emitterChainId) == vm.emitterAddress, "Invalid Emitter");
+        require(
+            bytesToAddress(vm.emitterAddress) == address(this) ||
+                tokenContracts(vm.emitterChainId) == vm.emitterAddress,
+            "Invalid Emitter"
+        );
 
         require(isTransferCompleted(vm.hash) == false, "Already Completed The Transfer");
         setTransferCompleted(vm.hash);
