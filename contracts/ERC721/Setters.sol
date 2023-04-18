@@ -35,6 +35,10 @@ contract CATERC721Setters is CATERC721State {
         _state.nativeAsset = nativeAsset;
     }
 
+    function setMaxSupply(uint256 maxSupply) internal {
+        _state.maxSupply = maxSupply;
+    }
+
     function setIsInitialized() internal {
         _state.isInitialized = true;
     }

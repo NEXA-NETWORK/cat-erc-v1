@@ -30,8 +30,9 @@ contract CATERC721 is
     using BytesLib for bytes;
     using Strings for uint256;
 
-    constructor(string memory name, string memory symbol) ERC721(name, symbol) {
+    constructor(string memory name, string memory symbol, uint256 maxSupply) ERC721(name, symbol) {
         setEvmChainId(block.chainid);
+        setMaxSupply(maxSupply);
     }
 
     function initialize(uint16 chainId, address wormhole, uint8 finality) public onlyOwner {
@@ -151,5 +152,12 @@ contract CATERC721 is
         );
 
         return vm.payload;
+    }
+
+    function mint(address recipient, string memory _tokenUri) public onlyOwner {
+        require(totalSupply() <= maxSupply(), "MAX SUPPLY REACHED");
+        uint256 tokenId = totalSupply();
+        _mint(recipient, tokenId);
+        _setTokenURI(tokenId, _tokenUri);
     }
 }

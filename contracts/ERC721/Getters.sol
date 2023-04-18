@@ -40,6 +40,10 @@ contract CATERC721Getters is CATERC721State {
         return IERC721Extended(_state.nativeAsset);
     }
 
+    function maxSupply() public view returns (uint256) {
+        return _state.maxSupply;
+    }
+
     function isInitialized() public view returns (bool) {
         return _state.isInitialized;
     }

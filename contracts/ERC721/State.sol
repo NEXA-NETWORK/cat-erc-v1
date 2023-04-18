@@ -40,6 +40,7 @@ contract CATERC721Storage {
         uint256 evmChainId;
         address nativeAsset;
         bool isInitialized;
+        uint256 maxSupply;
     }
 }
 
