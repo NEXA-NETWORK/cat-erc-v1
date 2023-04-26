@@ -25,7 +25,7 @@ let signatureArguments = {
 };
 
 async function register() {
-  const CATERC721 = await ethers.getContractAt("CATERC721ParentChain", ERC721Contract);
+  const CATERC721 = await ethers.getContractAt("CATERC721Proxy", ERC721Contract);
   const addressesBytes32: string[] = [];
 
   for (let i = 0; i < wormholeChains.length; i++) {

@@ -13,18 +13,18 @@ const finality = 1;
 const nowTime = parseInt(Math.floor(new Date().getTime() / 1000));
 const validTime = nowTime + 300;
 
-describe("CATERC20ParentChain", () => {
+describe("CATERC20Proxy", () => {
   async function deployFixture() {
     const [owner, otherAccount] = await ethers.getSigners();
 
     const TestTokenFactory = await ethers.getContractFactory("TestToken");
-    const CATERC20ParentChainFactory = await ethers.getContractFactory("CATERC20ParentChain");
+    const CATERC20ProxyFactory = await ethers.getContractFactory("CATERC20Proxy");
     const TestTokenInstance = await TestTokenFactory.deploy();
     await TestTokenInstance.deployed();
-    const CATERC20ParentChainInstance = await CATERC20ParentChainFactory.deploy();
-    await CATERC20ParentChainInstance.deployed();
+    const CATERC20ProxyInstance = await CATERC20ProxyFactory.deploy();
+    await CATERC20ProxyInstance.deployed();
 
-    const initialize = await CATERC20ParentChainInstance.connect(owner).initialize(
+    const initialize = await CATERC20ProxyInstance.connect(owner).initialize(
       wormholeChainId,
       TestTokenInstance.address,
       wormholeCoreContract,
@@ -36,7 +36,7 @@ describe("CATERC20ParentChain", () => {
       owner,
       otherAccount,
       TestTokenInstance,
-      CATERC20ParentChainInstance,
+      CATERC20ProxyInstance,
     };
   }
 
@@ -54,7 +54,7 @@ describe("CATERC20ParentChain", () => {
 
   describe("Governance Functions", () => {
     it("registerChain", async () => {
-      const { owner, otherAccount, TestTokenInstance, CATERC20ParentChainInstance } =
+      const { owner, otherAccount, TestTokenInstance, CATERC20ProxyInstance } =
         await deployFixture();
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
@@ -63,20 +63,20 @@ describe("CATERC20ParentChain", () => {
       );
       const SignatureVerification = [custodian, validTill, signature];
 
-      const TestTokenBytes32 = await CATERC20ParentChainInstance.connect(
+      const TestTokenBytes32 = await CATERC20ProxyInstance.connect(
         otherAccount
       ).addressToBytes(TestTokenInstance.address);
-      await CATERC20ParentChainInstance.connect(otherAccount).registerChain(
+      await CATERC20ProxyInstance.connect(otherAccount).registerChain(
         2,
         TestTokenBytes32,
         SignatureVerification
       );
 
-      expect(await CATERC20ParentChainInstance.tokenContracts(2)).to.equal(TestTokenBytes32);
+      expect(await CATERC20ProxyInstance.tokenContracts(2)).to.equal(TestTokenBytes32);
     });
 
     it("register multiple chains", async () => {
-      const { owner, otherAccount, TestTokenInstance, CATERC20ParentChainInstance } =
+      const { owner, otherAccount, TestTokenInstance, CATERC20ProxyInstance } =
         await deployFixture();
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
@@ -94,29 +94,29 @@ describe("CATERC20ParentChain", () => {
 
       for (let i = 0; i < chaindIds.length; i++) {
         tokenAddressesBytes32.push(
-          await CATERC20ParentChainInstance.connect(otherAccount).addressToBytes(tokenAddresses[i])
+          await CATERC20ProxyInstance.connect(otherAccount).addressToBytes(tokenAddresses[i])
         );
       }
 
-      await CATERC20ParentChainInstance.connect(otherAccount).registerChains(
+      await CATERC20ProxyInstance.connect(otherAccount).registerChains(
         chaindIds,
         tokenAddressesBytes32,
         SignatureVerification
       );
 
-      expect(await CATERC20ParentChainInstance.tokenContracts(chaindIds[0])).to.equal(
+      expect(await CATERC20ProxyInstance.tokenContracts(chaindIds[0])).to.equal(
         tokenAddressesBytes32[0]
       );
-      expect(await CATERC20ParentChainInstance.tokenContracts(chaindIds[1])).to.equal(
+      expect(await CATERC20ProxyInstance.tokenContracts(chaindIds[1])).to.equal(
         tokenAddressesBytes32[1]
       );
-      expect(await CATERC20ParentChainInstance.tokenContracts(chaindIds[2])).to.equal(
+      expect(await CATERC20ProxyInstance.tokenContracts(chaindIds[2])).to.equal(
         tokenAddressesBytes32[2]
       );
     });
 
     it("update finality", async () => {
-      const { owner, otherAccount, TestTokenInstance, CATERC20ParentChainInstance } =
+      const { owner, otherAccount, TestTokenInstance, CATERC20ProxyInstance } =
         await deployFixture();
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
@@ -126,30 +126,30 @@ describe("CATERC20ParentChain", () => {
       const SignatureVerification = [custodian, validTill, signature];
       const newFinality = 15;
 
-      await CATERC20ParentChainInstance.connect(otherAccount).updateFinality(
+      await CATERC20ProxyInstance.connect(otherAccount).updateFinality(
         newFinality,
         SignatureVerification
       );
 
-      expect(await CATERC20ParentChainInstance.finality()).to.equal(newFinality);
+      expect(await CATERC20ProxyInstance.finality()).to.equal(newFinality);
     });
   });
 
   describe("Encoding and Decoding Transfers", () => {
     it("encode and decode data to transfer", async () => {
-      const { owner, otherAccount, TestTokenInstance, CATERC20ParentChainInstance } =
+      const { owner, otherAccount, TestTokenInstance, CATERC20ProxyInstance } =
         await deployFixture();
 
       const data = {
         amount: 100,
-        tokenAddress: await CATERC20ParentChainInstance.addressToBytes(TestTokenInstance.address),
+        tokenAddress: await CATERC20ProxyInstance.addressToBytes(TestTokenInstance.address),
         tokenChain: 1,
-        toAddress: await CATERC20ParentChainInstance.addressToBytes(otherAccount.address),
+        toAddress: await CATERC20ProxyInstance.addressToBytes(otherAccount.address),
         toChain: 2,
       };
 
-      const encoded = await CATERC20ParentChainInstance.encodeTransfer(data);
-      const decoded = await CATERC20ParentChainInstance.decodeTransfer(encoded);
+      const encoded = await CATERC20ProxyInstance.encodeTransfer(data);
+      const decoded = await CATERC20ProxyInstance.decodeTransfer(encoded);
 
       expect(decoded.amount).to.equal(data.amount);
       expect(decoded.tokenAddress).to.equal(data.tokenAddress);
@@ -161,43 +161,43 @@ describe("CATERC20ParentChain", () => {
 
   describe("Cross Chain Transfers", () => {
     it("bridgeOut", async () => {
-      const { owner, otherAccount, TestTokenInstance, CATERC20ParentChainInstance } =
+      const { owner, otherAccount, TestTokenInstance, CATERC20ProxyInstance } =
         await deployFixture();
 
       const amountToMint = "100000000000000000000";
 
       await TestTokenInstance.mint(amountToMint);
-      await TestTokenInstance.approve(CATERC20ParentChainInstance.address, amountToMint);
-      await CATERC20ParentChainInstance.bridgeOut(
+      await TestTokenInstance.approve(CATERC20ProxyInstance.address, amountToMint);
+      await CATERC20ProxyInstance.bridgeOut(
         amountToMint,
         wormholeChainId,
-        await CATERC20ParentChainInstance.addressToBytes(owner.address),
+        await CATERC20ProxyInstance.addressToBytes(owner.address),
         0
       );
     });
 
     it("bridgeIn", async () => {
-      const { owner, otherAccount, TestTokenInstance, CATERC20ParentChainInstance } =
+      const { owner, otherAccount, TestTokenInstance, CATERC20ProxyInstance } =
         await deployFixture();
 
       const amountToMint = "100000000000000000000";
 
       const data = {
         amount: amountToMint,
-        tokenAddress: await CATERC20ParentChainInstance.addressToBytes(
-          CATERC20ParentChainInstance.address
+        tokenAddress: await CATERC20ProxyInstance.addressToBytes(
+          CATERC20ProxyInstance.address
         ),
         tokenChain: 2,
-        toAddress: await CATERC20ParentChainInstance.addressToBytes(owner.address),
+        toAddress: await CATERC20ProxyInstance.addressToBytes(owner.address),
         toChain: 2,
       };
 
-      const payload = await CATERC20ParentChainInstance.encodeTransfer(data);
+      const payload = await CATERC20ProxyInstance.encodeTransfer(data);
       const vaa = await signAndEncodeVM(
         1,
         1,
         wormholeChainId,
-        await CATERC20ParentChainInstance.addressToBytes(CATERC20ParentChainInstance.address),
+        await CATERC20ProxyInstance.addressToBytes(CATERC20ProxyInstance.address),
         0,
         payload,
         [testSigner1PK],
@@ -206,7 +206,7 @@ describe("CATERC20ParentChain", () => {
       );
       console.log("VAA: ", vaa);
 
-      await CATERC20ParentChainInstance.bridgeIn("0x" + vaa);
+      await CATERC20ProxyInstance.bridgeIn("0x" + vaa);
     });
   });
 });

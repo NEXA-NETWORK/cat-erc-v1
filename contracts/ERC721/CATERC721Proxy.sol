@@ -11,17 +11,11 @@ import "../libraries/BytesLib.sol";
 import "../shared/WormholeStructs.sol";
 import "../interfaces/IWormhole.sol";
 import "../interfaces/IERC721Extended.sol";
-import "../interfaces/ICATERC721ParentChain.sol";
+import "../interfaces/ICATERC721Proxy.sol";
 import "./Structs.sol";
 import "./Governance.sol";
 
-contract CATERC721ParentChain is
-    Context,
-    IERC721Receiver,
-    CATERC721Governance,
-    CATERC721Events,
-    ERC165
-{
+contract CATERC721Proxy is Context, IERC721Receiver, CATERC721Governance, CATERC721Events, ERC165 {
     using BytesLib for bytes;
     using Strings for uint256;
 
@@ -47,7 +41,7 @@ contract CATERC721ParentChain is
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC165) returns (bool) {
         return
-            interfaceId == type(ICATERC721ParentChain).interfaceId ||
+            interfaceId == type(ICATERC721Proxy).interfaceId ||
             super.supportsInterface(interfaceId);
     }
 

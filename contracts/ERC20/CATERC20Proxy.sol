@@ -5,12 +5,12 @@ import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
 import "../shared/WormholeStructs.sol";
 import "../interfaces/IWormhole.sol";
-import "../interfaces/ICATERC20ParentChain.sol";
+import "../interfaces/ICATERC20Proxy.sol";
 import "../interfaces/IERC20Extended.sol";
 import "./Governance.sol";
 import "./Structs.sol";
 
-contract CATERC20ParentChain is Context, CATERC20Governance, CATERC20Events, ERC165 {
+contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165 {
     using BytesLib for bytes;
 
     constructor() {
@@ -37,8 +37,7 @@ contract CATERC20ParentChain is Context, CATERC20Governance, CATERC20Events, ERC
         bytes4 interfaceId
     ) public view virtual override(ERC165) returns (bool) {
         return
-            interfaceId == type(ICATERC20ParentChain).interfaceId ||
-            super.supportsInterface(interfaceId);
+            interfaceId == type(ICATERC20Proxy).interfaceId || super.supportsInterface(interfaceId);
     }
 
     /**

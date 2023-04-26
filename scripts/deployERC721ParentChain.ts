@@ -10,15 +10,15 @@ const wormholeCoreContract = "";
 
 async function deploy() {
   const TestNFT = await ethers.getContractFactory("TestNFT");
-  const CATERC721ParentChain = await ethers.getContractFactory("CATERC721ParentChain");
+  const CATERC721Proxy = await ethers.getContractFactory("CATERC721Proxy");
 
   const testNFT = await TestNFT.deploy();
   await testNFT.deployed();
 
-  const catERC721ParentChain = await CATERC721ParentChain.deploy();
-  await catERC721ParentChain.deployed();
+  const catERC721Proxy = await CATERC721Proxy.deploy();
+  await catERC721Proxy.deployed();
 
-  const initialize = await catERC721ParentChain.initialize(
+  const initialize = await catERC721Proxy.initialize(
         wormholeChainId,
         testNFT.address,
         wormholeCoreContract,
@@ -27,8 +27,8 @@ async function deploy() {
   
   try {
     await hre.run("verify:verify", {
-      address: catERC721ParentChain.address,
-      contract: "contracts/ERC721/CATERC721ParentChain.sol:CATERC721ParentChain",
+      address: catERC721Proxy.address,
+      contract: "contracts/ERC721/CATERC721Proxy.sol:CATERC721Proxy",
       constructorArguments: [],
     });
 
@@ -55,11 +55,11 @@ async function deploy() {
       : [];
 
     const contents = {
-      contractName: "CATERC721ParentChain",
+      contractName: "CATERC721Proxy",
       chainId: hre.network.config.chainId,
       wormholeChainId: wormholeChainId,
       chainName: hre.network.name,
-      deployedBridge: catERC721ParentChain.address,
+      deployedBridge: catERC721Proxy.address,
       deployedNft: testNFT.address,
     };
 

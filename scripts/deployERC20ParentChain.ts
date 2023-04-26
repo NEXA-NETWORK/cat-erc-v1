@@ -10,15 +10,15 @@ const wormholeCoreContract = "";
 
 async function deploy() {
   const TestToken = await ethers.getContractFactory("TestToken");
-  const CATERC20ParentChain = await ethers.getContractFactory("CATERC20ParentChain");
+  const CATERC20Proxy = await ethers.getContractFactory("CATERC20Proxy");
 
   const testToken = await TestToken.deploy();
   await testToken.deployed();
 
-  const catERC20ParentChain = await CATERC20ParentChain.deploy();
-  await catERC20ParentChain.deployed();
+  const catERC20Proxy = await CATERC20Proxy.deploy();
+  await catERC20Proxy.deployed();
 
-  const initialize = await catERC20ParentChain.initialize(
+  const initialize = await catERC20Proxy.initialize(
         wormholeChainId,
         testToken.address,
         wormholeCoreContract,
@@ -27,8 +27,8 @@ async function deploy() {
   
   try {
     await hre.run("verify:verify", {
-      address: catERC20ParentChain.address,
-      contract: "contracts/ERC20/CATERC20ParentChain.sol:CATERC20ParentChain",
+      address: catERC20Proxy.address,
+      contract: "contracts/ERC20/CATERC20Proxy.sol:CATERC20Proxy",
       constructorArguments: [],
     });
 
@@ -55,11 +55,11 @@ async function deploy() {
       : [];
 
     const contents = {
-      contractName: "CATERC20ParentChain",
+      contractName: "CATERC20Proxy",
       chainId: hre.network.config.chainId,
       wormholeChainId: wormholeChainId,
       chainName: hre.network.name,
-      deployedBridge: catERC20ParentChain.address,
+      deployedBridge: catERC20Proxy.address,
       deployedToken: testToken.address,
     };
 

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-interface ICATERC721ParentChain {
+interface ICATERC721Proxy {
     function initialize(
         uint16 chainId,
         address nativeToken,
