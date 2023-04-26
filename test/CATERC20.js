@@ -26,13 +26,14 @@ describe("CATERC20", () => {
     const CATERC20Factory = await ethers.getContractFactory("CATERC20");
     const TestTokenInstance = await TestTokenFactory.deploy();
     await TestTokenInstance.deployed();
-    const CATERC20Instance = await CATERC20Factory.deploy(name, symbol, decimals, maxSupply);
+    const CATERC20Instance = await CATERC20Factory.deploy(name, symbol, decimals);
     await CATERC20Instance.deployed();
 
     const initialize = await CATERC20Instance.connect(owner).initialize(
       wormholeChainId,
       wormholeCoreContract,
-      finality
+      finality,
+      maxSupply
     );
     await initialize.wait();
 

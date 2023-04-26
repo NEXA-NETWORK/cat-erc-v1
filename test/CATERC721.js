@@ -25,13 +25,14 @@ describe("CATERC721", () => {
     const CATERC721Factory = await ethers.getContractFactory("CATERC721");
     const TestNFTInstance = await TestNFTFactory.deploy();
     await TestNFTInstance.deployed();
-    const CATERC721Instance = await CATERC721Factory.deploy(name, symbol, maxSupply);
+    const CATERC721Instance = await CATERC721Factory.deploy(name, symbol);
     await CATERC721Instance.deployed();
 
     const initialize = await CATERC721Instance.connect(owner).initialize(
       wormholeChainId,
       wormholeCoreContract,
-      finality
+      finality,
+      maxSupply
     );
     await initialize.wait();
 

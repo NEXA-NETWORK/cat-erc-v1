@@ -31,16 +31,21 @@ contract CATERC721 is
     using BytesLib for bytes;
     using Strings for uint256;
 
-    constructor(string memory name, string memory symbol, uint256 maxSupply) ERC721(name, symbol) {
+    constructor(string memory name, string memory symbol) ERC721(name, symbol) {
         setEvmChainId(block.chainid);
-        setMaxSupply(maxSupply);
     }
 
-    function initialize(uint16 chainId, address wormhole, uint8 finality) public onlyOwner {
+    function initialize(
+        uint16 chainId,
+        address wormhole,
+        uint8 finality,
+        uint256 maxSupply
+    ) public onlyOwner {
         require(isInitialized() == false, "Already Initialized");
         setChainId(chainId);
         setWormhole(wormhole);
         setFinality(finality);
+        setMaxSupply(maxSupply);
 
         setIsInitialized();
     }
