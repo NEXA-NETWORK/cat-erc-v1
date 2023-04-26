@@ -4,13 +4,15 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
 import "../shared/WormholeStructs.sol";
 import "../interfaces/IWormhole.sol";
+import "../interfaces/ICATERC20.sol";
 import "./Governance.sol";
 import "./Structs.sol";
 
-contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events {
+contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events, ERC165 {
     using BytesLib for bytes;
 
     constructor(string memory name, string memory symbol, uint8 decimal) ERC20(name, symbol) {
@@ -36,6 +38,12 @@ contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events {
 
     function decimals() public view virtual override returns (uint8) {
         return getDecimals();
+    }
+
+    function supportsInterface(
+        bytes4 interfaceId
+    ) public view virtual override(ERC165) returns (bool) {
+        return interfaceId == type(ICATERC20).interfaceId || super.supportsInterface(interfaceId);
     }
 
     /**

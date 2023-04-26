@@ -14,6 +14,7 @@ import "../libraries/BytesLib.sol";
 import "../shared/WormholeStructs.sol";
 import "../interfaces/IWormhole.sol";
 import "../interfaces/IERC721Extended.sol";
+import "../interfaces/ICATERC721.sol";
 import "./Structs.sol";
 import "./Governance.sol";
 
@@ -57,7 +58,7 @@ contract CATERC721 is
     function supportsInterface(
         bytes4 interfaceId
     ) public view override(ERC721, ERC721Enumerable) returns (bool) {
-        return super.supportsInterface(interfaceId);
+        return interfaceId == type(ICATERC721).interfaceId || super.supportsInterface(interfaceId);
     }
 
     function _beforeTokenTransfer(

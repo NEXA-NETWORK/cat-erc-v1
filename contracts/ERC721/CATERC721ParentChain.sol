@@ -6,14 +6,22 @@ import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 import "../libraries/BytesLib.sol";
 import "../shared/WormholeStructs.sol";
 import "../interfaces/IWormhole.sol";
 import "../interfaces/IERC721Extended.sol";
+import "../interfaces/ICATERC721ParentChain.sol";
 import "./Structs.sol";
 import "./Governance.sol";
 
-contract CATERC721ParentChain is Context, IERC721Receiver, CATERC721Governance, CATERC721Events {
+contract CATERC721ParentChain is
+    Context,
+    IERC721Receiver,
+    CATERC721Governance,
+    CATERC721Events,
+    ERC165
+{
     using BytesLib for bytes;
     using Strings for uint256;
 
@@ -35,6 +43,12 @@ contract CATERC721ParentChain is Context, IERC721Receiver, CATERC721Governance, 
         setFinality(finality);
 
         setIsInitialized();
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view override(ERC165) returns (bool) {
+        return
+            interfaceId == type(ICATERC721ParentChain).interfaceId ||
+            super.supportsInterface(interfaceId);
     }
 
     function onERC721Received(

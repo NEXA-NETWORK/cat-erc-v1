@@ -1,13 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
+import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
+
 import "../shared/WormholeStructs.sol";
 import "../interfaces/IWormhole.sol";
+import "../interfaces/ICATERC20ParentChain.sol";
 import "../interfaces/IERC20Extended.sol";
 import "./Governance.sol";
 import "./Structs.sol";
 
-contract CATERC20ParentChain is Context, CATERC20Governance, CATERC20Events {
+contract CATERC20ParentChain is Context, CATERC20Governance, CATERC20Events, ERC165 {
     using BytesLib for bytes;
 
     constructor() {
@@ -28,6 +31,14 @@ contract CATERC20ParentChain is Context, CATERC20Governance, CATERC20Events {
         setNativeAsset(nativeToken);
 
         setIsInitialized();
+    }
+
+    function supportsInterface(
+        bytes4 interfaceId
+    ) public view virtual override(ERC165) returns (bool) {
+        return
+            interfaceId == type(ICATERC20ParentChain).interfaceId ||
+            super.supportsInterface(interfaceId);
     }
 
     /**
