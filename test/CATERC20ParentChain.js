@@ -166,7 +166,7 @@ describe("CATERC20ParentChain", () => {
 
       const amountToMint = "100000000000000000000";
 
-      await TestTokenInstance.mint(owner.address, amountToMint);
+      await TestTokenInstance.mint(amountToMint);
       await TestTokenInstance.approve(CATERC20ParentChainInstance.address, amountToMint);
       await CATERC20ParentChainInstance.bridgeOut(
         amountToMint,
