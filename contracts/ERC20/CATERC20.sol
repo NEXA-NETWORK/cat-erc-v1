@@ -13,23 +13,23 @@ import "./Structs.sol";
 contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events {
     using BytesLib for bytes;
 
-    constructor(
-        string memory name,
-        string memory symbol,
-        uint8 decimal,
-        uint256 maxSupply
-    ) ERC20(name, symbol) {
+    constructor(string memory name, string memory symbol, uint8 decimal) ERC20(name, symbol) {
         setEvmChainId(block.chainid);
         setDecimals(decimal);
-        setMaxSupply(maxSupply);
     }
 
-    function initialize(uint16 chainId, address wormhole, uint8 finality) public onlyOwner {
+    function initialize(
+        uint16 chainId,
+        address wormhole,
+        uint8 finality,
+        uint256 maxSupply
+    ) public onlyOwner {
         require(isInitialized() == false, "Already Initialized");
 
         setChainId(chainId);
         setWormhole(wormhole);
         setFinality(finality);
+        setMaxSupply(maxSupply);
 
         setIsInitialized();
     }
