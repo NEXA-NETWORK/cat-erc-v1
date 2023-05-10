@@ -113,7 +113,7 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165 {
         );
 
         // Unlock the tokens in this contract and Transfer out from contract to user
-        nativeAsset().transferFrom(address(this), transferRecipient, nativeAmount);
+        nativeAsset().transfer(transferRecipient, nativeAmount);
 
         emit bridgeInEvent(nativeAmount, transfer.tokenChain, transfer.toChain, transfer.toAddress);
 
