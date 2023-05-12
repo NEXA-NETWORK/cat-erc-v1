@@ -167,7 +167,7 @@ contract CATERC721 is
     }
 
     function mint(address recipient) public onlyOwner {
-        require(totalSupply() <= maxSupply(), "MAX SUPPLY REACHED");
+        require(totalSupply() < maxSupply(), "MAX SUPPLY REACHED");
         uint256 tokenId = totalSupply();
         _mint(recipient, tokenId);
     }
