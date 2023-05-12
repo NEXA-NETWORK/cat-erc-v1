@@ -39,13 +39,15 @@ contract CATERC721 is
         uint16 chainId,
         address wormhole,
         uint8 finality,
-        uint256 maxSupply
+        uint256 maxSupply,
+        string memory base_uri
     ) public onlyOwner {
         require(isInitialized() == false, "Already Initialized");
         setChainId(chainId);
         setWormhole(wormhole);
         setFinality(finality);
         setMaxSupply(maxSupply);
+        setBaseUri(base_uri);
 
         setIsInitialized();
     }
@@ -58,6 +60,10 @@ contract CATERC721 is
         uint256 tokenId
     ) public view override(ERC721, ERC721URIStorage) returns (string memory) {
         return super.tokenURI(tokenId);
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return baseUri();
     }
 
     function supportsInterface(
@@ -160,10 +166,9 @@ contract CATERC721 is
         return vm.payload;
     }
 
-    function mint(address recipient, string memory _tokenUri) public onlyOwner {
+    function mint(address recipient) public onlyOwner {
         require(totalSupply() <= maxSupply(), "MAX SUPPLY REACHED");
         uint256 tokenId = totalSupply();
         _mint(recipient, tokenId);
-        _setTokenURI(tokenId, _tokenUri);
     }
 }

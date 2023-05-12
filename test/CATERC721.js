@@ -10,6 +10,7 @@ const testSigner1PK = "cfb12303a19cde580bb4dd771639b0d26bc68353645571a8cff516ab2
 const name = "CATERC721Test";
 const symbol = "CATTEST";
 const maxSupply = 100;
+const baseUri = "https://boredapeyachtclub.com/api/mutants/";
 
 const wormholeChainId = "2";
 const wormholeCoreContract = "0x98f3c9e6E3fAce36bAAd05FE09d375Ef1464288B";
@@ -32,7 +33,8 @@ describe("CATERC721", () => {
       wormholeChainId,
       wormholeCoreContract,
       finality,
-      maxSupply
+      maxSupply,
+      baseUri
     );
     await initialize.wait();
 

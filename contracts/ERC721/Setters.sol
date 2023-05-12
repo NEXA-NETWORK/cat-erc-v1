@@ -42,4 +42,8 @@ contract CATERC721Setters is CATERC721State {
     function setIsInitialized() internal {
         _state.isInitialized = true;
     }
+
+    function setBaseUri(string memory uri) internal {
+        _state.baseUri = uri;
+    }
 }

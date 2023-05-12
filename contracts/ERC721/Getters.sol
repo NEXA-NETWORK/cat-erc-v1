@@ -48,6 +48,10 @@ contract CATERC721Getters is CATERC721State {
         return _state.isInitialized;
     }
 
+    function baseUri() public view returns (string memory) {
+        return _state.baseUri;
+    }
+
     /*
      * @dev Truncate a 32 byte array to a 20 byte address.
      *      Reverts if the array contains non-0 bytes in the first 12 bytes.

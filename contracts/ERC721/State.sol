@@ -41,6 +41,7 @@ contract CATERC721Storage {
         address nativeAsset;
         bool isInitialized;
         uint256 maxSupply;
+        string baseUri;
     }
 }
 

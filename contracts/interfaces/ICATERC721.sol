@@ -2,7 +2,13 @@
 pragma solidity ^0.8.4;
 
 interface ICATERC721 {
-    function initialize(uint16 chainId, address wormhole, uint8 finality) external;
+    function initialize(
+        uint16 chainId,
+        address wormhole,
+        uint8 finality,
+        uint256 maxSupply,
+        string memory base_uri
+    ) external;
 
     function tokenURI(uint256 tokenId) external view returns (string memory);
 
