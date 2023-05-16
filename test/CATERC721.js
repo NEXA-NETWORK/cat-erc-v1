@@ -167,9 +167,7 @@ describe("CATERC721", () => {
     it("bridgeOut", async () => {
       const { owner, otherAccount, TestNFTInstance, CATERC721Instance } = await deployFixture();
 
-      const uri = "hello";
-
-      await CATERC721Instance.mint(owner.address, uri);
+      await CATERC721Instance.mint(owner.address);
       await CATERC721Instance.bridgeOut(
         0,
         wormholeChainId,

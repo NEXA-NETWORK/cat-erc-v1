@@ -7,6 +7,8 @@ const deploymentsPath = path.join(__dirname, "../deployments.json");
 
 const name = "";
 const symbol = "";
+const maxSupply = "";
+const base_uri = "";
 const wormholeChainId = "";
 const wormholeCoreContract = "";
 
@@ -19,7 +21,9 @@ async function deploy() {
   const initialize = await catERC721.initialize(
         wormholeChainId,
         wormholeCoreContract,
-        1
+        1,
+        maxSupply,
+        base_uri
   );
   
   try {

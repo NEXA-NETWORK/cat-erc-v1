@@ -15,20 +15,21 @@ const wormholeCoreContract = "";
 async function deploy() {
   const CATERC20 = await ethers.getContractFactory("CATERC20");
 
-  const catERC20 = await CATERC20.deploy(name, symbol, decimals, maxSupply);
+  const catERC20 = await CATERC20.deploy(name, symbol, decimals);
   await catERC20.deployed();
 
   const initialize = await catERC20.initialize(
         wormholeChainId,
         wormholeCoreContract,
-        1
+        1,
+        maxSupply
   );
   
   try {
     await hre.run("verify:verify", {
       address: catERC20.address,
       contract: "contracts/ERC20/CATERC20.sol:CATERC20",
-      constructorArguments: [name, symbol, decimals, maxSupply],
+      constructorArguments: [name, symbol, decimals],
     });
 
     console.log("Verified Successfully");
