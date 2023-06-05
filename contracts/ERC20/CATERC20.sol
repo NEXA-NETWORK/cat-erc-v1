@@ -32,7 +32,7 @@ contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events, ERC165 
         setWormhole(wormhole);
         setFinality(finality);
         setMaxSupply(maxSupply);
-
+        setMintedSupply(0);
         setIsInitialized();
     }
 
@@ -124,7 +124,8 @@ contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events, ERC165 
     }
 
     function mint(address recipient, uint256 amount) public onlyOwner {
-        require(totalSupply() + amount <= maxSupply(), "MAX SUPPLY REACHED");
+        require(mintedSupply() + amount <= maxSupply(), "MAX SUPPLY REACHED");
+        setMintedSupply(mintedSupply() + amount);
         _mint(recipient, amount);
     }
 }

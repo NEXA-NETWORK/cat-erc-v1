@@ -134,7 +134,7 @@ describe("CATERC721", () => {
         SignatureVerification
       );
 
-      expect(await CATERC721Instance.finality()).to.equal(newFinality);
+      expect( await CATERC721Instance.finality()).to.equal(newFinality);
     });
   });
 
@@ -174,6 +174,10 @@ describe("CATERC721", () => {
         await CATERC721Instance.addressToBytes(owner.address),
         0
       );
+      await CATERC721Instance.mint(owner.address);
+      expect( await CATERC721Instance.ownerOf(1)).to.be.equal(owner.address);
+      await expect(CATERC721Instance.ownerOf(0)).to.be.reverted;
+      expect ( await CATERC721Instance.mintedSupply()).to.be.equal(2);
     });
 
     it("bridgeIn", async () => {

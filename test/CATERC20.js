@@ -185,8 +185,15 @@ describe("CATERC20", () => {
         wormholeChainId,
         await CATERC20Instance.addressToBytes(owner.address),
         0
-      );
-    });
+        );
+
+      expect(await CATERC20Instance.mintedSupply()).to.be.equal(amountToMint);
+      expect(await CATERC20Instance.totalSupply()).to.be.equal(0);
+      await CATERC20Instance.mint(owner.address, amountToMint);
+      expect(await CATERC20Instance.totalSupply()).to.be.equal(amountToMint);
+      expect(await CATERC20Instance.mintedSupply()).to.be.equal("200000000000000000000");
+
+      });
 
     it("bridgeIn", async () => {
       const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await deployFixture();

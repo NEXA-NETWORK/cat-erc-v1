@@ -48,7 +48,7 @@ contract CATERC721 is
         setFinality(finality);
         setMaxSupply(maxSupply);
         setBaseUri(base_uri);
-
+        setMintedSupply(0);
         setIsInitialized();
     }
 
@@ -167,8 +167,9 @@ contract CATERC721 is
     }
 
     function mint(address recipient) public onlyOwner {
-        require(totalSupply() < maxSupply(), "MAX SUPPLY REACHED");
-        uint256 tokenId = totalSupply();
+        require(mintedSupply() < maxSupply(), "MAX SUPPLY REACHED");
+        uint256 tokenId = mintedSupply();
+        setMintedSupply(mintedSupply() + 1);
         _mint(recipient, tokenId);
     }
 }

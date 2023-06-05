@@ -44,6 +44,10 @@ contract CATERC20Getters is CATERC20State {
         return _state.maxSupply;
     }
 
+    function mintedSupply() public view returns (uint256) {
+        return _state.mintedSupply;
+    }
+
     function nativeAsset() public view returns (IERC20Extended) {
         return IERC20Extended(_state.nativeAsset);
     }

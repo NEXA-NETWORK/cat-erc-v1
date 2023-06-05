@@ -44,6 +44,10 @@ contract CATERC721Getters is CATERC721State {
         return _state.maxSupply;
     }
 
+    function mintedSupply() public view returns (uint256) {
+        return _state.mintedSupply;
+    }
+
     function isInitialized() public view returns (bool) {
         return _state.isInitialized;
     }

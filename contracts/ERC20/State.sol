@@ -42,6 +42,7 @@ contract CATERC20Storage {
         bool isInitialized;
         uint8 decimals;
         uint256 maxSupply;
+        uint256 mintedSupply;
     }
 }
 

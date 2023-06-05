@@ -42,6 +42,7 @@ contract CATERC721Storage {
         bool isInitialized;
         uint256 maxSupply;
         string baseUri;
+        uint256 mintedSupply;
     }
 }
 

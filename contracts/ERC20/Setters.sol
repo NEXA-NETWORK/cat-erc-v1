@@ -39,6 +39,10 @@ contract CATERC20Setters is CATERC20State {
         _state.maxSupply = maxSupply;
     }
 
+    function setMintedSupply(uint256 mintedSupply) internal {
+        _state.mintedSupply = mintedSupply;
+    }
+
     function setNativeAsset(address nativeAsset) internal {
         _state.nativeAsset = nativeAsset;
     }
