@@ -13,6 +13,7 @@ import "./Governance.sol";
 import "./Structs.sol";
 
 contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events, ERC165 {
+    using SafeERC20 for IERC20;
     using BytesLib for bytes;
 
     constructor(string memory name, string memory symbol, uint8 decimal) ERC20(name, symbol) {
