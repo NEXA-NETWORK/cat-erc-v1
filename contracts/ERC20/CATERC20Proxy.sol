@@ -68,7 +68,7 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165 {
         // Transfer in contract and lock the tokens in this contract
         SafeERC20.safeTransferFrom(nativeAsset(), _msgSender(), address(this), normalizedAmount);
         uint256 newTokenBalance = nativeAsset().balanceOf(address(this));
-        if(oldTokenBalance + normalizedAmount != newTokenBalance){
+        if (oldTokenBalance + normalizedAmount != newTokenBalance) {
             revert("unsupported token with fees on transfer");
         }
 
