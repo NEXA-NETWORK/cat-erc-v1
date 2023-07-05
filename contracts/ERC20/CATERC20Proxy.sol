@@ -11,6 +11,8 @@ import "../interfaces/IERC20Extended.sol";
 import "./Governance.sol";
 import "./Structs.sol";
 
+// NOTE: DISCLAIMER! This standard will not work with deflationary or inflationary tokens including rebasing token that change users balances over time automatically
+
 contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165 {
     using SafeERC20 for IERC20Extended;
     using BytesLib for bytes;
@@ -62,8 +64,13 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165 {
             nativeAsset().decimals()
         );
 
+        uint256 oldTokenBalance = nativeAsset().balanceOf(address(this));
         // Transfer in contract and lock the tokens in this contract
         SafeERC20.safeTransferFrom(nativeAsset(), _msgSender(), address(this), normalizedAmount);
+        uint256 newTokenBalance = nativeAsset().balanceOf(address(this));
+        if (oldTokenBalance + normalizedAmount != newTokenBalance) {
+            revert("unsupported token with fees on transfer");
+        }
 
         CATERC20Structs.CrossChainPayload memory transfer = CATERC20Structs.CrossChainPayload({
             amount: normalizedAmount,
