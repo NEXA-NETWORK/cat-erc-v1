@@ -2,6 +2,7 @@
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 import "../shared/WormholeStructs.sol";
 import "../interfaces/IWormhole.sol";
@@ -11,6 +12,7 @@ import "./Governance.sol";
 import "./Structs.sol";
 
 contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165 {
+    using SafeERC20 for IERC20Extended;
     using BytesLib for bytes;
 
     constructor() {
@@ -61,7 +63,7 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165 {
         );
 
         // Transfer in contract and lock the tokens in this contract
-        nativeAsset().transferFrom(_msgSender(), address(this), normalizedAmount);
+        SafeERC20.safeTransferFrom(nativeAsset(), _msgSender(), address(this), normalizedAmount);
 
         CATERC20Structs.CrossChainPayload memory transfer = CATERC20Structs.CrossChainPayload({
             amount: normalizedAmount,
@@ -113,7 +115,7 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165 {
         );
 
         // Unlock the tokens in this contract and Transfer out from contract to user
-        nativeAsset().transfer(transferRecipient, nativeAmount);
+        SafeERC20.safeTransfer(nativeAsset(), transferRecipient, nativeAmount);
 
         emit bridgeInEvent(nativeAmount, transfer.tokenChain, transfer.toChain, transfer.toAddress);
 
