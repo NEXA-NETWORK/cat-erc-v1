@@ -61,6 +61,7 @@ contract CATERC721Proxy is Context, IERC721Receiver, CATERC721Governance, CATERC
         uint32 nonce
     ) external payable returns (uint64) {
         require(isInitialized() == true, "Not Initialized");
+        require(evmChainId() == block.chainid, "unsupported fork");
 
         uint256 fee = wormhole().messageFee();
         require(msg.value >= fee, "Not enough fee provided to publish message");
@@ -100,7 +101,7 @@ contract CATERC721Proxy is Context, IERC721Receiver, CATERC721Governance, CATERC
 
     function bridgeIn(bytes calldata encodedVM) external returns (bytes memory) {
         require(isInitialized() == true, "Not Initialized");
-        require(evmChainId() == block.chainid, "cannot support forking");
+        require(evmChainId() == block.chainid, "unsupported fork");
 
         (WormholeStructs.VM memory vm, bool valid, string memory reason) = wormhole()
             .parseAndVerifyVM(encodedVM);
