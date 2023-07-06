@@ -50,4 +50,8 @@ contract CATERC721Setters is CATERC721State {
     function setBaseUri(string memory uri) internal {
         _state.baseUri = uri;
     }
+
+    function setSignatureUsed(bytes memory signature) internal {
+        _state.signaturesUsed[signature] = true;
+    }
 }

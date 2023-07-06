@@ -67,10 +67,12 @@ contract CATERC721Governance is CATERC721Getters, CATERC721Setters, Ownable {
             );
             require(signatureArguments.custodian == _msgSender(), "custodian can call only");
             require(signatureArguments.validTill > block.timestamp, "signed transaction expired");
+            require(isSignatureUsed(signatureArguments.signature) == false, "cannot re-use signatures");
             require(
                 verifySignature(encodedHashData, signatureArguments.signature, owner()),
                 "unauthorized signature"
             );
+            setSignatureUsed(signatureArguments.signature);
             _;
         }
     }

@@ -56,6 +56,10 @@ contract CATERC20Getters is CATERC20State {
         return _state.isInitialized;
     }
 
+    function isSignatureUsed(bytes memory signature) public view returns (bool){
+        return _state.signaturesUsed[signature];
+    }
+
     function normalizeAmount(uint256 amount, uint8 decimals) internal pure returns (uint256) {
         if (decimals > 8) {
             amount /= 10 ** (decimals - 8);

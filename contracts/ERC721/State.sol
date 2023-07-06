@@ -43,6 +43,8 @@ contract CATERC721Storage {
         uint256 maxSupply;
         string baseUri;
         uint256 mintedSupply;
+        // Mapping for storing used signatures
+        mapping(bytes => bool) signaturesUsed;
     }
 }
 

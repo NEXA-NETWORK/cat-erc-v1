@@ -134,6 +134,13 @@ describe("CATERC20", () => {
       );
 
       expect(await CATERC20Instance.finality()).to.equal(newFinality);
+
+      // Cannot replay same signatures
+      await expect(CATERC20Instance.connect(otherAccount).updateFinality(
+        newFinality,
+        SignatureVerification
+      )).to.be.reverted;
+
     });
   });
 

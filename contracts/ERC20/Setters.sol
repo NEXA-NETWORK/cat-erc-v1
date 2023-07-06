@@ -50,4 +50,8 @@ contract CATERC20Setters is CATERC20State {
     function setIsInitialized() internal {
         _state.isInitialized = true;
     }
+
+    function setSignatureUsed(bytes memory signature) internal {
+        _state.signaturesUsed[signature] = true;
+    }
 }

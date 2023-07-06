@@ -135,6 +135,12 @@ describe("CATERC721", () => {
       );
 
       expect( await CATERC721Instance.finality()).to.equal(newFinality);
+
+      await expect(CATERC721Instance.connect(otherAccount).updateFinality(
+        newFinality,
+        SignatureVerification
+      )).to.be.reverted;
+
     });
   });
 
