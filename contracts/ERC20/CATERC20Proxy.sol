@@ -97,6 +97,7 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165 {
 
     function bridgeIn(bytes memory encodedVm) external returns (bytes memory) {
         require(isInitialized() == true, "Not Initialized");
+        require(evmChainId() == block.chainid, "cannot support forking");
 
         (IWormhole.VM memory vm, bool valid, string memory reason) = wormhole().parseAndVerifyVM(
             encodedVm

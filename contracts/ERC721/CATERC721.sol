@@ -135,6 +135,7 @@ contract CATERC721 is
 
     function bridgeIn(bytes calldata encodedVM) external returns (bytes memory) {
         require(isInitialized() == true, "Not Initialized");
+        require(evmChainId() == block.chainid, "cannot support forking");
 
         (WormholeStructs.VM memory vm, bool valid, string memory reason) = wormhole()
             .parseAndVerifyVM(encodedVM);
