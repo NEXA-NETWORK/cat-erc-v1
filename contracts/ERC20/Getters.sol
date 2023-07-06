@@ -56,7 +56,7 @@ contract CATERC20Getters is CATERC20State {
         return _state.isInitialized;
     }
 
-    function isSignatureUsed(bytes memory signature) public view returns (bool){
+    function isSignatureUsed(bytes memory signature) public view returns (bool) {
         return _state.signaturesUsed[signature];
     }
 

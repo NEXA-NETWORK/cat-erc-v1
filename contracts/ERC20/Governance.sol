@@ -67,7 +67,10 @@ contract CATERC20Governance is CATERC20Getters, CATERC20Setters, Ownable {
             );
             require(signatureArguments.custodian == _msgSender(), "custodian can call only");
             require(signatureArguments.validTill > block.timestamp, "signed transaction expired");
-            require(isSignatureUsed(signatureArguments.signature) == false, "cannot re-use signatures");
+            require(
+                isSignatureUsed(signatureArguments.signature) == false,
+                "cannot re-use signatures"
+            );
             setSignatureUsed(signatureArguments.signature);
             require(
                 verifySignature(encodedHashData, signatureArguments.signature, owner()),

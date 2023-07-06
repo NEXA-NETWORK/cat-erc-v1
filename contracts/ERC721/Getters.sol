@@ -56,7 +56,7 @@ contract CATERC721Getters is CATERC721State {
         return _state.baseUri;
     }
 
-    function isSignatureUsed(bytes memory signature) public view returns (bool){
+    function isSignatureUsed(bytes memory signature) public view returns (bool) {
         return _state.signaturesUsed[signature];
     }
 
