@@ -59,21 +59,24 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165 {
         require(msg.value >= fee, "Not enough fee provided to publish message");
         uint16 tokenChain = wormhole().chainId();
         bytes32 tokenAddress = bytes32(uint256(uint160(address(this))));
-        uint256 normalizedAmount = deNormalizeAmount(
+        uint256 amountToReceive = deNormalizeAmount(
             normalizeAmount(amount, nativeAsset().decimals()),
             nativeAsset().decimals()
         );
 
-        uint256 oldTokenBalance = nativeAsset().balanceOf(address(this));
+        uint256 balanceBefore = nativeAsset().balanceOf(address(this));
         // Transfer in contract and lock the tokens in this contract
-        SafeERC20.safeTransferFrom(nativeAsset(), _msgSender(), address(this), normalizedAmount);
-        uint256 newTokenBalance = nativeAsset().balanceOf(address(this));
-        if (oldTokenBalance + normalizedAmount != newTokenBalance) {
-            revert("unsupported token with fees on transfer");
-        }
+        SafeERC20.safeTransferFrom(nativeAsset(), _msgSender(), address(this), amountToReceive);
+
+        uint256 amountReceived = nativeAsset().balanceOf(address(this)) - balanceBefore;
+
+        amountReceived = deNormalizeAmount(
+            normalizeAmount(amountReceived, nativeAsset().decimals()),
+            nativeAsset().decimals()
+        );
 
         CATERC20Structs.CrossChainPayload memory transfer = CATERC20Structs.CrossChainPayload({
-            amount: normalizedAmount,
+            amount: amountReceived,
             tokenAddress: tokenAddress,
             tokenChain: tokenChain,
             toAddress: recipient,

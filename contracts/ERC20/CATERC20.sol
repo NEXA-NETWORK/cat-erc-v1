@@ -62,14 +62,11 @@ contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events, ERC165 
         require(msg.value >= fee, "Not enough fee provided to publish message");
         uint16 tokenChain = wormhole().chainId();
         bytes32 tokenAddress = bytes32(uint256(uint160(address(this))));
-        uint256 normalizedAmount = deNormalizeAmount(
-            normalizeAmount(amount, decimals()),
-            decimals()
-        );
-        _burn(_msgSender(), normalizedAmount);
+        uint256 amountToSend = deNormalizeAmount(normalizeAmount(amount, decimals()), decimals());
+        _burn(_msgSender(), amountToSend);
 
         CATERC20Structs.CrossChainPayload memory transfer = CATERC20Structs.CrossChainPayload({
-            amount: normalizedAmount,
+            amount: amountToSend,
             tokenAddress: tokenAddress,
             tokenChain: tokenChain,
             toAddress: recipient,
