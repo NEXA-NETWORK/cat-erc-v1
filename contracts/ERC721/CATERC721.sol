@@ -28,7 +28,6 @@ contract CATERC721 is
     CATERC721Governance,
     CATERC721Events
 {
-    using BytesLib for bytes;
     using Strings for uint256;
 
     constructor(string memory name, string memory symbol) ERC721(name, symbol) {

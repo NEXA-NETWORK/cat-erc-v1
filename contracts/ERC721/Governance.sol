@@ -14,8 +14,6 @@ import "./Structs.sol";
 import "../interfaces/IWormhole.sol";
 
 contract CATERC721Governance is CATERC721Getters, CATERC721Setters, Ownable {
-    using BytesLib for bytes;
-
     /// builds a prefixed hash to mimic the behavior of eth_sign.
     function prefixed(bytes32 _hash) internal pure returns (bytes32) {
         return keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", _hash));

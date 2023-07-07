@@ -16,7 +16,6 @@ import "./Structs.sol";
 import "./Governance.sol";
 
 contract CATERC721Proxy is Context, IERC721Receiver, CATERC721Governance, CATERC721Events, ERC165 {
-    using BytesLib for bytes;
     using Strings for uint256;
 
     constructor() {

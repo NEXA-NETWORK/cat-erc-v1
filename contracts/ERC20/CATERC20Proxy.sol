@@ -15,7 +15,6 @@ import "./Structs.sol";
 
 contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165 {
     using SafeERC20 for IERC20Extended;
-    using BytesLib for bytes;
 
     constructor() {
         setEvmChainId(block.chainid);
