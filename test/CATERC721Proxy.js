@@ -172,6 +172,22 @@ describe("CATERC721Proxy", () => {
       const { owner, otherAccount, TestNFTInstance, CATERC721ProxyInstance } =
         await loadFixture(deployFixture);
 
+        const { custodian, validTill, signature } = await makeSignature(
+          otherAccount.address,
+          validTime,
+          owner
+        );
+        const SignatureVerification = [custodian, validTill, signature];
+  
+        const TestNFTBytes32 = await CATERC721ProxyInstance.connect(
+          otherAccount
+        ).addressToBytes(TestNFTInstance.address);
+        await CATERC721ProxyInstance.connect(otherAccount).registerChain(
+          2,
+          TestNFTBytes32,
+          SignatureVerification
+        );
+
       await TestNFTInstance.mint();
       await TestNFTInstance.setApprovalForAll(CATERC721ProxyInstance.address, true);
       await CATERC721ProxyInstance.bridgeOut(

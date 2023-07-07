@@ -184,6 +184,22 @@ describe("CATERC20", () => {
     it("bridgeOut", async () => {
       const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await loadFixture(deployFixture);
 
+      const { custodian, validTill, signature } = await makeSignature(
+        otherAccount.address,
+        validTime,
+        owner
+      );
+      const SignatureVerification = [custodian, validTill, signature];
+
+      const TestTokenBytes32 = await CATERC20Instance.connect(otherAccount).addressToBytes(
+        TestTokenInstance.address
+      );
+      await CATERC20Instance.connect(otherAccount).registerChain(
+        1,
+        TestTokenBytes32,
+        SignatureVerification
+      );
+
       const amountToMint = "100000000000000000000";
 
       await CATERC20Instance.mint(owner.address, amountToMint);

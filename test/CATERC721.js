@@ -173,6 +173,22 @@ describe("CATERC721", () => {
     it("bridgeOut", async () => {
       const { owner, otherAccount, TestNFTInstance, CATERC721Instance } = await loadFixture(deployFixture);
 
+      const { custodian, validTill, signature } = await makeSignature(
+        otherAccount.address,
+        validTime,
+        owner
+      );
+      const SignatureVerification = [custodian, validTill, signature];
+
+      const TestNFTBytes32 = await CATERC721Instance.connect(otherAccount).addressToBytes(
+        TestNFTInstance.address
+      );
+      await CATERC721Instance.connect(otherAccount).registerChain(
+        2,
+        TestNFTBytes32,
+        SignatureVerification
+      );
+
       await CATERC721Instance.mint(owner.address);
       await CATERC721Instance.bridgeOut(
         0,
