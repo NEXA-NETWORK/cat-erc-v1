@@ -60,7 +60,7 @@ describe("CATERC721", () => {
 
   describe("Governance Functions", () => {
     it("registerChain", async () => {
-      const { owner, otherAccount, TestNFTInstance, CATERC721Instance } = await deployFixture();
+      const { owner, otherAccount, TestNFTInstance, CATERC721Instance } = await loadFixture(deployFixture);
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
         validTime,
@@ -81,7 +81,7 @@ describe("CATERC721", () => {
     });
 
     it("register multiple chains", async () => {
-      const { owner, otherAccount, TestNFTInstance, CATERC721Instance } = await deployFixture();
+      const { owner, otherAccount, TestNFTInstance, CATERC721Instance } = await loadFixture(deployFixture);
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
         validTime,
@@ -120,7 +120,7 @@ describe("CATERC721", () => {
     });
 
     it("update finality", async () => {
-      const { owner, otherAccount, TestNFTInstance, CATERC721Instance } = await deployFixture();
+      const { owner, otherAccount, TestNFTInstance, CATERC721Instance } = await loadFixture(deployFixture);
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
         validTime,
@@ -146,7 +146,7 @@ describe("CATERC721", () => {
 
   describe("Encoding and Decoding Transfers", () => {
     it("encode and decode data to transfer", async () => {
-      const { owner, otherAccount, TestNFTInstance, CATERC721Instance } = await deployFixture();
+      const { owner, otherAccount, TestNFTInstance, CATERC721Instance } = await loadFixture(deployFixture);
 
       const data = {
         tokenAddress: await CATERC721Instance.addressToBytes(TestNFTInstance.address),
@@ -171,7 +171,7 @@ describe("CATERC721", () => {
 
   describe("Cross Chain Transfers", () => {
     it("bridgeOut", async () => {
-      const { owner, otherAccount, TestNFTInstance, CATERC721Instance } = await deployFixture();
+      const { owner, otherAccount, TestNFTInstance, CATERC721Instance } = await loadFixture(deployFixture);
 
       await CATERC721Instance.mint(owner.address);
       await CATERC721Instance.bridgeOut(
@@ -187,7 +187,7 @@ describe("CATERC721", () => {
     });
 
     it("bridgeIn", async () => {
-      const { owner, otherAccount, TestNFTInstance, CATERC721Instance } = await deployFixture();
+      const { owner, otherAccount, TestNFTInstance, CATERC721Instance } = await loadFixture(deployFixture);
       const uri = "hello";
 
       const data = {

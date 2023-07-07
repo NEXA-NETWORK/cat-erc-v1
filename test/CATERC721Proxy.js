@@ -55,7 +55,7 @@ describe("CATERC721Proxy", () => {
   describe("Governance Functions", () => {
     it("registerChain", async () => {
       const { owner, otherAccount, TestNFTInstance, CATERC721ProxyInstance } =
-        await deployFixture();
+        await loadFixture(deployFixture);
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
         validTime,
@@ -77,7 +77,7 @@ describe("CATERC721Proxy", () => {
 
     it("register multiple chains", async () => {
       const { owner, otherAccount, TestNFTInstance, CATERC721ProxyInstance } =
-        await deployFixture();
+        await loadFixture(deployFixture);
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
         validTime,
@@ -117,7 +117,7 @@ describe("CATERC721Proxy", () => {
 
     it("update finality", async () => {
       const { owner, otherAccount, TestNFTInstance, CATERC721ProxyInstance } =
-        await deployFixture();
+        await loadFixture(deployFixture);
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
         validTime,
@@ -144,7 +144,7 @@ describe("CATERC721Proxy", () => {
   describe("Encoding and Decoding Transfers", () => {
     it("encode and decode data to transfer", async () => {
       const { owner, otherAccount, TestNFTInstance, CATERC721ProxyInstance } =
-        await deployFixture();
+        await loadFixture(deployFixture);
 
       const data = {
         tokenAddress: await CATERC721ProxyInstance.addressToBytes(TestNFTInstance.address),
@@ -170,7 +170,7 @@ describe("CATERC721Proxy", () => {
   describe("Cross Chain Transfers", () => {
     it("bridgeOut", async () => {
       const { owner, otherAccount, TestNFTInstance, CATERC721ProxyInstance } =
-        await deployFixture();
+        await loadFixture(deployFixture);
 
       await TestNFTInstance.mint();
       await TestNFTInstance.setApprovalForAll(CATERC721ProxyInstance.address, true);
@@ -184,7 +184,7 @@ describe("CATERC721Proxy", () => {
 
     it("bridgeIn", async () => {
       const { owner, otherAccount, TestNFTInstance, CATERC721ProxyInstance } =
-        await deployFixture();
+        await loadFixture(deployFixture);
 
       const uri = "hello";
 
@@ -213,6 +213,8 @@ describe("CATERC721Proxy", () => {
       );
       console.log("VAA: ", vaa);
 
+      await TestNFTInstance.mint();
+      await TestNFTInstance.transferFrom(owner.address, CATERC721ProxyInstance.address, 0)
       await CATERC721ProxyInstance.bridgeIn("0x" + vaa);
     });
   });

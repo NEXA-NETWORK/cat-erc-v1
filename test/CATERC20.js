@@ -59,7 +59,7 @@ describe("CATERC20", () => {
 
   describe("Governance Functions", () => {
     it("registerChain", async () => {
-      const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await deployFixture();
+      const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await loadFixture(deployFixture);
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
         validTime,
@@ -80,7 +80,7 @@ describe("CATERC20", () => {
     });
 
     it("register multiple chains", async () => {
-      const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await deployFixture();
+      const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await loadFixture(deployFixture);
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
         validTime,
@@ -119,7 +119,7 @@ describe("CATERC20", () => {
     });
 
     it("update finality", async () => {
-      const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await deployFixture();
+      const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await loadFixture(deployFixture);
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
         validTime,
@@ -146,7 +146,7 @@ describe("CATERC20", () => {
 
   describe("Encoding and Decoding Transfers", () => {
     it("encode and decode data to transfer", async () => {
-      const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await deployFixture();
+      const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await loadFixture(deployFixture);
 
       const data = {
         amount: 100,
@@ -169,7 +169,7 @@ describe("CATERC20", () => {
 
   describe("Minting New Tokens", () => {
     it("Should Mint new tokens only by owner", async () => {
-      const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await deployFixture();
+      const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await loadFixture(deployFixture);
       const amountToMint = "1000000000";
 
       await CATERC20Instance.connect(owner).mint(owner.address, amountToMint);
@@ -182,7 +182,7 @@ describe("CATERC20", () => {
 
   describe("Cross Chain Transfers", () => {
     it("bridgeOut", async () => {
-      const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await deployFixture();
+      const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await loadFixture(deployFixture);
 
       const amountToMint = "100000000000000000000";
 
@@ -203,7 +203,7 @@ describe("CATERC20", () => {
       });
 
     it("bridgeIn", async () => {
-      const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await deployFixture();
+      const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await loadFixture(deployFixture);
 
       const amountToMint = "100000000000000000000";
 

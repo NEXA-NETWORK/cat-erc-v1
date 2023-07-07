@@ -55,7 +55,7 @@ describe("CATERC20Proxy", () => {
   describe("Governance Functions", () => {
     it("registerChain", async () => {
       const { owner, otherAccount, TestTokenInstance, CATERC20ProxyInstance } =
-        await deployFixture();
+        await loadFixture(deployFixture);
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
         validTime,
@@ -77,7 +77,7 @@ describe("CATERC20Proxy", () => {
 
     it("register multiple chains", async () => {
       const { owner, otherAccount, TestTokenInstance, CATERC20ProxyInstance } =
-        await deployFixture();
+        await loadFixture(deployFixture);
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
         validTime,
@@ -117,7 +117,7 @@ describe("CATERC20Proxy", () => {
 
     it("update finality", async () => {
       const { owner, otherAccount, TestTokenInstance, CATERC20ProxyInstance } =
-        await deployFixture();
+        await loadFixture(deployFixture);
       const { custodian, validTill, signature } = await makeSignature(
         otherAccount.address,
         validTime,
@@ -144,7 +144,7 @@ describe("CATERC20Proxy", () => {
   describe("Encoding and Decoding Transfers", () => {
     it("encode and decode data to transfer", async () => {
       const { owner, otherAccount, TestTokenInstance, CATERC20ProxyInstance } =
-        await deployFixture();
+        await loadFixture(deployFixture);
 
       const data = {
         amount: 100,
@@ -168,7 +168,7 @@ describe("CATERC20Proxy", () => {
   describe("Cross Chain Transfers", () => {
     it("bridgeOut", async () => {
       const { owner, otherAccount, TestTokenInstance, CATERC20ProxyInstance } =
-        await deployFixture();
+        await loadFixture(deployFixture);
 
       const amountToMint = "100000000000000000000";
 
@@ -184,7 +184,7 @@ describe("CATERC20Proxy", () => {
 
     it("bridgeIn", async () => {
       const { owner, otherAccount, TestTokenInstance, CATERC20ProxyInstance } =
-        await deployFixture();
+        await loadFixture(deployFixture);
 
       const amountToMint = "100000000000000000000";
 
@@ -212,6 +212,8 @@ describe("CATERC20Proxy", () => {
       );
       console.log("VAA: ", vaa);
 
+      await TestTokenInstance.mint(amountToMint);
+      await TestTokenInstance.transfer(CATERC20ProxyInstance.address, amountToMint);
       await CATERC20ProxyInstance.bridgeIn("0x" + vaa);
     });
   });
