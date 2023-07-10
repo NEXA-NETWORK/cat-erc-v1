@@ -154,6 +154,7 @@ describe("CATERC20", () => {
         tokenChain: 1,
         toAddress: await CATERC20Instance.addressToBytes(otherAccount.address),
         toChain: 2,
+        tokenDecimals: await CATERC20Instance.decimals()
       };
 
       const encoded = await CATERC20Instance.encodeTransfer(data);
@@ -164,6 +165,7 @@ describe("CATERC20", () => {
       expect(decoded.tokenChain).to.equal(data.tokenChain);
       expect(decoded.toAddress).to.equal(data.toAddress);
       expect(decoded.toChain).to.equal(data.toChain);
+      expect(decoded.tokenDecimals).to.equal(data.tokenDecimals);
     });
   });
 
@@ -221,7 +223,8 @@ describe("CATERC20", () => {
     it("bridgeIn", async () => {
       const { owner, otherAccount, TestTokenInstance, CATERC20Instance } = await loadFixture(deployFixture);
 
-      const amountToMint = "100000000000000000000";
+      const amountToMint = "100000000000";
+      const foreignDecimals = 9;
 
       const data = {
         amount: amountToMint,
@@ -229,6 +232,7 @@ describe("CATERC20", () => {
         tokenChain: 2,
         toAddress: await CATERC20Instance.addressToBytes(owner.address),
         toChain: 2,
+        tokenDecimals: foreignDecimals
       };
 
       const payload = await CATERC20Instance.encodeTransfer(data);
@@ -245,7 +249,10 @@ describe("CATERC20", () => {
       );
       console.log("VAA: ", vaa);
 
+      console.log("Balance Before", await CATERC20Instance.balanceOf(owner.address))
       await CATERC20Instance.bridgeIn("0x" + vaa);
+      console.log("Balance After", await CATERC20Instance.balanceOf(owner.address))
+
     });
   });
 });

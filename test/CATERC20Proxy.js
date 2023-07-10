@@ -152,6 +152,7 @@ describe("CATERC20Proxy", () => {
         tokenChain: 1,
         toAddress: await CATERC20ProxyInstance.addressToBytes(otherAccount.address),
         toChain: 2,
+        tokenDecimals: await CATERC20ProxyInstance.getDecimals()
       };
 
       const encoded = await CATERC20ProxyInstance.encodeTransfer(data);
@@ -162,6 +163,7 @@ describe("CATERC20Proxy", () => {
       expect(decoded.tokenChain).to.equal(data.tokenChain);
       expect(decoded.toAddress).to.equal(data.toAddress);
       expect(decoded.toChain).to.equal(data.toChain);
+      expect(decoded.tokenDecimals).to.equal(data.tokenDecimals);
     });
   });
 
@@ -212,6 +214,7 @@ describe("CATERC20Proxy", () => {
         tokenChain: 2,
         toAddress: await CATERC20ProxyInstance.addressToBytes(owner.address),
         toChain: 2,
+        tokenDecimals: await CATERC20ProxyInstance.getDecimals()
       };
 
       const payload = await CATERC20ProxyInstance.encodeTransfer(data);
@@ -230,7 +233,10 @@ describe("CATERC20Proxy", () => {
 
       await TestTokenInstance.mint(amountToMint);
       await TestTokenInstance.transfer(CATERC20ProxyInstance.address, amountToMint);
+
+      console.log("Balance Before", await TestTokenInstance.balanceOf(owner.address))
       await CATERC20ProxyInstance.bridgeIn("0x" + vaa);
+      console.log("Balance Before", await TestTokenInstance.balanceOf(owner.address))
     });
   });
 });

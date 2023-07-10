@@ -15,6 +15,8 @@ contract CATERC20Structs {
         bytes32 toAddress;
         // Chain ID of the recipient
         uint16 toChain;
+        // Token Decimals of sender chain
+        uint8 tokenDecimals;
     }
 
     struct SignatureVerification {

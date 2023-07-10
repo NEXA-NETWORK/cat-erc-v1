@@ -60,16 +60,16 @@ contract CATERC20Getters is CATERC20State {
         return _state.signaturesUsed[signature];
     }
 
-    function normalizeAmount(uint256 amount, uint8 decimals) internal pure returns (uint256) {
-        if (decimals > 8) {
-            amount /= 10 ** (decimals - 8);
+    function normalizeAmount(
+        uint256 amount,
+        uint8 foreignDecimals,
+        uint8 localDecimals
+    ) internal pure returns (uint256) {
+        if (foreignDecimals > localDecimals) {
+            amount /= 10 ** (foreignDecimals - localDecimals);
         }
-        return amount;
-    }
-
-    function deNormalizeAmount(uint256 amount, uint8 decimals) internal pure returns (uint256) {
-        if (decimals > 8) {
-            amount *= 10 ** (decimals - 8);
+        if (localDecimals > foreignDecimals) {
+            amount *= 10 ** (localDecimals - foreignDecimals);
         }
         return amount;
     }
@@ -97,7 +97,8 @@ contract CATERC20Getters is CATERC20State {
             transfer.tokenAddress,
             transfer.tokenChain,
             transfer.toAddress,
-            transfer.toChain
+            transfer.toChain,
+            transfer.tokenDecimals
         );
     }
 
@@ -120,6 +121,9 @@ contract CATERC20Getters is CATERC20State {
 
         transfer.toChain = encoded.toUint16(index);
         index += 2;
+
+        transfer.tokenDecimals = encoded.toUint8(index);
+        index += 1;
 
         require(encoded.length == index, "invalid Transfer");
     }
