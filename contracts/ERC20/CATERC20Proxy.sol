@@ -73,7 +73,7 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165 {
             tokenChain: tokenChain,
             toAddress: recipient,
             toChain: recipientChain,
-            tokenDecimals: getDecimals()
+            tokenDecimals: nativeAsset().decimals()
         });
 
         sequence = wormhole().publishMessage{value: msg.value}(
@@ -116,7 +116,7 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165 {
         uint256 nativeAmount = normalizeAmount(
             transfer.amount,
             transfer.tokenDecimals,
-            getDecimals()
+            nativeAsset().decimals()
         );
 
         // Unlock the tokens in this contract and Transfer out from contract to user
