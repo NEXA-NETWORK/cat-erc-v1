@@ -61,7 +61,6 @@ contract CATERC721Proxy is Context, IERC721Receiver, CATERC721Governance, CATERC
     ) external payable returns (uint64) {
         require(isInitialized() == true, "Not Initialized");
         require(evmChainId() == block.chainid, "unsupported fork");
-        require(tokenContracts(_wormholeChainId) != bytes32(0), "recipient chain not configured");
 
         uint256 fee = wormhole().messageFee();
         require(msg.value >= fee, "Not enough fee provided to publish message");
