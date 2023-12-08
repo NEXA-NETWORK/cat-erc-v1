@@ -8,6 +8,9 @@
     "test": "npx hardhat test --network hardhat",
     "solhint": "npx solhint -f table contracts/**/*.sol",
     "prettier:solidity": "npx prettier --write contracts/**/*.sol",
+    "deploy-ERC20": "npx hardhat run ./scripts/deployERC20.ts --network",
+    "register-ERC20": "npx hardhat run ./scripts/registerERC20Chain.ts --network",
+    "runBridgeOut": "npx hardhat run ./scripts/runBridgeOut.ts --network",
     "deploy-ERC721": "npx hardhat run ./scripts/deployERC721.ts --network",
     "upgrade-ERC721": "npx hardhat run ./scripts/upgradeERC721.ts --network",
     "prepare": "husky install"
@@ -28,6 +31,7 @@
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.0",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
     "@nomicfoundation/hardhat-toolbox": "^2.0.1",
+    "@nomicfoundation/solidity-analyzer-linux-x64-gnu": "^0.1.1",
     "@nomiclabs/hardhat-ethers": "^2.0.0",
     "@nomiclabs/hardhat-etherscan": "^3.1.7",
     "@openzeppelin/contracts-upgradeable": "^4.8.2",

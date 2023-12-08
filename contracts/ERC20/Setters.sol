@@ -18,10 +18,6 @@ contract CATERC20Setters is CATERC20State {
         _state.wormhole = payable(wh);
     }
 
-    function setFinality(uint8 finality) internal {
-        _state.provider.finality = finality;
-    }
-
     function setChainId(uint16 chainId) internal {
         _state.provider.chainId = chainId;
     }

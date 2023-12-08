@@ -12,8 +12,8 @@ nowTime = Math.floor(parseInt(nowTime.toString()));
 const ERC20Contract = "";
 const signature = "";
 let custodianAddress: string = ""
-let wormholeChains: string[] = [];
-let addresses: string[] = [];
+let wormholeChains: string[] = [""];
+let addresses: string[] = [""];
 let validTillSeconds = 300
 
 

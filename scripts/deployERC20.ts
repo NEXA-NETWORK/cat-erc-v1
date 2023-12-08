@@ -8,7 +8,7 @@ const deploymentsPath = path.join(__dirname, "../deployments.json");
 const name = "";
 const symbol = "";
 const decimals = 18;
-const maxSupply = 100;
+const maxSupply = ethers.utils.parseUnits("", 18);
 const wormholeChainId = "";
 const wormholeCoreContract = "";
 
@@ -21,7 +21,6 @@ async function deploy() {
   const initialize = await catERC20.initialize(
         wormholeChainId,
         wormholeCoreContract,
-        1,
         maxSupply
   );
   

@@ -97,12 +97,4 @@ contract CATERC20Governance is CATERC20Getters, CATERC20Setters, Ownable {
             setTokenImplementation(chainId[i], tokenContract[i]);
         }
     }
-
-    // Execute a RegisterChain governance message
-    function updateFinality(
-        uint8 finality,
-        CATERC20Structs.SignatureVerification memory signatureArguments
-    ) public onlyOwnerOrOwnerSignature(signatureArguments) {
-        setFinality(finality);
-    }
 }

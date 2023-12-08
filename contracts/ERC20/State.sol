@@ -25,13 +25,11 @@ contract CATERC20Events {
 contract CATERC20Storage {
     struct Provider {
         uint16 chainId;
-        // Required number of block confirmations to assume finality
-        uint8 finality;
     }
 
     struct State {
         Provider provider;
-        address payable wormhole;
+        address wormhole;
         // Mapping of consumed token transfers
         mapping(bytes32 => bool) completedTransfers;
         // Mapping of token contracts on other chains

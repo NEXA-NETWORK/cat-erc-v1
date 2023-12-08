@@ -4,7 +4,7 @@
 pragma solidity ^0.8.0;
 
 import "../interfaces/IERC20Extended.sol";
-import "../interfaces/IWormhole.sol";
+import "../interfaces/IWormholeRelayer.sol";
 
 import "./State.sol";
 import "../libraries/BytesLib.sol";
@@ -16,8 +16,8 @@ contract CATERC20Getters is CATERC20State {
         return _state.completedTransfers[hash];
     }
 
-    function wormhole() public view returns (IWormhole) {
-        return IWormhole(_state.wormhole);
+    function wormhole() public view returns (IWormholeRelayer) {
+        return IWormholeRelayer(_state.wormhole);
     }
 
     function chainId() public view returns (uint16) {
@@ -30,10 +30,6 @@ contract CATERC20Getters is CATERC20State {
 
     function tokenContracts(uint16 chainId_) public view returns (bytes32) {
         return _state.tokenImplementations[chainId_];
-    }
-
-    function finality() public view returns (uint8) {
-        return _state.provider.finality;
     }
 
     function getDecimals() public view returns (uint8) {

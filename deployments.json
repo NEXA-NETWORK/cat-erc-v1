@@ -1,0 +1,16 @@
+[
+  {
+    "contractName": "CATERC20",
+    "chainId": 97,
+    "wormholeChainId": "4",
+    "chainName": "bscTestnet",
+    "deployedBridge": "0x8895AfaaF8b30Bb1dB2C5606bA1f275CAf183474"
+  },
+  {
+    "contractName": "CATERC20",
+    "chainId": 43113,
+    "wormholeChainId": "6",
+    "chainName": "fuji",
+    "deployedBridge": "0x7318eB1402aa67329F54722175E257748D2450DB"
+  }
+]
