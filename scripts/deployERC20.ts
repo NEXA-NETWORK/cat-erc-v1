@@ -2,14 +2,28 @@ import {ethers} from "hardhat";
 import hre from "hardhat";
 import fs from "fs";
 import path from "path";
+import { wormholeConfig } from "../config/wormholeConfig";
 const deploymentsPath = path.join(__dirname, "../deployments.json");
 
 const name = "";
 const symbol = "";
 const decimals = 18;
 const maxSupply = ethers.utils.parseUnits("1000000", 18);
-const wormholeChainId = "";
-const wormholeCoreContract = "";
+
+let wormholeChainId = "";
+let wormholeCoreContract = "";
+
+if(wormholeConfig.length > 0) {
+  for (const elem of wormholeConfig) {
+    if (hre.network.config.chainId?.toString() === elem.evmChainId) {
+      wormholeChainId = elem.wormholeChainId;
+      wormholeCoreContract = elem.wormholeRelayerAddress;
+    }
+  }
+}
+
+console.log("Wormhole Chain Id:", wormholeChainId);
+console.log("Wormhole Relayer Contract:", wormholeCoreContract);
 
 async function deploy() {
   const CATERC20 = await ethers.getContractFactory("CATERC20");
@@ -42,7 +56,7 @@ async function deploy() {
 
     const contents = {
       contractName: "CATERC20",
-      chainId: hre.network.config.chainId,
+      evmChainId: hre.network.config.chainId,
       wormholeChainId: wormholeChainId,
       chainName: hre.network.name,
       deployedContract: catERC20.address,

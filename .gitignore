@@ -114,3 +114,5 @@ typechain-types
 cache
 artifacts
 types
+
+deployments.json

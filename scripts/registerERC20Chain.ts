@@ -14,12 +14,12 @@ const file = fs.existsSync(deploymentsPath)
 let ERC20Contract = "";
 
 for (const elem of file) {
-  if (hre.network.config.chainId === elem.chainId) {
+  if (hre.network.config.chainId === elem.evmChainId) {
     ERC20Contract = elem.deployedContract;
   }
 }
 
-const signature = "";
+const signature = "0x";
 let custodianAddress: string = "";
 
 let wormholeChains: string[] = [];
