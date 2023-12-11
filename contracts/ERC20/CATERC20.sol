@@ -129,7 +129,20 @@ contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events, ERC165,
         );
 
         bridgeIn(payload, deliveryHash);
-    } 
+    }
+
+    /**
+     * @dev To calculate the cross chain transfer fee.
+     */
+    function wormholeEstimatedFee(
+        uint16 recipientChain
+    ) public view returns (uint256) {
+        require(isInitialized() == true, "Not Initialized");
+        require(evmChainId() == block.chainid, "unsupported fork");
+
+        (uint256 cost, ) = wormhole().quoteEVMDeliveryPrice(recipientChain, 0, 300000);
+        return cost;
+    }
 
     function mint(address recipient, uint256 amount) public onlyOwner {
         require(mintedSupply() + amount <= maxSupply(), "MAX SUPPLY REACHED");

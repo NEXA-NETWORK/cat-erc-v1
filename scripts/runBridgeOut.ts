@@ -1,8 +1,9 @@
 import { ethers } from "hardhat";
-import path from "path";
 import hre from "hardhat";
-import fs from "fs";
-const catDeploymentsPaths = path.join(__dirname, "../catDeployments.json");
+import path from 'path';
+import fs from 'fs';
+const deploymentsPath = path.join(__dirname, "../deployments.json");
+
 const bytesPadding = "0x000000000000000000000000";
 
 const ownerAddress = "";
@@ -13,11 +14,23 @@ const amount = ethers.utils.parseUnits("100", 18);
 const destinationChain = "";
 const recipient = bytesPadding + recipientAddress.substring(2);
 const destToken = bytesPadding + destTokenAddress.substring(2);
-const valueInEther = hre.ethers.utils.parseEther('0.001');
-const gasLimit = '6000000';
+const valueInEther = hre.ethers.utils.parseEther("");
+const gasLimit = "6000000";
 
 async function bridgeOut() {
-  const CAT = await ethers.getContractAt("CATERC20", "");
+  const file = fs.existsSync(deploymentsPath)
+  ? JSON.parse(fs.readFileSync(deploymentsPath, "utf8"))
+  : [];
+
+  let ERC20Contract = "";
+
+  for (const elem of file) {
+    if (hre.network.config.chainId === elem.chainId) {
+      ERC20Contract = elem.deployedContract;
+    }
+  }
+
+  const CAT = await ethers.getContractAt("CATERC20", ERC20Contract);
 
   const mint = await CAT.mint(ownerAddress, mintAmount);
   await mint.wait();

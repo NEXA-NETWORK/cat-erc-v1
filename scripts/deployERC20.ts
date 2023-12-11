@@ -1,5 +1,4 @@
 import {ethers} from "hardhat";
-import wormhole from "@certusone/wormhole-sdk";
 import hre from "hardhat";
 import fs from "fs";
 import path from "path";
@@ -8,7 +7,7 @@ const deploymentsPath = path.join(__dirname, "../deployments.json");
 const name = "";
 const symbol = "";
 const decimals = 18;
-const maxSupply = ethers.utils.parseUnits("", 18);
+const maxSupply = ethers.utils.parseUnits("1000000", 18);
 const wormholeChainId = "";
 const wormholeCoreContract = "";
 
@@ -19,9 +18,9 @@ async function deploy() {
   await catERC20.deployed();
 
   const initialize = await catERC20.initialize(
-        wormholeChainId,
-        wormholeCoreContract,
-        maxSupply
+    wormholeChainId,
+    wormholeCoreContract,
+    maxSupply
   );
   
   try {
@@ -46,7 +45,7 @@ async function deploy() {
       chainId: hre.network.config.chainId,
       wormholeChainId: wormholeChainId,
       chainName: hre.network.name,
-      deployedBridge: catERC20.address,
+      deployedContract: catERC20.address,
     };
 
     file.push(contents);

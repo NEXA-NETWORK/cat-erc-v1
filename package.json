@@ -11,6 +11,7 @@
     "deploy-ERC20": "npx hardhat run ./scripts/deployERC20.ts --network",
     "register-ERC20": "npx hardhat run ./scripts/registerERC20Chain.ts --network",
     "runBridgeOut": "npx hardhat run ./scripts/runBridgeOut.ts --network",
+    "gasEstimation": "npx hardhat run ./scripts/gasEstimation.ts --network",
     "deploy-ERC721": "npx hardhat run ./scripts/deployERC721.ts --network",
     "upgrade-ERC721": "npx hardhat run ./scripts/upgradeERC721.ts --network",
     "prepare": "husky install"
