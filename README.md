@@ -43,7 +43,7 @@ These instructions will guide you on how to get the project up and running on yo
 
 
 
-3. Run the following command on both of your chosen networks to register the deployed CATERC20 tokens on each network.
+3. Go to the registerERC20Chain.ts file and set the custodian address of the owner of the deployed CAT contract. Then run the following command on both of your chosen networks to register the deployed CATERC20 tokens on each network.
 
  `npm run register-ERC20 [NAME_OF_NETWORK]`
 
