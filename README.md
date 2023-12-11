@@ -21,13 +21,13 @@ These instructions will guide you on how to get the project up and running on yo
 
 2. Install npm packages
 
-`npm install`
+ `npm install`
 
  
 
 3. Enter your wallet private key in the .env file
 
-`PRIVATE_KEY=[YOUR_PRIVATE_KEY]`
+ `PRIVATE_KEY=[YOUR_PRIVATE_KEY]`
 
  
 
@@ -41,33 +41,33 @@ These instructions will guide you on how to get the project up and running on yo
 
 4. Go to the runBridgeOut.ts file and make the following changes:
 
-`const ownerAddress = "[YOUR_OWN_ADDRESS]";`
+ `const ownerAddress = "[YOUR_OWN_ADDRESS]";`
 
-`const recipient = "[YOUR_OWN_ADDRESS_ON _DEST_CHAIN]";`
+ `const recipient = "[YOUR_OWN_ADDRESS_ON _DEST_CHAIN]";`
 
-`const destTokenAddress = "[CAT_TOKEN_ADDRESS_ON_DEST_CHAIN]"`
+ `const destTokenAddress = "[CAT_TOKEN_ADDRESS_ON_DEST_CHAIN]"`
 
-`const destinationChain = "[DESTINATION_WORMHOLE_CHAIN_ID]"`
+ `const destinationChain = "[DESTINATION_WORMHOLE_CHAIN_ID]"`
 
-`const valueInEther = hre.ethers.utils.parseEther("[FEES_FOR_WORMHOLE_BRIDGE]");`
+ `const valueInEther = hre.ethers.utils.parseEther("[FEES_FOR_WORMHOLE_BRIDGE]");`
 
 
 
 4. Run the following command to deploy your CATERC20 token on any two networks of your choice. Make sure the networks are supported by wormhole's automatic relayer. You can get the name of the networks from hardhat.config.js. ALso make sure that you have sufficient gas available on respective network.
 
-`npm run deploy-ERC20 [NAME_OF_NETWORK]`
+ `npm run deploy-ERC20 [NAME_OF_NETWORK]`
 
  
 
 5. Run the following command on both of your chosen networks to register the deployed CATERC20 tokens on each network.
 
-`npm run register-ERC20 [NAME_OF_NETWORK]`
+ `npm run register-ERC20 [NAME_OF_NETWORK]`
 
  
 
 6. Run the following command on any one network to get the fees needed to bridge your CATERC20 tokens. The value returned is in wei.
 
-`npm run gasEstimation [NAME_OF_NETWORK]`
+ `npm run gasEstimation [NAME_OF_NETWORK]`
 
  
 
