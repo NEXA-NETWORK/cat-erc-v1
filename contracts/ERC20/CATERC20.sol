@@ -123,6 +123,11 @@ contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events, ERC165,
         require(evmChainId() == block.chainid, "unsupported fork");
 
         require(
+            msg.sender == address(wormhole()),
+            "Invalid Wormhole Relayer"
+        );
+
+        require(
             bytesToAddress(srcAddress) == address(this) ||
                 tokenContracts(srcChain) == srcAddress,
             "Invalid Emitter"
