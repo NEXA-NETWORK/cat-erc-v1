@@ -80,21 +80,21 @@ contract CATERC20Governance is CATERC20Getters, CATERC20Setters, Ownable {
 
     // Execute a RegisterChain governance message
     function registerChain(
-        uint16 chainId,
+        uint16 wormholeChainId,
         bytes32 tokenContract,
         CATERC20Structs.SignatureVerification memory signatureArguments
     ) public onlyOwnerOrOwnerSignature(signatureArguments) {
-        setTokenImplementation(chainId, tokenContract);
+        setTokenImplementation(wormholeChainId, tokenContract);
     }
 
     function registerChains(
-        uint16[] memory chainId,
+        uint16[] memory wormholeChainId,
         bytes32[] memory tokenContract,
         CATERC20Structs.SignatureVerification memory signatureArguments
     ) public onlyOwnerOrOwnerSignature(signatureArguments) {
-        require(chainId.length == tokenContract.length, "Invalid Input");
+        require(wormholeChainId.length == tokenContract.length, "Invalid Input");
         for (uint256 i = 0; i < tokenContract.length; i++) {
-            setTokenImplementation(chainId[i], tokenContract[i]);
+            setTokenImplementation(wormholeChainId[i], tokenContract[i]);
         }
     }
 }

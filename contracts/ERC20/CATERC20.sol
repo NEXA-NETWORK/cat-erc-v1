@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 import "../interfaces/IWormholeReceiver.sol";
 import "../interfaces/ICATERC20.sol";
@@ -14,19 +15,19 @@ import "./Structs.sol";
 contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events, ERC165, IWormholeReceiver {
     using SafeERC20 for IERC20;
 
-    constructor(string memory name, string memory symbol, uint8 decimal) ERC20(name, symbol) {
+    constructor(string memory tokenName, string memory tokenSymbol, uint8 decimal) ERC20(tokenName, tokenSymbol) {
         setEvmChainId(block.chainid);
         setDecimals(decimal);
     }
 
     function initialize(
-        uint16 chainId,
+        uint16 wormholeChainId,
         address wormhole,
         uint256 maxSupply
     ) public onlyOwner {
         require(isInitialized() == false, "Already Initialized");
 
-        setChainId(chainId);
+        setChainId(wormholeChainId);
         setWormhole(wormhole);
         setMaxSupply(maxSupply);
         setMintedSupply(0);
@@ -51,7 +52,7 @@ contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events, ERC165,
         uint16 recipientChain,
         bytes32 recipient,
         bytes32 tokenAddress
-    ) external payable returns (uint64 sequence) {
+    ) external payable nonReentrant returns (uint64 sequence) {
         require(isInitialized() == true, "Not Initialized");
         require(evmChainId() == block.chainid, "unsupported fork");
 
@@ -62,7 +63,7 @@ contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events, ERC165,
 
         _burn(_msgSender(), amount);
 
-        CATERC20Structs.CrossChainPayload memory transfer = CATERC20Structs.CrossChainPayload({
+        CATERC20Structs.CrossChainPayload memory transferPayload = CATERC20Structs.CrossChainPayload({
             amount: amount,
             tokenAddress: tokenAddress,
             tokenChain: tokenChain,
@@ -74,7 +75,7 @@ contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events, ERC165,
         sequence = wormhole().sendPayloadToEvm{value: cost}(
             recipientChain,
             bytesToAddress(tokenAddress),
-            encodeTransfer(transfer),
+            encodeTransfer(transferPayload),
             0,
             300000,
             chainId(),
@@ -91,23 +92,23 @@ contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events, ERC165,
     } // end of function
 
     function bridgeIn(bytes memory encodedPayload, bytes32 deliveryHash) internal returns (bytes memory) {
-        CATERC20Structs.CrossChainPayload memory transfer = decodeTransfer(encodedPayload);
-        address transferRecipient = bytesToAddress(transfer.toAddress);
+        CATERC20Structs.CrossChainPayload memory transferPayload = decodeTransfer(encodedPayload);
+        address transferRecipient = bytesToAddress(transferPayload.toAddress);
 
         require(!isTransferCompleted(deliveryHash), "transfer already completed");
         setTransferCompleted(deliveryHash);
 
-        require(transfer.toChain == chainId(), "invalid target chain");
+        require(transferPayload.toChain == chainId(), "invalid target chain");
 
         uint256 nativeAmount = normalizeAmount(
-            transfer.amount,
-            transfer.tokenDecimals,
+            transferPayload.amount,
+            transferPayload.tokenDecimals,
             getDecimals()
         );
 
         _mint(transferRecipient, nativeAmount);
 
-        emit bridgeInEvent(nativeAmount, transfer.tokenChain, transfer.toChain, transfer.toAddress);
+        emit bridgeInEvent(nativeAmount, transferPayload.tokenChain, transferPayload.toChain, transferPayload.toAddress);
 
         return encodedPayload;
     }

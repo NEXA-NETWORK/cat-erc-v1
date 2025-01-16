@@ -21,13 +21,13 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165, I
     }
 
     function initialize(
-        uint16 chainId,
+        uint16 wormholeChainId,
         address nativeToken,
         address wormhole
     ) public onlyOwner {
         require(isInitialized() == false, "Already Initialized");
 
-        setChainId(chainId);
+        setChainId(wormholeChainId);
         setWormhole(wormhole);
         setNativeAsset(nativeToken);
         setDecimals(nativeAsset().decimals());
@@ -52,7 +52,7 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165, I
         uint256 amount,
         uint16 recipientChain,
         bytes32 recipient
-    ) external payable returns (uint64 sequence) {
+    ) external payable nonReentrant returns (uint64 sequence) {
         require(isInitialized() == true, "Not Initialized");
         require(evmChainId() == block.chainid, "unsupported fork");
 
@@ -68,7 +68,7 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165, I
 
         uint256 amountReceived = nativeAsset().balanceOf(address(this)) - balanceBefore;
 
-        CATERC20Structs.CrossChainPayload memory transfer = CATERC20Structs.CrossChainPayload({
+        CATERC20Structs.CrossChainPayload memory transferPayload = CATERC20Structs.CrossChainPayload({
             amount: amountReceived,
             tokenAddress: tokenAddress,
             tokenChain: tokenChain,
@@ -80,7 +80,7 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165, I
         sequence = wormhole().sendPayloadToEvm{value: cost}(
             recipientChain,
             bytesToAddress(tokenAddress),
-            encodeTransfer(transfer),
+            encodeTransfer(transferPayload),
             0,
             200000,
             chainId(),
@@ -97,24 +97,24 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165, I
     } // end of function
 
     function bridgeIn(bytes memory encodedPayload, bytes32 deliveryHash) internal returns (bytes memory) {
-        CATERC20Structs.CrossChainPayload memory transfer = decodeTransfer(encodedPayload);
-        address transferRecipient = bytesToAddress(transfer.toAddress);
+        CATERC20Structs.CrossChainPayload memory transferPayload = decodeTransfer(encodedPayload);
+        address transferRecipient = bytesToAddress(transferPayload.toAddress);
 
         require(!isTransferCompleted(deliveryHash), "transfer already completed");
         setTransferCompleted(deliveryHash);
 
-        require(transfer.toChain == chainId(), "invalid target chain");
+        require(transferPayload.toChain == chainId(), "invalid target chain");
 
         uint256 nativeAmount = normalizeAmount(
-            transfer.amount,
-            transfer.tokenDecimals,
+            transferPayload.amount,
+            transferPayload.tokenDecimals,
             getDecimals()
         );
 
         // Unlock the tokens in this contract and Transfer out from contract to user
         SafeERC20.safeTransfer(nativeAsset(), transferRecipient, nativeAmount);
 
-        emit bridgeInEvent(nativeAmount, transfer.tokenChain, transfer.toChain, transfer.toAddress);
+        emit bridgeInEvent(nativeAmount, transferPayload.tokenChain, transferPayload.toChain, transferPayload.toAddress);
 
         return encodedPayload;
     }
@@ -128,6 +128,11 @@ contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165, I
     ) external payable override {
         require(isInitialized() == true, "Not Initialized");
         require(evmChainId() == block.chainid, "unsupported fork");
+
+        require(
+            msg.sender == address(wormhole()),
+            "Invalid Wormhole Relayer"
+        );
 
         require(
             bytesToAddress(srcAddress) == address(this) ||
