@@ -3,6 +3,7 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 import "../shared/WormholeStructs.sol";
 import "../interfaces/IWormholeReceiver.sol";
@@ -13,7 +14,7 @@ import "./Structs.sol";
 
 // NOTE: DISCLAIMER! This standard will not work with deflationary or inflationary tokens including rebasing token that change users balances over time automatically
 
-contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165, IWormholeReceiver {
+contract CATERC20Proxy is Context, CATERC20Governance, CATERC20Events, ERC165, IWormholeReceiver, ReentrancyGuard {
     using SafeERC20 for IERC20Extended;
 
     constructor() {

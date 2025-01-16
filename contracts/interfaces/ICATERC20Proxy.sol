@@ -5,7 +5,7 @@ interface ICATERC20Proxy {
     function initialize(
         uint16 chainId,
         address nativeToken,
-        address wormhole,
+        address wormhole
     ) external;
 
     /**
@@ -14,6 +14,6 @@ interface ICATERC20Proxy {
     function bridgeOut(
         uint256 amount,
         uint16 recipientChain,
-        bytes32 recipient,
+        bytes32 recipient
     ) external payable returns (uint64 sequence);
 }

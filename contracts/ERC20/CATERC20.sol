@@ -12,7 +12,7 @@ import "../interfaces/ICATERC20.sol";
 import "./Governance.sol";
 import "./Structs.sol";
 
-contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events, ERC165, IWormholeReceiver {
+contract CATERC20 is Context, ERC20, CATERC20Governance, CATERC20Events, ERC165, IWormholeReceiver, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
     constructor(string memory tokenName, string memory tokenSymbol, uint8 decimal) ERC20(tokenName, tokenSymbol) {
