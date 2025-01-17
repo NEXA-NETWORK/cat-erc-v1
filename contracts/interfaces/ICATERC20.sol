@@ -5,7 +5,6 @@ interface ICATERC20 {
     function initialize(
         uint16 chainId,
         address wormhole,
-        uint8 finality,
         uint256 maxSupply
     ) external;
 
@@ -16,10 +15,8 @@ interface ICATERC20 {
         uint256 amount,
         uint16 recipientChain,
         bytes32 recipient,
-        uint32 nonce
+        bytes32 tokenAddress
     ) external payable returns (uint64 sequence);
-
-    function bridgeIn(bytes memory encodedVm) external returns (bytes memory);
 
     function mint(address recipient, uint256 amount) external;
 }
